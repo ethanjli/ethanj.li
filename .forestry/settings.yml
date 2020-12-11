@@ -14,24 +14,6 @@ sections:
   label: Posts
   create: documents
   match: "**/*.md"
-- type: directory
-  path: src/components
-  label: Components
-  create: all
-  match: "**/*.js"
-  new_doc_ext: js
-- type: directory
-  path: src/templates
-  label: Templates
-  create: all
-  match: "**/*.js"
-  new_doc_ext: js
-- type: directory
-  path: src/styles
-  label: Styles
-  create: all
-  match: "**/*.css"
-  new_doc_ext: css
 upload_dir: uploads
 public_path: "/uploads"
 front_matter_path: ''
