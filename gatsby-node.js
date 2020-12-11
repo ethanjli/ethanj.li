@@ -3,12 +3,15 @@ const { forEach, uniq, filter, not, isNil, flatMap } = require('rambdax')
 const path = require('path')
 const { toKebabCase } = require('./src/helpers')
 
-const pageTypeRegex = /src\/(.*?)\//
-const getType = node => node.fileAbsolutePath.match(pageTypeRegex)[1]
+const contentTypeRegex = /src\/(.*?)\//
+const getType = node => node.fileAbsolutePath.match(contentTypeRegex)[1]
 
-const pageTemplate = path.resolve(`./src/templates/page.js`)
-const indexTemplate = path.resolve(`./src/templates/index.js`)
-const tagsTemplate = path.resolve(`./src/templates/tags.js`)
+const templates = {
+  'pages': path.resolve(`./src/templates/page.js`),
+  'posts': path.resolve(`./src/templates/post.js`),
+  'index': path.resolve(`./src/templates/index.js`),
+  'tags': path.resolve(`./src/templates/tags.js`),
+}
 
 exports.createPages = ({ actions, graphql, getNodes }) => {
   const { createPage } = actions
@@ -64,7 +67,7 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
     paginate({
       createPage,
       items: posts,
-      component: indexTemplate,
+      component: templates.index,
       itemsPerPage: siteMetadata.postsPerPage,
       pathPrefix: '/',
     })
@@ -80,7 +83,7 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
 
       createPage({
         path: node.frontmatter.path,
-        component: pageTemplate,
+        component: templates[getType(node)],
         context: {
           type: getType(node),
           next: isNextSameType ? next : null,
@@ -104,7 +107,7 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
       paginate({
         createPage,
         items: postsWithTag,
-        component: tagsTemplate,
+        component: templates.tags,
         itemsPerPage: siteMetadata.postsPerPage,
         pathPrefix: `/tag/${toKebabCase(tag)}`,
         context: {
