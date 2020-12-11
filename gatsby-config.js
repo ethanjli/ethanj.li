@@ -7,19 +7,19 @@ const postCSSMixins = require('postcss-mixins')
 
 module.exports = {
   siteMetadata: {
-    title: `Ethan Li`,
-    description: `Ethan's .`,
+    title: `ethanjli`,
+    description: `Ethan Li, bioengineer`,
     copyrights: '',
-    author: `@panr`,
+    author: `@ethanjli`,
     logo: {
       src: '',
       alt: '',
     },
     logoText: 'ethanjli',
-    defaultTheme: 'dark',
+    defaultTheme: 'light',
     postsPerPage: 5,
     showMenuItems: 2,
-    menuMoreText: 'Show more',
+    menuMoreText: 'More',
     mainMenu: [
       {
         title: 'About',
@@ -48,6 +48,13 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
+        name: `uploads`,
+        path: `${__dirname}/src/uploads`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
         name: `posts`,
         path: `${__dirname}/src/posts`,
       },
@@ -59,6 +66,7 @@ module.exports = {
         path: `${__dirname}/src/pages`,
       },
     },
+    `gatsby-plugin-mdx`,
     {
       resolve: `gatsby-plugin-postcss`,
       options: {
@@ -120,7 +128,7 @@ module.exports = {
         background_color: `#292a2d`,
         theme_color: `#292a2d`,
         display: `minimal-ui`,
-        icon: `src/images/hello-icon.png`,
+        icon: `src/images/icon.png`,
       },
     },
   ],

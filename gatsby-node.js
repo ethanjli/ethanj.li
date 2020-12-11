@@ -1,3 +1,4 @@
+const { createFilePath } = require('gatsby-source-filesystem')
 const { paginate } = require('gatsby-awesome-pagination')
 const { forEach, uniq, filter, not, isNil, flatMap } = require('rambdax')
 const path = require('path')
@@ -132,7 +133,6 @@ exports.sourceNodes = ({ actions }) => {
 
     type Frontmatter {
       title: String!
-      author: String
       date: Date! @dateformat
       path: String!
       tags: [String!]

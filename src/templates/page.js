@@ -8,7 +8,7 @@ import Page from '../components/page'
 
 const PageTemplate = ({ data }) => {
   const {
-    frontmatter: { title, date, path, author, coverImage, excerpt },
+    frontmatter: { title, date, path, coverImage, excerpt },
     excerpt: autoExcerpt,
     id,
     html,
@@ -21,7 +21,6 @@ const PageTemplate = ({ data }) => {
         title={title}
         date={date}
         path={path}
-        author={author}
         coverImage={coverImage}
         html={html}
       />
@@ -46,7 +45,6 @@ export const pageQuery = graphql`
         title
         date(formatString: "DD MMMM YYYY")
         path
-        author
         excerpt
         coverImage {
           childImageSharp {
