@@ -16,9 +16,14 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
+    "start": "gatsby develop",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean",
     "dev": "gatsby clean && gatsby develop",
+    "preview": "gatsby build && gatsby serve",
     "format": "prettier --write \"src/**/*.js\"",
-    "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\""
+    "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\"",
+    "forestry:preview": "gatsby develop -p 8080 -H 0.0.0.0"
   },
   "dependencies": {
     "gatsby": "^2.0.76",
