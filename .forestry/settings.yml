@@ -19,24 +19,24 @@ sections:
   label: Components
   create: all
   match: "**/*.js"
-  new_doc_ext: ".js"
+  new_doc_ext: js
 - type: directory
   path: src/templates
   label: Templates
   create: all
   match: "**/*.js"
-  new_doc_ext: ".js"
+  new_doc_ext: js
 - type: directory
   path: src/styles
   label: Styles
   create: all
   match: "**/*.css"
-  new_doc_ext: ".css"
-upload_dir: uploads
-public_path: "/uploads"
+  new_doc_ext: css
+upload_dir: images
+public_path: "/images"
 front_matter_path: ''
 use_front_matter_path: false
-file_template: ":filename:"
+file_template: ":year:/:month:/:day:/:filename:"
 build:
   preview_output_directory: public
   install_dependencies_command: npm install
