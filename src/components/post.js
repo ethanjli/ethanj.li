@@ -25,7 +25,7 @@ const Post = ({
         {tags ? (
           <div className={style.tags}>
             {tags.map(tag => (
-              <Link to={`/tag/${toKebabCase(tag)}/`} key={toKebabCase(tag)}>
+              <Link to={`/tags/${toKebabCase(tag)}/`} key={toKebabCase(tag)}>
                 <span className={style.tag}>#{tag}</span>
               </Link>
             ))}
@@ -41,12 +41,7 @@ const Post = ({
       )}
 
       {excerpt ? (
-        <>
-          <p>{excerpt}</p>
-          <Link to={path} className={style.readMore}>
-            Read more →
-          </Link>
-        </>
+        <p>{excerpt}</p>
       ) : (
         <>
           <div dangerouslySetInnerHTML={{ __html: html }} />
@@ -61,7 +56,6 @@ Post.propTypes = {
   date: PropTypes.string,
   path: PropTypes.string,
   coverImage: PropTypes.object,
-  author: PropTypes.string,
   excerpt: PropTypes.string,
   html: PropTypes.string,
   tags: PropTypes.arrayOf(PropTypes.string),

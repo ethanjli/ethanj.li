@@ -11,13 +11,16 @@ const templates = {
   'pages': path.resolve(`./src/templates/page.js`),
   'posts': path.resolve(`./src/templates/post.js`),
   'index': path.resolve(`./src/templates/index.js`),
+  'postsIndex': path.resolve(`./src/templates/posts/index.js`),
   'tags': path.resolve(`./src/templates/tags.js`),
 }
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions
   if (node.internal.type === `MarkdownRemark`) {
-    const slug = createFilePath({ node, getNode, basePath: getType(node) })
+    const type = getType(node)
+    const prefix = type === 'pages' ? '' : `/${type}`
+    const slug = prefix + createFilePath({ node, getNode, basePath: '' })
     createNodeField({
       node,
       name: `slug`,
@@ -26,7 +29,7 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
     createNodeField({
       node,
       name: `type`,
-      value: getType(node),
+      value: type,
     })
   }
 }
@@ -84,13 +87,22 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
         fields.type === 'posts',
     )
 
-    // Create posts index with pagination
+    // Create homepage
     paginate({
       createPage,
       items: posts,
       component: templates.index,
       itemsPerPage: siteMetadata.postsPerPage,
       pathPrefix: '/',
+    })
+
+    // Create posts index with pagination
+    paginate({
+      createPage,
+      items: posts,
+      component: templates.postsIndex,
+      itemsPerPage: siteMetadata.postsPerPage,
+      pathPrefix: '/posts',
     })
 
     // Create each markdown page and post
@@ -130,7 +142,7 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
         items: postsWithTag,
         component: templates.tags,
         itemsPerPage: siteMetadata.postsPerPage,
-        pathPrefix: `/tag/${toKebabCase(tag)}`,
+        pathPrefix: `/tags/${toKebabCase(tag)}`,
         context: {
           tag,
         },

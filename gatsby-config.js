@@ -7,7 +7,7 @@ const postCSSMixins = require('postcss-mixins')
 
 module.exports = {
   siteMetadata: {
-    title: `ethanjli`,
+    title: `ethanj.li`,
     description: `Ethan Li, bioengineer`,
     copyrights: '',
     author: `@ethanjli`,
@@ -15,19 +15,19 @@ module.exports = {
       src: '',
       alt: '',
     },
-    logoText: 'ethanjli',
+    logoText: 'ethanj.li',
     defaultTheme: 'light',
     postsPerPage: 5,
-    showMenuItems: 2,
+    showMenuItems: 3,
     menuMoreText: 'More',
     mainMenu: [
       {
-        title: 'About',
-        path: '/about',
+        title: 'Writing',
+        path: '/posts',
       },
       {
-        title: 'Showcase',
-        path: '/showcase',
+        title: 'Projects',
+        path: '/projects',
       },
     ],
   },
