@@ -2,7 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import Img from 'gatsby-image'
+
 import { toKebabCase } from '../helpers'
+
+import Comments from './comments'
 
 import style from '../styles/post.module.css'
 
@@ -64,9 +67,11 @@ const Post = ({
             </p>
             <p>
               I appreciate any feedback you have - let's have a conversation{' '}
-              <a href="https://scholar.social/@ethanjli">on Mastodon</a>.
+              <a href="https://scholar.social/@ethanjli">on Mastodon</a> or in the
+              comments box below:
             </p>
           </div>
+          <Comments />
         </>
       )}
     </div>

@@ -73,7 +73,6 @@ const Header = props => {
               menuMoreText={menuMoreText}
               onToggleMobileMenu={onToggleMobileMenu}
               onToggleSubMenu={onToggleSubMenu}
-              onChangeTheme={onChangeTheme}
             />
           </span>
         </div>
