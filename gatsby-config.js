@@ -10,6 +10,7 @@ module.exports = {
     siteUrl: `https://ethanj.li`,
     title: 'ethanj.li',
     description: 'Ethan Li, bioengineer',
+    blogUrl: `https://ethanj.li/posts`,
     blogTitle: '(un)yielding foundations',
     blogDescription: (
       'Notes on open-source medical devices, embedded systems, and ' +
@@ -133,5 +134,59 @@ module.exports = {
       },
     },
     `gatsby-plugin-sitemap`,
+    {
+      resolve: `gatsby-plugin-feed`,
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                title: blogTitle
+                description: blogDescription
+                siteUrl: blogUrl
+                site_url: blogUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            serialize: ({ query: { site, allMarkdownRemark } }) => (
+              allMarkdownRemark.edges.map(edge => (
+                Object.assign({}, edge.node.frontmatter, {
+                  description: edge.node.frontmatter.excerpt,
+                  date: edge.node.frontmatter.date,
+                  url: site.siteMetadata.siteUrl + edge.node.fields.slug,
+                  guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
+                  custom_elements: [{ 'content:encoded': edge.node.html }],
+                })
+              ))
+            ),
+            query: `
+              {
+                allMarkdownRemark(
+                  filter: { fields: { type: { eq: "posts" } } },
+                  sort: { fields: [frontmatter___date], order: DESC },
+                ) {
+                  edges {
+                    node {
+                      html
+                      fields { slug }
+                      frontmatter {
+                        title
+                        date
+                        excerpt
+                      }
+                    }
+                  }
+                }
+              }
+            `,
+            output: '/posts/rss.xml',
+            title: '(un)yielding foundations',
+          },
+        ],
+      },
+    },
   ],
 }
