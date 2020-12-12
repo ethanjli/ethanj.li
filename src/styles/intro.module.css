@@ -1,0 +1,20 @@
+@import "./variables.css";
+
+.intro {
+  text-align-last: justify;
+
+  .avatar {
+    width: 6rem;
+    border-radius: 3rem;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+
+.intro > h1 {
+  font-size: 6rem;
+  margin: 0;
+  display: inline-block;
+  vertical-align: middle;
+}

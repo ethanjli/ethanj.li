@@ -1,5 +1,4 @@
 const { createFilePath } = require('gatsby-source-filesystem')
-const { paginate } = require('gatsby-awesome-pagination')
 const { forEach, uniq, filter, not, isNil, flatMap } = require('rambdax')
 const path = require('path')
 const { toKebabCase } = require('./src/helpers')
@@ -10,7 +9,6 @@ const getType = node => node.fileAbsolutePath.match(contentTypeRegex)[1]
 const templates = {
   'pages': path.resolve(`./src/templates/page.js`),
   'posts': path.resolve(`./src/templates/post.js`),
-  'index': path.resolve(`./src/templates/index.js`),
   'postsIndex': path.resolve(`./src/templates/posts/index.js`),
   'tags': path.resolve(`./src/templates/tags.js`),
 }
@@ -86,13 +84,6 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
         internal.type === 'MarkdownRemark' &&
         fields.type === 'posts',
     )
-
-    // Create homepage
-    createPage({
-      component: templates.index,
-      path: '/',
-      context: { indexPosts },
-    })
 
     // Create posts index with pagination
     createPage({
