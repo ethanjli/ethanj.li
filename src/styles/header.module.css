@@ -6,7 +6,14 @@
   align-items: center;
   justify-content: space-between;
   position: relative;
-  padding: 20px;
+
+  @media (--tablet) {
+    padding: 0 1.625rem;
+  }
+
+  @media (--phone) {
+    padding: 0 1.5rem;
+  }
 
   :global .dark-theme :local & {
     background: var(--dark-header-background);
@@ -14,6 +21,7 @@
 
   a {
     text-decoration: none;
+    padding: 1rem 0;
   }
 }
 
