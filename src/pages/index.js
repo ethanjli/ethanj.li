@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ReactHTMLParser from 'react-html-parser'
 import { graphql } from 'gatsby'
 
 import SEO from '../components/seo'
@@ -23,7 +24,10 @@ const Index = ({ data }) => {
         <div className="content">
           <Intro />
           <SectionHeader title='Writing' home='/posts'>
-            <p>{blogDescription} Here are the {numPosts} most recent posts:</p>
+            <p>
+              {blogDescription && ReactHTMLParser(blogDescription)}{' '}
+              <span className="wrap-together">Here are the {numPosts} most recent posts:</span>
+            </p>
           </SectionHeader>
           {posts.map(({ node }) => {
             const {

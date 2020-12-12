@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ReactHTMLParser from 'react-html-parser'
 import { Link } from 'gatsby'
 import Img from 'gatsby-image'
 
@@ -13,9 +14,12 @@ export const Tags = ({ tags }) => (
   tags ? (
     <span className={style.tags}>
       {tags.map(tag => (
-        <Link to={`/tags/${toKebabCase(tag)}/`} key={toKebabCase(tag)}>
-          {' '}<span className={style.tag}>#{tag}</span>
-        </Link>
+        <>
+          {' '}
+          <Link to={`/tags/${toKebabCase(tag)}/`} key={toKebabCase(tag)}>
+            <span className={style.tag}>#{tag}</span>
+          </Link>
+        </>
       ))}
     </span>
   ) : null
@@ -58,7 +62,7 @@ const Post = ({
         <p>{excerpt}</p>
       ) : (
         <>
-          <div dangerouslySetInnerHTML={{ __html: html }} />
+          {ReactHTMLParser(html)}
           <div className={style.footer}>
             <p>
               See {tags ? <>more posts about: <Tags tags={tags} /></> :

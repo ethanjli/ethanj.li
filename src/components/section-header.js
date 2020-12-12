@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ReactHTMLParser from 'react-html-parser'
 import { Link } from 'gatsby'
 
 import style from '../styles/section-header.module.css'
@@ -12,7 +13,7 @@ const PageHeader = props => {
       <h1>
         {home ? <Link to={home}>{title}</Link> : title}
       </h1>
-      {description && <p className={style.description}>{description}</p>}
+      {description && <p className={style.description}>{ReactHTMLParser(description)}</p>}
       {children}
     </div>
   )

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ReactHTMLParser from 'react-html-parser'
 import { Link } from 'gatsby'
 import Img from 'gatsby-image'
 
@@ -25,7 +26,7 @@ const Page = ({
         />
       )}
 
-      <div dangerouslySetInnerHTML={{ __html: html }} />
+      {ReactHTMLParser(html)}
     </div>
   </div>
 )
