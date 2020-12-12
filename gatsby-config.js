@@ -7,6 +7,7 @@ const postCSSMixins = require('postcss-mixins')
 
 module.exports = {
   siteMetadata: {
+    siteUrl: `https://ethanj.li`,
     title: 'ethanj.li',
     description: 'Ethan Li, bioengineer',
     blogTitle: '(un)yielding foundations',
@@ -131,5 +132,6 @@ module.exports = {
         icon: `src/images/icon.png`,
       },
     },
+    `gatsby-plugin-sitemap`,
   ],
 }

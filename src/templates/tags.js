@@ -23,36 +23,38 @@ const Tags = ({
       <SEO title={`#${tag}`} description={blogDescription} />
       <Layout breadcrumbs={[{ title: 'writing', path: '/posts' }]}>
         <BlogHeader />
-        <div className="infoBanner">
-          Posts with tag: <span>#{tag}</span>
+        <div className="content">
+          <div className="infoBanner">
+            Posts with tag: <span>#{tag}</span>
+          </div>
+
+          {posts.map(({ node }) => {
+            const {
+              id,
+              excerpt: autoExcerpt,
+              fields: { slug },
+              frontmatter: {
+                title,
+                date,
+                coverImage,
+                excerpt,
+                tags,
+              },
+            } = node
+
+            return (
+              <Post
+                key={id}
+                title={title}
+                date={date}
+                path={slug}
+                tags={tags}
+                coverImage={coverImage}
+                excerpt={excerpt || autoExcerpt}
+              />
+            )
+          })}
         </div>
-
-        {posts.map(({ node }) => {
-          const {
-            id,
-            excerpt: autoExcerpt,
-            fields: { slug },
-            frontmatter: {
-              title,
-              date,
-              coverImage,
-              excerpt,
-              tags,
-            },
-          } = node
-
-          return (
-            <Post
-              key={id}
-              title={title}
-              date={date}
-              path={slug}
-              tags={tags}
-              coverImage={coverImage}
-              excerpt={excerpt || autoExcerpt}
-            />
-          )
-        })}
       </Layout>
     </>
   )

@@ -255,7 +255,7 @@ button, input, textarea {
   flex: 1 0 auto;
   align-items: center;
   justify-content: center;
-  margin: 50px auto;
+  margin: 2.5rem auto;
   width: 100%;
   max-width: 800px;
 

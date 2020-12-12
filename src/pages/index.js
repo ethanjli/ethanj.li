@@ -20,36 +20,38 @@ const Index = ({ data }) => {
     <>
       <SEO />
       <Layout>
-        <Intro />
-        <SectionHeader title='Writing' home='/posts'>
-          <p>{blogDescription} Here are the {numPosts} most recent posts:</p>
-        </SectionHeader>
-        {posts.map(({ node }) => {
-          const {
-            id,
-            excerpt: autoExcerpt,
-            fields: {
-              slug,
-            },
-            frontmatter: {
-              title,
-              date,
-              excerpt,
-              tags,
-            },
-          } = node
+        <div className="content">
+          <Intro />
+          <SectionHeader title='Writing' home='/posts'>
+            <p>{blogDescription} Here are the {numPosts} most recent posts:</p>
+          </SectionHeader>
+          {posts.map(({ node }) => {
+            const {
+              id,
+              excerpt: autoExcerpt,
+              fields: {
+                slug,
+              },
+              frontmatter: {
+                title,
+                date,
+                excerpt,
+                tags,
+              },
+            } = node
 
-          return (
-            <Post
-              key={id}
-              title={title}
-              date={date}
-              path={slug}
-              tags={tags}
-              excerpt={excerpt || autoExcerpt}
-            />
-          )
-        })}
+            return (
+              <Post
+                key={id}
+                title={title}
+                date={date}
+                path={slug}
+                tags={tags}
+                excerpt={excerpt || autoExcerpt}
+              />
+            )
+          })}
+        </div>
       </Layout>
     </>
   )

@@ -5,6 +5,7 @@
   --light-color: #222;
   --light-color-secondary: #999;
   --light-border-color: #dcdcdc;
+  --light-header-background: #fafafa;
 
   /* dark theme colors */
   --dark-background: #292a2d;
@@ -12,6 +13,7 @@
   --dark-color: #a9a9b3;
   --dark-color-secondary: #73747b;
   --dark-border-color: #4a4b50;
+  --dark-header-background: #252627;
 
   /* accent colors */
   --accent-color: #a63e14;

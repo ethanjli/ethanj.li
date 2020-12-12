@@ -17,13 +17,15 @@ const PageTemplate = ({ data }) => {
   return (
     <Layout>
       <SEO title={title} description={excerpt || autoExcerpt} />
-      <Page
-        key={id}
-        title={title}
-        path={slug}
-        coverImage={coverImage}
-        html={html}
-      />
+      <div className="content">
+        <Page
+          key={id}
+          title={title}
+          path={slug}
+          coverImage={coverImage}
+          html={html}
+        />
+      </div>
     </Layout>
   )
 }

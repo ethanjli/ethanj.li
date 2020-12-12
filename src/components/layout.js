@@ -53,7 +53,7 @@ const Layout = ({ breadcrumbs, children }) => {
         menuMoreText={menuMoreText}
         breadcrumbs={breadcrumbs}
       />
-      <div className="content">{children}</div>
+      {children}
       <Footer copyrights={copyrights} />
     </div>
   )

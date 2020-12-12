@@ -1,5 +1,7 @@
+@import "./variables.css";
+
 .header {
-  background: #fafafa;
+  background: var(--light-header-background);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -7,7 +9,7 @@
   padding: 20px;
 
   :global .dark-theme :local & {
-    background: #252627;
+    background: var(--dark-header-background);
   }
 
   a {

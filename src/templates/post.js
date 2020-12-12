@@ -22,15 +22,17 @@ const BlogPostTemplate = ({ data }) => {
     <Layout breadcrumbs={[{ title: 'writing', path: '/posts' }]}>
       <SEO title={title} description={excerpt || autoExcerpt} />
       <BlogHeader />
-      <Post
-        key={id}
-        title={title}
-        date={date}
-        path={slug}
-        coverImage={coverImage}
-        html={html}
-        tags={tags}
-      />
+      <div className="content">
+        <Post
+          key={id}
+          title={title}
+          date={date}
+          path={slug}
+          coverImage={coverImage}
+          html={html}
+          tags={tags}
+        />
+      </div>
     </Layout>
   )
 }

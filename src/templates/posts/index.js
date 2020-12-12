@@ -17,32 +17,34 @@ const Index = ({ data }) => {
       <Layout breadcrumbs={[{ title: 'writing', path: '/posts' }]}>
         <SEO title={blogTitle} description={blogDescription} />
         <BlogHeader />
-        {posts.map(({ node }) => {
-          const {
-            id,
-            excerpt: autoExcerpt,
-            fields: {
-              slug,
-            },
-            frontmatter: {
-              title,
-              date,
-              excerpt,
-              tags,
-            },
-          } = node
+        <div className="content">
+          {posts.map(({ node }) => {
+            const {
+              id,
+              excerpt: autoExcerpt,
+              fields: {
+                slug,
+              },
+              frontmatter: {
+                title,
+                date,
+                excerpt,
+                tags,
+              },
+            } = node
 
-          return (
-            <Post
-              key={id}
-              title={title}
-              date={date}
-              path={slug}
-              tags={tags}
-              excerpt={excerpt || autoExcerpt}
-            />
-          )
-        })}
+            return (
+              <Post
+                key={id}
+                title={title}
+                date={date}
+                path={slug}
+                tags={tags}
+                excerpt={excerpt || autoExcerpt}
+              />
+            )
+          })}
+        </div>
       </Layout>
     </>
   )

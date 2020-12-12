@@ -12,7 +12,7 @@ const PageHeader = props => {
       <h1>
         {home ? <Link to={home}>{title}</Link> : title}
       </h1>
-      <p className={style.description}>{description}</p>
+      {description && <p className={style.description}>{description}</p>}
       {children}
     </div>
   )

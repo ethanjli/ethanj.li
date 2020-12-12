@@ -8,15 +8,17 @@ const PageHeader = props => {
   const { title, description, home, image, children } = props
 
   return (
-    <div className={style.header}>
-      {image}
-      {title && (
-        <h1>
-          {home ? <Link to={home}>{title}</Link> : title}
-        </h1>
-      )}
-      {description && <p className={style.description}>{description}</p>}
-      {children}
+    <div className={style.content}>
+      <div className={style.header}>
+        {image}
+        {title && (
+          <h1>
+            {home ? <Link to={home}>{title}</Link> : title}
+          </h1>
+        )}
+        {description && <p className={style.description}>{description}</p>}
+        {children}
+      </div>
     </div>
   )
 }

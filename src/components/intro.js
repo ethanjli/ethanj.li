@@ -2,7 +2,7 @@ import React from 'react'
 import { useStaticQuery, graphql, Link } from 'gatsby'
 import Img from 'gatsby-image'
 
-import PageHeader from '../components/page-header'
+import SectionHeader from '../components/section-header'
 
 import style from '../styles/intro.module.css'
 
@@ -26,7 +26,7 @@ const Intro = () => {
 
   return (
     <>
-      <PageHeader>
+      <SectionHeader>
         <div className={style.intro}>
           <h1>Hello!</h1> <Img fluid={childImageSharp.fluid} className={style.avatar} />
         </div>
@@ -70,7 +70,7 @@ const Intro = () => {
             my CV
           </a> and my <Link to="/projects">Projects page</Link>.
         </p>
-      </PageHeader>
+      </SectionHeader>
     </>
   )
 }
