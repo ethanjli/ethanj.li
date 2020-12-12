@@ -13,9 +13,22 @@
 
 
 .intro > h1 {
-  text-indent: -0.4rem;
   font-size: 6rem;
+  text-indent: -0.4rem;
   margin: 0;
   display: inline-block;
   vertical-align: middle;
+}
+
+@media (--phone) {
+  .intro {
+    .avatar {
+      width: 4rem;
+    }
+  }
+
+  .intro > h1 {
+    font-size: 4rem;
+    text-indent: -0.25rem;
+  }
 }

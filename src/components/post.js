@@ -59,8 +59,8 @@ const Post = ({
           <div className={style.footer}>
             <p>
               See {tags ? <>more posts about: <Tags tags={tags} /></> :
-              <Link to="/posts">more posts</Link>
-              }.
+              <><Link to="/posts">more posts</Link>.</>
+              }
             </p>
             <p>
               I appreciate any feedback you have - let's have a conversation{' '}
