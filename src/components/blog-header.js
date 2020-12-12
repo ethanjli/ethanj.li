@@ -26,7 +26,6 @@ const BlogHeader = ({ children }) => {
     <PageHeader
       title={blogTitle}
       description={blogDescription}
-      home='/posts'
     >
       {children}
     </PageHeader>

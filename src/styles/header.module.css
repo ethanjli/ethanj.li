@@ -36,7 +36,7 @@
 }
 
 .mark {
-  margin-right: 8px;
+  margin-right: 0.75rem;
 }
 
 .text,
@@ -47,6 +47,10 @@
 .right {
   display: flex;
   position: relative;
+}
+
+.breadcrumb {
+  margin: 0 1rem;
 }
 
 @keyframes cursor {

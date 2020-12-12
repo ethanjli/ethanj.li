@@ -9,7 +9,9 @@ const PageHeader = props => {
 
   return (
     <div className={style.header}>
-      <h1><Link to={home}>{title}</Link></h1>
+      <h1>
+        {home ? <Link to={home}>{title}</Link> : title}
+      </h1>
       <p className={style.description}>{description}</p>
       {children}
     </div>

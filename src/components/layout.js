@@ -7,7 +7,7 @@ import Footer from './footer'
 
 import '../styles/layout.css'
 
-const Layout = ({ children }) => {
+const Layout = ({ breadcrumbs, children }) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -51,6 +51,7 @@ const Layout = ({ children }) => {
         mainMenu={mainMenu}
         mainMenuItems={showMenuItems}
         menuMoreText={menuMoreText}
+        breadcrumbs={breadcrumbs}
       />
       <div className="content">{children}</div>
       <Footer copyrights={copyrights} />
@@ -59,6 +60,12 @@ const Layout = ({ children }) => {
 }
 
 Layout.propTypes = {
+  breadcrumbs: PropTypes.arrayOf(
+    PropTypes.shape({
+      path: PropTypes.string,
+      text: PropTypes.string,
+    })
+  ),
   children: PropTypes.node.isRequired,
 }
 

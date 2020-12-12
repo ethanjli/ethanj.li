@@ -21,7 +21,7 @@ const Tags = ({
   return (
     <>
       <SEO title={`#${tag}`} description={blogDescription} />
-      <Layout>
+      <Layout breadcrumbs={[{ title: 'writing', path: '/posts' }]}>
         <BlogHeader />
         <div className="infoBanner">
           Posts with tag: <span>#{tag}</span>

@@ -15,6 +15,7 @@ const Header = props => {
     mainMenuItems,
     menuMoreText,
     defaultTheme,
+    breadcrumbs,
   } = props
   const defaultThemeState =
     (typeof window !== 'undefined' && window.localStorage.getItem('theme')) ||
@@ -45,8 +46,8 @@ const Header = props => {
       </Helmet>
       <header className={style.header}>
         <div className={style.inner}>
-          <Link to="/">
-            <div className={style.logo}>
+          <div className={style.logo}>
+            <Link to="/">
               {siteLogo.src ? (
                 <img src={siteLogo.src} alt={siteLogo.alt} />
               ) : (
@@ -55,8 +56,14 @@ const Header = props => {
                   <span className={style.text}>{logoText}</span>
                 </>
               )}
-            </div>
-          </Link>
+            </Link>
+            {breadcrumbs && breadcrumbs.map(({ title, path }) => (
+              <Link className={style.breadcrumb} to={path}>
+                <span className={style.mark}>&#187;</span>
+                <span className={style.text}>{title}</span>
+              </Link>
+            ))}
+          </div>
           <span className={style.right}>
             <Menu
               mainMenu={mainMenu}
@@ -87,6 +94,12 @@ Header.propTypes = {
   ),
   mainMenuItems: PropTypes.number,
   menuMoreText: PropTypes.string,
+  breadcrumbs: PropTypes.arrayOf(
+    PropTypes.shape({
+      path: PropTypes.string,
+      text: PropTypes.string,
+    })
+  ),
 }
 
 export default Header

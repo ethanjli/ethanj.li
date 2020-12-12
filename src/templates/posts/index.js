@@ -14,7 +14,7 @@ const Index = ({ data }) => {
 
   return (
     <>
-      <Layout>
+      <Layout breadcrumbs={[{ title: 'writing', path: '/posts' }]}>
         <SEO title={blogTitle} description={blogDescription} />
         <BlogHeader />
         {posts.map(({ node }) => {
