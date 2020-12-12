@@ -19,10 +19,12 @@ const Index = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
           const {
             id,
             excerpt: autoExcerpt,
+            fields: {
+              slug,
+            },
             frontmatter: {
               title,
               date,
-              path,
               coverImage,
               excerpt,
               tags,
@@ -34,7 +36,7 @@ const Index = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
               key={id}
               title={title}
               date={date}
-              path={path}
+              path={slug}
               coverImage={coverImage}
               tags={tags}
               excerpt={excerpt || autoExcerpt}
@@ -64,7 +66,7 @@ Index.propTypes = {
 export const postsQuery = graphql`
   query($limit: Int!, $skip: Int!) {
     allMarkdownRemark(
-      filter: { fileAbsolutePath: { regex: "//posts//" } }
+      filter: { fields: { type: { eq: "posts" } } }
       sort: { fields: [frontmatter___date], order: DESC }
       limit: $limit
       skip: $skip
@@ -73,10 +75,13 @@ export const postsQuery = graphql`
         node {
           id
           excerpt
+          fields {
+            slug
+            type
+          }
           frontmatter {
             title
-            date(formatString: "DD MMMM YYYY")
-            path
+            date(formatString: "MMMM DD, YYYY")
             excerpt
             tags
             coverImage {

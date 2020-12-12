@@ -4,19 +4,23 @@ import PropTypes from 'prop-types'
 import style from '../styles/icon.module.css'
 
 const Icon = props => {
-  const { d, size = '1em', label, style: styles } = props
+  const { d, size = '1em', label, style: styles, children } = props
 
   return (
     <span className={style.root} style={styles} role="figure">
-      <svg
-        version="1.1"
-        width={size}
-        height={size}
-        viewBox="0 0 48 48"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d={d} className={style.icon} />
-      </svg>
+      {
+        children !== undefined ? children : (
+          <svg
+            version="1.1"
+            width={size}
+            height={size}
+            viewBox="0 0 48 48"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d={d} className={style.icon} />
+          </svg>
+        )
+      }
       {label && <span className={style.label}>{label}</span>}
     </span>
   )
@@ -27,6 +31,7 @@ Icon.propTypes = {
   size: PropTypes.number,
   label: PropTypes.string,
   style: PropTypes.object,
+  children: React.ReactNode,
 }
 
 export default Icon

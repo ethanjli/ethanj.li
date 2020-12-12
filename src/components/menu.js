@@ -98,7 +98,7 @@ const Menu = ({
                 aria-label="Menu"
               >
                 {menuMoreText || 'Menu'}{' '}
-                <span className={style.menuArrow}>></span>
+                <span className={style.menuArrow}>&#9660;</span>
               </button>
               {isSubMenuVisible ? (
                 <ul className={style.subMenu}>
@@ -119,7 +119,7 @@ const Menu = ({
         type="button"
         aria-label="Theme toggle"
       >
-        <Icon style={{ cursor: 'pointer' }} size={24} d={toggleIcon} />
+          <Icon style={{ cursor: 'pointer' }} size={24}>&#9728;</Icon>
       </button>
     </>
   )
