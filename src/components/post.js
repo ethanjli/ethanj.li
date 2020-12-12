@@ -63,13 +63,7 @@ const Post = ({
               }.
             </p>
             <p>
-              See this post's{' '}
-              <a href={`https://github.com/ethanjli/ethanj.li/commits/master/src${path.replace(/\/$/, '')}.md`}>
-                revision history.
-              </a>
-            </p>
-            <p>
-              I appreciate any feedback you have - send me a toot{' '}
+              I appreciate any feedback you have - let's have a conversation{' '}
               <a href="https://scholar.social/@ethanjli">on Mastodon</a>.
             </p>
           </div>
