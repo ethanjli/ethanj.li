@@ -13,6 +13,11 @@
   --dark-color-secondary: #73747b;
   --dark-border-color: #4a4b50;
 
+  /* accent colors */
+  --accent-color: #a63e14;
+  --accent-color-secondary: #558a86;
+  --accent-color-tertiary: #bfbabe;
+
   /* variables for js, must be the same as these in @custom-media queries */
   --phoneWidth: (max-width: 684px);
   --tabletWidth: (max-width: 900px);

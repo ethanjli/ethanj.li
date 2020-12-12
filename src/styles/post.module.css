@@ -1,3 +1,5 @@
+@import "./variables.css";
+
 .post {
   width: 100%;
   max-width: 800px;
@@ -35,7 +37,6 @@
 .coverImage {
   border-radius: 8px;
   margin-bottom: 40px;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, .1);
 }
 
 .meta {
@@ -45,12 +46,18 @@
 
 .tags {
   margin-top: 10px;
-  opacity: .5;
 }
 
 .tag {
   display: inline-block;
-  margin-right: 10px;
+  padding: 0 0.5rem;
+  margin-right: 0.5rem;
+  background-color: var(--accent-color);
+  color: var(--light-background);
+}
+
+.tag:hover {
+  color: var(--light-background-secondary);
 }
 
 .postContent {
