@@ -8,10 +8,12 @@ import Intro from '../components/intro'
 import SectionHeader from '../components/section-header'
 import Post from '../components/post'
 
+const numPosts = 3
+
 const Index = ({ data }) => {
   const {
     allMarkdownRemark: { edges: posts },
-    site: { siteMetadata: { blogDescription, indexPosts } },
+    site: { siteMetadata: { blogDescription } },
   } = data
 
   return (
@@ -20,7 +22,7 @@ const Index = ({ data }) => {
       <Layout>
         <Intro />
         <SectionHeader title='Writing' home='/posts'>
-          <p>{blogDescription} Here are the {indexPosts} most recent posts:</p>
+          <p>{blogDescription} Here are the {numPosts} most recent posts:</p>
         </SectionHeader>
         {posts.map(({ node }) => {
           const {
@@ -62,7 +64,7 @@ export const postsPreviewQuery = graphql`
     allMarkdownRemark(
       filter: { fields: { type: { eq: "posts" } } }
       sort: { fields: [frontmatter___date], order: DESC }
-      limit: 10
+      limit: 3
     ) {
       edges {
         node {
@@ -84,7 +86,6 @@ export const postsPreviewQuery = graphql`
     site {
       siteMetadata {
         blogDescription
-        indexPosts
       }
     }
   }

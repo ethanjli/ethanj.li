@@ -56,11 +56,6 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
           }
         }
       }
-      site {
-        siteMetadata {
-          indexPosts
-        }
-      }
     }
   `).then(result => {
     if (result.errors) {
@@ -69,7 +64,6 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
 
     const {
       allMarkdownRemark: { edges: markdownPages },
-      site: { siteMetadata: { indexPosts } },
     } = result.data
 
     const sortedPages = markdownPages.sort((pageA, pageB) => {

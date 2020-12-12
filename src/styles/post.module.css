@@ -4,7 +4,7 @@
   width: 100%;
   max-width: 800px;
   text-align: left;
-  padding: 20px;
+  padding: 1rem 20px;
   margin: 0 auto 0px;
 
   @media (--tablet) {
@@ -31,16 +31,22 @@
 
 .coverImage {
   border-radius: 8px;
-  margin-bottom: 40px;
+  margin: 1rem 0;
 }
 
 .meta {
   font-size: 1rem;
-  margin-bottom: 20px;
-}
+  font-weight: 700;
+  text-align-last: justify;
 
-.tags {
-  margin-top: 10px;
+  .date {
+    display: inline-block;
+  }
+
+  .tags {
+    margin-left: 0.5rem;
+    display: inline-block;
+  }
 }
 
 .tag {

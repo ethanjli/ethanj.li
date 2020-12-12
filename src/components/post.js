@@ -23,8 +23,7 @@ const Post = ({
         <h1 className={style.title}>{title}</h1>
       )}
       <div className={style.meta}>
-        {date}
-        {tags ? (
+        <span className={style.date}>{date}</span> {tags ? (
           <div className={style.tags}>
             {tags.map(tag => (
               <Link to={`/tags/${toKebabCase(tag)}/`} key={toKebabCase(tag)}>

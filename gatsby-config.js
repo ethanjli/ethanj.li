@@ -22,7 +22,6 @@ module.exports = {
     },
     logoText: 'ethanj.li',
     defaultTheme: 'light',
-    indexPosts: 3,
     showMenuItems: 3,
     menuMoreText: 'More',
     mainMenu: [
