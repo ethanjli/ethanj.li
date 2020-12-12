@@ -7,14 +7,6 @@
   padding: 20px;
   margin: 0 auto 0px;
 
-  &:not(:last-of-type) {
-    border-bottom: 1px solid var(--light-border-color);
-
-    :global .dark-theme :local & {
-      border-color: var(--dark-border-color);
-    }
-  }
-
   @media (--tablet) {
     max-width: 660px;
   }
@@ -31,6 +23,9 @@
 .title {
   a {
     text-decoration: none;
+  }
+  a::before{
+    content: "\00bb "
   }
 }
 
