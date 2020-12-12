@@ -6,6 +6,22 @@ import { toKebabCase } from '../helpers'
 
 import style from '../styles/post.module.css'
 
+export const Tags = ({ tags }) => (
+  tags ? (
+    <span className={style.tags}>
+      {tags.map(tag => (
+        <Link to={`/tags/${toKebabCase(tag)}/`} key={toKebabCase(tag)}>
+          <span className={style.tag}>#{tag}</span>
+        </Link>
+      ))}
+    </span>
+  ) : null
+)
+
+Tags.propTypes = {
+  tags: PropTypes.arrayOf(PropTypes.string),
+}
+
 const Post = ({
   title,
   date,
@@ -23,14 +39,8 @@ const Post = ({
         <h1 className={style.title}>{title}</h1>
       )}
       <div className={style.meta}>
-        <span className={style.date}>{date}</span> {tags ? (
-          <div className={style.tags}>
-            {tags.map(tag => (
-              <Link to={`/tags/${toKebabCase(tag)}/`} key={toKebabCase(tag)}>
-                <span className={style.tag}>#{tag}</span>
-              </Link>
-            ))}
-          </div>
+        <span className={style.date}>{date}</span> {excerpt ? (
+          <Tags tags={tags} />
         ) : null}
       </div>
 
@@ -46,6 +56,23 @@ const Post = ({
       ) : (
         <>
           <div dangerouslySetInnerHTML={{ __html: html }} />
+          <div className={style.footer}>
+            <p>
+              See {tags ? <>more posts about: <Tags tags={tags} /></> :
+              <Link to="/posts">more posts</Link>
+              }.
+            </p>
+            <p>
+              See this post's{' '}
+              <a href={`https://github.com/ethanjli/ethanj.li/commits/master/src${path.replace(/\/$/, '')}.md`}>
+                revision history.
+              </a>
+            </p>
+            <p>
+              I appreciate any feedback you have - send me a toot{' '}
+              <a href="https://scholar.social/@ethanjli">on Mastodon</a>.
+            </p>
+          </div>
         </>
       )}
     </div>

@@ -4,6 +4,11 @@
 
 html {
   box-sizing: border-box;
+  font-size: 16px;
+
+  @media (--phone) {
+    font-size: 16px;
+  }
 }
 
 *,
@@ -257,7 +262,7 @@ button, input, textarea {
   justify-content: center;
   margin: 50px auto;
   width: 100%;
-  max-width: 800px;;
+  max-width: 800px;
 
   @media (--phone) {
     margin-top: 0;
