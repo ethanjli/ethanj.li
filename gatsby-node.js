@@ -14,6 +14,23 @@ const templates = {
   'tags': path.resolve(`./src/templates/tags.js`),
 }
 
+exports.onCreateNode = ({ node, getNode, actions }) => {
+  const { createNodeField } = actions
+  if (node.internal.type === `MarkdownRemark`) {
+    const slug = createFilePath({ node, getNode, basePath: getType(node) })
+    createNodeField({
+      node,
+      name: `slug`,
+      value: slug,
+    })
+    createNodeField({
+      node,
+      name: `type`,
+      value: getType(node),
+    })
+  }
+}
+
 exports.createPages = ({ actions, graphql, getNodes }) => {
   const { createPage } = actions
   const allNodes = getNodes()
@@ -26,8 +43,11 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
       ) {
         edges {
           node {
+            fields {
+              slug
+              type
+            }
             frontmatter {
-              path
               title
               tags
             }
@@ -52,16 +72,16 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
     } = result.data
 
     const sortedPages = markdownPages.sort((pageA, pageB) => {
-      const typeA = getType(pageA.node)
-      const typeB = getType(pageB.node)
+      const typeA = pageA.node.fields.type
+      const typeB = pageB.node.fields.type
 
       return (typeA > typeB) - (typeA < typeB)
     })
 
     const posts = allNodes.filter(
-      ({ internal, fileAbsolutePath }) =>
+      ({ internal, fields }) =>
         internal.type === 'MarkdownRemark' &&
-        fileAbsolutePath.indexOf('/posts/') !== -1,
+        fields.type === 'posts',
     )
 
     // Create posts index with pagination
@@ -78,15 +98,15 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
       const previous = index === 0 ? null : sortedPages[index - 1].node
       const next =
         index === sortedPages.length - 1 ? null : sortedPages[index + 1].node
-      const isNextSameType = getType(node) === (next && getType(next))
+      const isNextSameType = node.fields.type === (next && next.fields.type)
       const isPreviousSameType =
-        getType(node) === (previous && getType(previous))
+        node.fields.type === (previous && previous.fields.type)
 
       createPage({
-        path: node.frontmatter.path,
-        component: templates[getType(node)],
+        path: node.fields.slug,
+        component: templates[node.fields.type],
         context: {
-          type: getType(node),
+          type: node.fields.type,
           next: isNextSameType ? next : null,
           previous: isPreviousSameType ? previous : null,
         },
@@ -134,7 +154,6 @@ exports.sourceNodes = ({ actions }) => {
     type Frontmatter {
       title: String!
       date: Date! @dateformat
-      path: String!
       tags: [String!]
       excerpt: String
       coverImage: File @fileByRelativePath

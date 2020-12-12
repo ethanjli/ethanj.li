@@ -28,10 +28,10 @@ const Tags = ({
           const {
             id,
             excerpt: autoExcerpt,
+            fields: { slug },
             frontmatter: {
               title,
               date,
-              path,
               coverImage,
               excerpt,
               tags,
@@ -43,7 +43,7 @@ const Tags = ({
               key={id}
               title={title}
               date={date}
-              path={path}
+              path={slug}
               tags={tags}
               coverImage={coverImage}
               excerpt={excerpt || autoExcerpt}
@@ -67,6 +67,7 @@ Tags.propTypes = {
   pageContext: PropTypes.shape({
     nextPagePath: PropTypes.string,
     previousPagePath: PropTypes.string,
+    tag: PropTypes.string,
   }),
 }
 
@@ -82,10 +83,12 @@ export const postsQuery = graphql`
         node {
           id
           excerpt
+          fields {
+            slug
+          }
           frontmatter {
             title
-            date(formatString: "DD MMMM YYYY")
-            path
+            date(formatString: "MMMM DD, YYYY")
             excerpt
             tags
             coverImage {

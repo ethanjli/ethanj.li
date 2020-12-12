@@ -8,7 +8,8 @@ import Page from '../components/page'
 
 const PageTemplate = ({ data }) => {
   const {
-    frontmatter: { title, date, path, coverImage, excerpt },
+    fields: { slug },
+    frontmatter: { title, coverImage, excerpt },
     excerpt: autoExcerpt,
     id,
     html,
@@ -19,8 +20,7 @@ const PageTemplate = ({ data }) => {
       <Page
         key={id}
         title={title}
-        date={date}
-        path={path}
+        path={slug}
         coverImage={coverImage}
         html={html}
       />
@@ -32,19 +32,16 @@ export default PageTemplate
 
 PageTemplate.propTypes = {
   data: PropTypes.object.isRequired,
-  pageContext: PropTypes.shape({
-    next: PropTypes.object,
-    previous: PropTypes.object,
-  }),
 }
 
 export const pageQuery = graphql`
   query($path: String) {
-    markdownRemark(frontmatter: { path: { eq: $path } }) {
+    markdownRemark(fields: { slug: { eq: $path } }) {
+      fields {
+        slug
+      }
       frontmatter {
         title
-        date(formatString: "DD MMMM YYYY")
-        path
         excerpt
         coverImage {
           childImageSharp {
