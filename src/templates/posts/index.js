@@ -3,18 +3,20 @@ import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import SEO from '../../components/seo'
 import Layout from '../../components/layout'
+import BlogHeader from '../../components/blog-header'
 import Post from '../../components/post'
-import Navigation from '../../components/navigation'
 
-const Index = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
+const Index = ({ data }) => {
   const {
     allMarkdownRemark: { edges: posts },
+    site: { siteMetadata: { blogTitle, blogDescription } },
   } = data
 
   return (
     <>
-      <SEO />
       <Layout>
+        <SEO title={blogTitle} description={blogDescription} />
+        <BlogHeader />
         {posts.map(({ node }) => {
           const {
             id,
@@ -41,13 +43,6 @@ const Index = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
             />
           )
         })}
-
-        <Navigation
-          previousPath={previousPagePath}
-          previousLabel="Newer posts"
-          nextPath={nextPagePath}
-          nextLabel="Older posts"
-        />
       </Layout>
     </>
   )
@@ -55,19 +50,13 @@ const Index = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
 
 Index.propTypes = {
   data: PropTypes.object.isRequired,
-  pageContext: PropTypes.shape({
-    nextPagePath: PropTypes.string,
-    previousPagePath: PropTypes.string,
-  }),
 }
 
 export const postsQuery = graphql`
-  query($limit: Int!, $skip: Int!) {
+  query {
     allMarkdownRemark(
       filter: { fields: { type: { eq: "posts" } } }
       sort: { fields: [frontmatter___date], order: DESC }
-      limit: $limit
-      skip: $skip
     ) {
       edges {
         node {
@@ -84,6 +73,12 @@ export const postsQuery = graphql`
             tags
           }
         }
+      }
+    }
+    site {
+      siteMetadata {
+        blogTitle
+        blogDescription
       }
     }
   }

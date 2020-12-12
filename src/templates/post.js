@@ -4,20 +4,24 @@ import { graphql } from 'gatsby'
 
 import SEO from '../components/seo'
 import Layout from '../components/layout'
+import BlogHeader from '../components/blog-header'
 import Post from '../components/post'
 
 const BlogPostTemplate = ({ data }) => {
   const {
-    fields: { slug },
-    frontmatter: { title, date, coverImage, excerpt, tags },
-    excerpt: autoExcerpt,
-    id,
-    html,
-  } = data.markdownRemark
+    markdownRemark: {
+      fields: { slug },
+      frontmatter: { title, date, coverImage, excerpt, tags },
+      excerpt: autoExcerpt,
+      id,
+      html,
+    },
+  } = data
 
   return (
     <Layout>
       <SEO title={title} description={excerpt || autoExcerpt} />
+      <BlogHeader />
       <Post
         key={id}
         title={title}

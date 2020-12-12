@@ -1,0 +1,28 @@
+.header {
+  width: 100%;
+  max-width: 800px;
+  text-align: left;
+  padding: 0 20px;
+  margin: 0 auto 30px;
+}
+
+.header > h1 {
+  font-size: 3.625rem;
+  text-indent: -0.25rem;
+  margin: 0;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.header > .description {
+  font-size: 1.25rem;
+}
+
+@media (--phone) {
+  .header > h1 {
+    font-size: 3rem;
+    margin-top: 30px;
+  }
+}

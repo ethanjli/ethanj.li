@@ -83,6 +83,13 @@ a {
   color: inherit;
 }
 
+a:hover {
+  color: var(--dark-color-secondary);
+  .dark-theme & {
+    color: var(--light-background-secondary);
+  }
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -239,7 +246,7 @@ button, input, textarea {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: center;
+  text-align: left;
 }
 
 .content {

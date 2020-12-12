@@ -3,7 +3,7 @@
   max-width: 800px;
   text-align: left;
   padding: 20px;
-  margin: 0 auto 20px;
+  margin: 0 auto 0px;
 
   &:not(:last-of-type) {
     border-bottom: 1px solid var(--light-border-color);
@@ -40,7 +40,7 @@
 
 .meta {
   font-size: 1rem;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .tags {
@@ -51,14 +51,6 @@
 .tag {
   display: inline-block;
   margin-right: 10px;
-}
-
-.readMore {
-  display: inline-block;
-  text-decoration: none;
-  font-weight: bold;
-  margin: 20px 0;
-  font-size: 1rem;
 }
 
 .postContent {

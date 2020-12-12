@@ -1,25 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
+
 import SEO from '../components/seo'
 import Layout from '../components/layout'
+import BlogHeader from '../components/blog-header'
 import Post from '../components/post'
-import Navigation from '../components/navigation'
 
 import '../styles/layout.css'
 
 const Tags = ({
   data,
-  pageContext: { nextPagePath, previousPagePath, tag },
+  pageContext: { tag },
 }) => {
   const {
     allMarkdownRemark: { edges: posts },
+    site: { siteMetadata: { blogDescription } },
   } = data
 
   return (
     <>
-      <SEO />
+      <SEO title={`#${tag}`} description={blogDescription} />
       <Layout>
+        <BlogHeader />
         <div className="infoBanner">
           Posts with tag: <span>#{tag}</span>
         </div>
@@ -50,13 +53,6 @@ const Tags = ({
             />
           )
         })}
-
-        <Navigation
-          previousPath={previousPagePath}
-          previousLabel="Newer posts"
-          nextPath={nextPagePath}
-          nextLabel="Older posts"
-        />
       </Layout>
     </>
   )
@@ -65,19 +61,15 @@ const Tags = ({
 Tags.propTypes = {
   data: PropTypes.object.isRequired,
   pageContext: PropTypes.shape({
-    nextPagePath: PropTypes.string,
-    previousPagePath: PropTypes.string,
     tag: PropTypes.string,
   }),
 }
 
 export const postsQuery = graphql`
-  query($limit: Int!, $skip: Int!, $tag: String!) {
+  query($tag: String!) {
     allMarkdownRemark(
       filter: { frontmatter: { tags: { in: [$tag] } } }
       sort: { fields: [frontmatter___date], order: DESC }
-      limit: $limit
-      skip: $skip
     ) {
       edges {
         node {
@@ -100,6 +92,11 @@ export const postsQuery = graphql`
             }
           }
         }
+      }
+    }
+    site {
+      siteMetadata {
+        blogDescription
       }
     }
   }

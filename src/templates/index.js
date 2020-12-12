@@ -4,9 +4,8 @@ import { graphql } from 'gatsby'
 import SEO from '../components/seo'
 import Layout from '../components/layout'
 import Post from '../components/post'
-import Navigation from '../components/navigation'
 
-const Index = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
+const Index = ({ data }) => {
   const {
     allMarkdownRemark: { edges: posts },
   } = data
@@ -25,7 +24,6 @@ const Index = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
             frontmatter: {
               title,
               date,
-              coverImage,
               excerpt,
               tags,
             },
@@ -37,19 +35,11 @@ const Index = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
               title={title}
               date={date}
               path={slug}
-              coverImage={coverImage}
               tags={tags}
               excerpt={excerpt || autoExcerpt}
             />
           )
         })}
-
-        <Navigation
-          previousPath={previousPagePath}
-          previousLabel="Newer posts"
-          nextPath={nextPagePath}
-          nextLabel="Older posts"
-        />
       </Layout>
     </>
   )
@@ -57,19 +47,14 @@ const Index = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
 
 Index.propTypes = {
   data: PropTypes.object.isRequired,
-  pageContext: PropTypes.shape({
-    nextPagePath: PropTypes.string,
-    previousPagePath: PropTypes.string,
-  }),
 }
 
 export const postsQuery = graphql`
-  query($limit: Int!, $skip: Int!) {
+  query($indexPosts: Int!) {
     allMarkdownRemark(
       filter: { fields: { type: { eq: "posts" } } }
       sort: { fields: [frontmatter___date], order: DESC }
-      limit: $limit
-      skip: $skip
+      limit: $indexPosts
     ) {
       edges {
         node {
@@ -84,13 +69,6 @@ export const postsQuery = graphql`
             date(formatString: "MMMM DD, YYYY")
             excerpt
             tags
-            coverImage {
-              childImageSharp {
-                fluid(maxWidth: 800) {
-                  ...GatsbyImageSharpFluid
-                }
-              }
-            }
           }
         }
       }

@@ -60,7 +60,7 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
       }
       site {
         siteMetadata {
-          postsPerPage
+          indexPosts
         }
       }
     }
@@ -71,7 +71,7 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
 
     const {
       allMarkdownRemark: { edges: markdownPages },
-      site: { siteMetadata },
+      site: { siteMetadata: { indexPosts } },
     } = result.data
 
     const sortedPages = markdownPages.sort((pageA, pageB) => {
@@ -88,21 +88,16 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
     )
 
     // Create homepage
-    paginate({
-      createPage,
-      items: posts,
+    createPage({
       component: templates.index,
-      itemsPerPage: siteMetadata.postsPerPage,
-      pathPrefix: '/',
+      path: '/',
+      context: { indexPosts },
     })
 
     // Create posts index with pagination
-    paginate({
-      createPage,
-      items: posts,
+    createPage({
+      path: '/posts',
       component: templates.postsIndex,
-      itemsPerPage: siteMetadata.postsPerPage,
-      pathPrefix: '/posts',
     })
 
     // Create each markdown page and post
@@ -132,20 +127,10 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
     )
 
     forEach(tag => {
-      const postsWithTag = posts.filter(
-        post =>
-          post.frontmatter.tags && post.frontmatter.tags.indexOf(tag) !== -1,
-      )
-
-      paginate({
-        createPage,
-        items: postsWithTag,
+      createPage({
         component: templates.tags,
-        itemsPerPage: siteMetadata.postsPerPage,
-        pathPrefix: `/tags/${toKebabCase(tag)}`,
-        context: {
-          tag,
-        },
+        path: `/tags/${toKebabCase(tag)}`,
+        context: { tag },
       })
     }, tags)
 
