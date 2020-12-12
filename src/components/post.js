@@ -14,7 +14,7 @@ export const Tags = ({ tags }) => (
     <span className={style.tags}>
       {tags.map(tag => (
         <Link to={`/tags/${toKebabCase(tag)}/`} key={toKebabCase(tag)}>
-          <span className={style.tag}>#{tag}</span>
+          {' '}<span className={style.tag}>#{tag}</span>
         </Link>
       ))}
     </span>

@@ -52,15 +52,15 @@ const Header = props => {
                 <img src={siteLogo.src} alt={siteLogo.alt} />
               ) : (
                 <>
-                  <span className={style.mark}>&#9679;</span>
+                  <span className={style.mark}>&#9679;</span>{' '}
                   <span className={style.text}>{logoText}</span>
                 </>
               )}
             </Link>
             {breadcrumbs && breadcrumbs.map(({ title, path }) => (
               <Link className={style.breadcrumb} to={path}>
-                <span className={style.mark}>&#187;</span>
-                <span className={style.text}>{title}</span>
+                {' '}<span className={style.mark}>&#187;</span>
+                {' '}<span className={style.text}>{title}</span>
               </Link>
             ))}
           </div>
