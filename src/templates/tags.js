@@ -68,7 +68,12 @@ Tags.propTypes = {
 export const postsQuery = graphql`
   query($tag: String!) {
     allMarkdownRemark(
-      filter: { frontmatter: { tags: { in: [$tag] } } }
+      filter: {
+        fields: {
+          draft: { eq: false }
+        }
+        frontmatter: { tags: { in: [$tag] } }
+      }
       sort: { fields: [frontmatter___date], order: DESC }
     ) {
       edges {

@@ -8,12 +8,14 @@ import Page from '../components/page'
 
 const PageTemplate = ({ data }) => {
   const {
-    fields: { slug },
-    frontmatter: { title, coverImage, excerpt },
-    excerpt: autoExcerpt,
-    id,
-    html,
-  } = data.markdownRemark
+    markdownRemark: {
+      frontmatter: { title, coverImage, excerpt },
+      excerpt: autoExcerpt,
+      id,
+      html,
+    },
+  } = data
+
   return (
     <Layout>
       <SEO title={title} description={excerpt || autoExcerpt} />
@@ -21,7 +23,6 @@ const PageTemplate = ({ data }) => {
         <Page
           key={id}
           title={title}
-          path={slug}
           coverImage={coverImage}
           html={html}
         />
@@ -39,9 +40,6 @@ PageTemplate.propTypes = {
 export const pageQuery = graphql`
   query($path: String) {
     markdownRemark(fields: { slug: { eq: $path } }) {
-      fields {
-        slug
-      }
       frontmatter {
         title
         excerpt

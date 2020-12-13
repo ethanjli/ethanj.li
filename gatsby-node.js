@@ -18,7 +18,7 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
   if (node.internal.type === `MarkdownRemark`) {
     const type = getType(node)
     const prefix = type === 'pages' ? '' : `/${type}`
-    const slug = prefix + createFilePath({ node, getNode, basePath: '' })
+    const slug = prefix + createFilePath({ node, getNode, basePath: '' }).replace(/\/$/, '')
     createNodeField({
       node,
       name: `slug`,
@@ -39,6 +39,9 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
   return graphql(`
     {
       allMarkdownRemark(
+        filter: { fields: {
+          draft: { eq: false }
+        } }
         sort: { fields: [frontmatter___date], order: DESC }
         limit: 1000
       ) {
@@ -120,6 +123,7 @@ exports.sourceNodes = ({ actions }) => {
     type Frontmatter {
       title: String!
       date: Date! @dateformat
+      draft: Boolean
       tags: [String!]
       excerpt: String
       coverImage: File @fileByRelativePath

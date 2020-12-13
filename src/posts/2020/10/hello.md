@@ -1,6 +1,6 @@
 ---
 title: "Hello Friend"
-date: "2019-01-17"
+date: "2020-10-02"
 excerpt: '"Hello, friend?" That''s lame. Maybe I should give you a name...'
 tags: ["rob____ot", "hello friend"]
 coverImage: "../../../uploads/2020/12/hello.jpg"
