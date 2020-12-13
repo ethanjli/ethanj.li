@@ -4,7 +4,7 @@ import { graphql } from 'gatsby'
 import SEO from '../../components/seo'
 import Layout from '../../components/layout'
 import BlogHeader from '../../components/blog-header'
-import Post from '../../components/post'
+import PostPreview from '../../components/post-preview'
 
 const Index = ({ data }) => {
   const {
@@ -34,7 +34,7 @@ const Index = ({ data }) => {
             } = node
 
             return (
-              <Post
+              <PostPreview
                 key={id}
                 title={title}
                 date={date}

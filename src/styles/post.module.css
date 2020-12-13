@@ -39,9 +39,10 @@
     display: inline-block;
   }
 
-  .tags {
-    margin-left: 0.5rem;
-    display: inline-block;
+  .excerpt {
+    font-weight: 500;
+    text-align-last: left;
+    display: block;
   }
 }
 

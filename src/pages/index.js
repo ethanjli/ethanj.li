@@ -7,7 +7,7 @@ import SEO from '../components/seo'
 import Layout from '../components/layout'
 import Intro from '../components/intro'
 import SectionHeader from '../components/section-header'
-import Post from '../components/post'
+import PostPreview from '../components/post-preview'
 
 const numPosts = 3
 
@@ -45,7 +45,7 @@ const Index = ({ data }) => {
             } = node
 
             return (
-              <Post
+              <PostPreview
                 key={id}
                 title={title}
                 date={date}

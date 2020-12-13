@@ -66,13 +66,6 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
       allMarkdownRemark: { edges: markdownPages },
     } = result.data
 
-    const sortedPages = markdownPages.sort((pageA, pageB) => {
-      const typeA = pageA.node.fields.type
-      const typeB = pageB.node.fields.type
-
-      return (typeA > typeB) - (typeA < typeB)
-    })
-
     const posts = allNodes.filter(
       ({ internal, fields }) =>
         internal.type === 'MarkdownRemark' &&
@@ -86,24 +79,15 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
     })
 
     // Create each markdown page and post
-    forEach(({ node }, index) => {
-      const previous = index === 0 ? null : sortedPages[index - 1].node
-      const next =
-        index === sortedPages.length - 1 ? null : sortedPages[index + 1].node
-      const isNextSameType = node.fields.type === (next && next.fields.type)
-      const isPreviousSameType =
-        node.fields.type === (previous && previous.fields.type)
-
+    forEach(({ node }) => {
       createPage({
         path: node.fields.slug,
         component: templates[node.fields.type],
         context: {
           type: node.fields.type,
-          next: isNextSameType ? next : null,
-          previous: isPreviousSameType ? previous : null,
         },
       })
-    }, sortedPages)
+    }, markdownPages)
 
     // Create tag pages
     const tags = filter(
@@ -120,7 +104,7 @@ exports.createPages = ({ actions, graphql, getNodes }) => {
     }, tags)
 
     return {
-      sortedPages,
+      markdownPages,
       tags,
     }
   })

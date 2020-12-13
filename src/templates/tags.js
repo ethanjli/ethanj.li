@@ -5,7 +5,7 @@ import { graphql } from 'gatsby'
 import SEO from '../components/seo'
 import Layout from '../components/layout'
 import BlogHeader from '../components/blog-header'
-import Post from '../components/post'
+import PostPreview from '../components/post-preview'
 
 import '../styles/layout.css'
 
@@ -36,20 +36,18 @@ const Tags = ({
               frontmatter: {
                 title,
                 date,
-                coverImage,
                 excerpt,
                 tags,
               },
             } = node
 
             return (
-              <Post
+              <PostPreview
                 key={id}
                 title={title}
                 date={date}
                 path={slug}
                 tags={tags}
-                coverImage={coverImage}
                 excerpt={excerpt || autoExcerpt}
               />
             )
@@ -85,13 +83,6 @@ export const postsQuery = graphql`
             date(formatString: "MMMM DD, YYYY")
             excerpt
             tags
-            coverImage {
-              childImageSharp {
-                fluid(maxWidth: 800) {
-                  ...GatsbyImageSharpFluid
-                }
-              }
-            }
           }
         }
       }
