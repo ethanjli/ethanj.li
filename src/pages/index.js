@@ -9,52 +9,61 @@ import Intro from '../components/intro'
 import SectionHeader from '../components/section-header'
 import PostPreview from '../components/post-preview'
 
-const numPosts = 3
+const maxNumPosts = 3
 
 const Index = ({ data }) => {
   const {
     allMarkdownRemark: { edges: posts },
     site: { siteMetadata: { blogDescription } },
   } = data
+  const numPosts = Math.min(maxNumPosts, posts.length)
 
   return (
     <>
       <SEO />
       <Layout>
         <div className="content">
-          <Intro />
-          <SectionHeader title='Writing' home='/posts'>
-            <p>
-              {blogDescription && ReactHTMLParser(blogDescription)}{' '}
-              <span className="wrap-together">Here are the {numPosts} most recent posts:</span>
-            </p>
-          </SectionHeader>
-          {posts.map(({ node }) => {
-            const {
-              id,
-              excerpt: autoExcerpt,
-              fields: {
-                slug,
-              },
-              frontmatter: {
-                title,
-                date,
-                excerpt,
-                tags,
-              },
-            } = node
+          <div className="innerContent">
+            <Intro />
+            <SectionHeader title='Writing' home='/posts'>
+              <p>
+                {blogDescription && ReactHTMLParser(blogDescription)}{' '}
+                <span className="wrap-together">
+                  {
+                    numPosts > 1 ?
+                    `Here are the ${numPosts} most recent posts:` :
+                    `Here is the first and only post so far:`
+                  }
+                </span>
+              </p>
+            </SectionHeader>
+            {posts.map(({ node }) => {
+              const {
+                id,
+                excerpt: autoExcerpt,
+                fields: {
+                  slug,
+                },
+                frontmatter: {
+                  title,
+                  date,
+                  excerpt,
+                  tags,
+                },
+              } = node
 
-            return (
-              <PostPreview
-                key={id}
-                title={title}
-                date={date}
-                path={slug}
-                tags={tags}
-                excerpt={excerpt || autoExcerpt}
-              />
-            )
-          })}
+              return (
+                <PostPreview
+                  key={id}
+                  title={title}
+                  date={date}
+                  path={slug}
+                  tags={tags}
+                  excerpt={excerpt || autoExcerpt}
+                />
+              )
+            })}
+          </div>
         </div>
       </Layout>
     </>

@@ -9,7 +9,7 @@ import PostPreview from '../components/post-preview'
 
 import '../styles/layout.css'
 
-const Tags = ({
+const Tag = ({
   data,
   pageContext: { tag },
 }) => {
@@ -24,41 +24,43 @@ const Tags = ({
       <Layout breadcrumbs={[{ title: 'writing', path: '/posts' }]}>
         <BlogHeader />
         <div className="content">
-          <div className="infoBanner">
-            Posts with tag: <span>#{tag}</span>
+          <div className="innerContent">
+            <div className="infoBanner">
+              Posts with tag: <span>#{tag}</span>
+            </div>
+
+            {posts.map(({ node }) => {
+              const {
+                id,
+                excerpt: autoExcerpt,
+                fields: { slug },
+                frontmatter: {
+                  title,
+                  date,
+                  excerpt,
+                  tags,
+                },
+              } = node
+
+              return (
+                <PostPreview
+                  key={id}
+                  title={title}
+                  date={date}
+                  path={slug}
+                  tags={tags}
+                  excerpt={excerpt || autoExcerpt}
+                />
+              )
+            })}
           </div>
-
-          {posts.map(({ node }) => {
-            const {
-              id,
-              excerpt: autoExcerpt,
-              fields: { slug },
-              frontmatter: {
-                title,
-                date,
-                excerpt,
-                tags,
-              },
-            } = node
-
-            return (
-              <PostPreview
-                key={id}
-                title={title}
-                date={date}
-                path={slug}
-                tags={tags}
-                excerpt={excerpt || autoExcerpt}
-              />
-            )
-          })}
         </div>
       </Layout>
     </>
   )
 }
 
-Tags.propTypes = {
+Tag.propTypes = {
   data: PropTypes.object.isRequired,
   pageContext: PropTypes.shape({
     tag: PropTypes.string,
@@ -100,4 +102,4 @@ export const postsQuery = graphql`
   }
 `
 
-export default Tags
+export default Tag

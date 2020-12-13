@@ -22,15 +22,17 @@ const BlogPostTemplate = ({ data }) => {
       <SEO title={title} description={excerpt || autoExcerpt} />
       <BlogHeader />
       <div className="content">
-        <Post
-          key={id}
-          title={title}
-          date={date}
-          excerpt={excerpt}
-          coverImage={coverImage}
-          html={html}
-          tags={tags}
-        />
+        <div className="innerContent">
+          <Post
+            key={id}
+            title={title}
+            date={date}
+            excerpt={excerpt}
+            coverImage={coverImage}
+            html={html}
+            tags={tags}
+          />
+        </div>
       </div>
     </Layout>
   )

@@ -17,7 +17,6 @@ module.exports = {
       '<span class="wrap-together">embedded systems,</span> and ' +
       '<span class="wrap-together">global health equity.</span>'
     ),
-    copyrights: '',
     author: '@ethanjli',
     logo: {
       src: '',

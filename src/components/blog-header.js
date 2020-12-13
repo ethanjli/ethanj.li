@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useStaticQuery, graphql } from 'gatsby'
+import { useStaticQuery, graphql, Link } from 'gatsby'
 
 import PageHeader from './page-header'
 
@@ -27,6 +27,10 @@ const BlogHeader = ({ children }) => {
       title={blogTitle}
       description={blogDescription}
     >
+      <p>
+        You can browse posts by <Link to="/tags">tag</Link> and subscribe via{' '}
+        <Link to='/posts/rss.xml'>RSS/Atom</Link>.
+      </p>
       {children}
     </PageHeader>
   )

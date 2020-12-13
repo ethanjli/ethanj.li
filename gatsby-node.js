@@ -9,7 +9,7 @@ const getType = node => node.fileAbsolutePath.match(contentTypeRegex)[1]
 const templates = {
   'pages': path.resolve(`./src/templates/page.js`),
   'posts': path.resolve(`./src/templates/post.js`),
-  'tags': path.resolve(`./src/templates/tags.js`),
+  'tags': path.resolve(`./src/templates/tag.js`),
 }
 
 exports.onCreateNode = ({ node, getNode, actions }) => {

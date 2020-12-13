@@ -1,12 +1,6 @@
 @import "./variables.css";
 
 .content {
-  display: flex;
-  flex-direction: column;
-  flex: 1 0 auto;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
   padding-top: 1.5rem;
 
   background: var(--light-header-background);

@@ -253,6 +253,7 @@ button, input, textarea {
   display: flex;
   flex-direction: column;
   flex: 1 0 auto;
+  text-align: center;
   align-items: center;
   justify-content: center;
   margin: 2.5rem auto;
@@ -262,6 +263,14 @@ button, input, textarea {
   @media (--phone) {
     margin-top: 0;
   }
+}
+
+.content > .innerContent {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  text-align: left;
+  width: 100%;
+  max-width: 800px;
 }
 
 hr {
@@ -277,10 +286,10 @@ hr {
 
 .infoBanner {
   text-align: left;
-  margin: 20px 0 40px;
-  padding: 10px 20px;
+  margin: 1.5rem 0 40px;
+  padding: 10px 1.5rem;
   border-radius: 10px;
-  width: calc(100% - 40px);
+  width: 100%;
   background: var(--light-background-secondary);
 
   .dark-theme & {
@@ -313,28 +322,7 @@ hr {
 }
 
 footer {
-  font-weight: 400;
-  text-align: center;
-  margin: 4rem 0;
-
-  @media (--phone) {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .footerCopyrights {
-    &:not(:first-of-type) {
-      margin-left: 20px;
-      padding-left: 20px;
-      border-left: 1px solid;
-
-      @media (--phone) {
-        margin: 0;
-        padding: 0;
-        border: none;
-      }
-    }
-  }
+  margin: 2.5rem 0;
 }
 
 .wrap-together {

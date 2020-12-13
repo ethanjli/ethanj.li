@@ -18,32 +18,34 @@ const Posts = ({ data }) => {
         <SEO title={blogTitle} description={blogDescription} />
         <BlogHeader />
         <div className="content">
-          {posts.map(({ node }) => {
-            const {
-              id,
-              excerpt: autoExcerpt,
-              fields: {
-                slug,
-              },
-              frontmatter: {
-                title,
-                date,
-                excerpt,
-                tags,
-              },
-            } = node
+          <div className="innerContent">
+            {posts.map(({ node }) => {
+              const {
+                id,
+                excerpt: autoExcerpt,
+                fields: {
+                  slug,
+                },
+                frontmatter: {
+                  title,
+                  date,
+                  excerpt,
+                  tags,
+                },
+              } = node
 
-            return (
-              <PostPreview
-                key={id}
-                title={title}
-                date={date}
-                path={slug}
-                tags={tags}
-                excerpt={excerpt || autoExcerpt}
-              />
-            )
-          })}
+              return (
+                <PostPreview
+                  key={id}
+                  title={title}
+                  date={date}
+                  path={slug}
+                  tags={tags}
+                  excerpt={excerpt || autoExcerpt}
+                />
+              )
+            })}
+          </div>
         </div>
       </Layout>
     </>

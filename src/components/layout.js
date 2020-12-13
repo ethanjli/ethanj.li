@@ -19,7 +19,6 @@ const Layout = ({ breadcrumbs, children }) => {
           }
           logoText
           defaultTheme
-          copyrights
           mainMenu {
             title
             path
@@ -38,7 +37,6 @@ const Layout = ({ breadcrumbs, children }) => {
     mainMenu,
     showMenuItems,
     menuMoreText,
-    copyrights,
   } = data.site.siteMetadata
 
   return (
@@ -54,7 +52,7 @@ const Layout = ({ breadcrumbs, children }) => {
         breadcrumbs={breadcrumbs}
       />
       {children}
-      <Footer copyrights={copyrights} />
+      <Footer />
     </div>
   )
 }
