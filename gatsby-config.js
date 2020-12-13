@@ -14,8 +14,8 @@ module.exports = {
     blogTitle: '(un)yielding foundations',
     blogDescription: (
       'Notes on open-source medical devices, ' +
-      '<span class="wrap-together">embedded systems,</span> ' +
-      '<span class="wrap-together">and global health equity.</span>'
+      '<span class="wrap-together">embedded systems,</span> and ' +
+      '<span class="wrap-together">global health equity.</span>'
     ),
     copyrights: '',
     author: '@ethanjli',

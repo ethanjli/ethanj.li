@@ -15,6 +15,12 @@ const Footer = ({ copyrights }) => (
           All content in this website is licensed under{' '}
           <a href="https://creativecommons.org/licenses/by/4.0/"> CC BY 4.0</a>.
         </span>
+        <span className="footerCopyrights">
+          <a href="https://github.com/ethanjli/ethanj.li">Custom design</a> derived from{' '}
+          <a href="https://github.com/panr/gatsby-starter-hello-friend">
+            panr/gatsby-starter-hello-friend
+          </a>.
+        </span>
       </>
     )}
   </footer>

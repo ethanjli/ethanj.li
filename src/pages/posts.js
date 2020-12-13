@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
-import SEO from '../../components/seo'
-import Layout from '../../components/layout'
-import BlogHeader from '../../components/blog-header'
-import PostPreview from '../../components/post-preview'
+import SEO from '../components/seo'
+import Layout from '../components/layout'
+import BlogHeader from '../components/blog-header'
+import PostPreview from '../components/post-preview'
 
-const Index = ({ data }) => {
+const Posts = ({ data }) => {
   const {
     allMarkdownRemark: { edges: posts },
     site: { siteMetadata: { blogTitle, blogDescription } },
@@ -50,7 +50,7 @@ const Index = ({ data }) => {
   )
 }
 
-Index.propTypes = {
+Posts.propTypes = {
   data: PropTypes.object.isRequired,
 }
 
@@ -89,4 +89,4 @@ export const postsQuery = graphql`
   }
 `
 
-export default Index
+export default Posts
