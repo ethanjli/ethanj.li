@@ -5,6 +5,7 @@ import { graphql } from 'gatsby'
 import SEO from '../components/seo'
 import Layout from '../components/layout'
 import SectionHeader from '../components/section-header'
+import ProjectPreview from '../components/project-preview'
 
 const Projects = ({ data }) => {
   const {
@@ -29,17 +30,21 @@ const Projects = ({ data }) => {
             {projectsPreview.map(({ node }) => {
               const {
                 title,
-                // subtitle,
-                // description,
-                // status,
-                // role,
+                subtitle,
+                description,
+                role,
                 // repos,
                 // preprints,
                 // websites,
               } = node
 
               return (
-                <h1>{title}</h1>
+                <ProjectPreview
+                  title={title}
+                  subtitle={subtitle}
+                  role={role}
+                  description={description}
+                />
               )
             })}
             <SectionHeader
@@ -50,17 +55,21 @@ const Projects = ({ data }) => {
             {projectsPrototype.map(({ node }) => {
               const {
                 title,
-                // subtitle,
-                // description,
-                // status,
-                // role,
+                subtitle,
+                description,
+                role,
                 // repos,
                 // preprints,
                 // websites,
               } = node
 
               return (
-                <h1>{title}</h1>
+                <ProjectPreview
+                  title={title}
+                  subtitle={subtitle}
+                  role={role}
+                  description={description}
+                />
               )
             })}
           </div>
