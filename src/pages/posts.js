@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
+
 import SEO from '../components/seo'
 import Layout from '../components/layout'
 import BlogHeader from '../components/blog-header'
@@ -13,9 +14,12 @@ const Posts = ({ data }) => {
   } = data
 
   return (
-    <Layout breadcrumbs={[{ title: 'writing', path: '/posts' }]}>
+    <Layout
+      breadcrumbs={[{ title: 'writing', path: '/posts' }]}
+      pageHeader={<BlogHeader />}
+      backgroundImage="blog.jpg"
+    >
       <SEO title={blogTitle} description={blogDescription} />
-      <BlogHeader />
       <div className="content">
         <div className="innerContent">
           {posts.map(({ node }) => {

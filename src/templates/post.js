@@ -18,9 +18,12 @@ const BlogPostTemplate = ({ data }) => {
   } = data
 
   return (
-    <Layout breadcrumbs={[{ title: 'writing', path: '/posts' }]}>
+    <Layout
+      breadcrumbs={[{ title: 'writing', path: '/posts' }]}
+      pageHeader={<BlogHeader />}
+      backgroundImage="blog.jpg"
+    >
       <SEO title={title} description={excerpt || autoExcerpt} />
-      <BlogHeader />
       <div className="content">
         <div className="innerContent">
           <Post

@@ -4,10 +4,11 @@ import { useStaticQuery, graphql } from 'gatsby'
 
 import Header from './header'
 import Footer from './footer'
+import HeaderBackground from './header-background'
 
 import '../styles/layout.css'
 
-const Layout = ({ breadcrumbs, children, hideLogoText }) => {
+const Layout = ({ breadcrumbs, children, hideLogoText, pageHeader, backgroundImage }) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -40,21 +41,30 @@ const Layout = ({ breadcrumbs, children, hideLogoText }) => {
   } = data.site.siteMetadata
 
   return (
-    <div className="container">
-      <Header
-        siteTitle={title}
-        siteLogo={logo}
-        logoText={logoText}
-        hideLogoText={hideLogoText}
-        defaultTheme={defaultTheme}
-        mainMenu={mainMenu}
-        mainMenuItems={showMenuItems}
-        menuMoreText={menuMoreText}
-        breadcrumbs={breadcrumbs}
-      />
-      {children}
-      <Footer />
-    </div>
+    <>
+      <div className="layoutContainer">
+        <HeaderBackground backgroundImage={backgroundImage}>
+          <Header
+            siteTitle={title}
+            siteLogo={logo}
+            logoText={logoText}
+            hideLogoText={hideLogoText}
+            defaultTheme={defaultTheme}
+            mainMenu={mainMenu}
+            mainMenuItems={showMenuItems}
+            menuMoreText={menuMoreText}
+            breadcrumbs={breadcrumbs}
+          />
+          {pageHeader}
+        </HeaderBackground>
+      </div>
+      <div className="container">
+        {children}
+      </div>
+      <div className="layoutContainer">
+        <Footer />
+      </div>
+    </>
   )
 }
 
@@ -67,6 +77,8 @@ Layout.propTypes = {
   ),
   children: PropTypes.node.isRequired,
   hideLogoText: PropTypes.bool,
+  pageHeader: PropTypes.node,
+  backgroundImage: PropTypes.string,
 }
 
 export default Layout

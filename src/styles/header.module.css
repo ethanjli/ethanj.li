@@ -1,15 +1,10 @@
 @import "./variables.css";
 
 .header {
-  background: var(--light-header-background);
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
-
-  :global .dark-theme :local & {
-    background: var(--dark-header-background);
-  }
 
   a {
     text-decoration: none;

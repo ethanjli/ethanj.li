@@ -18,9 +18,12 @@ const Tags = ({ data }) => {
 
   return (
     <>
-      <Layout breadcrumbs={[{ title: 'writing', path: '/posts' }]}>
+      <Layout
+        breadcrumbs={[{ title: 'writing', path: '/posts' }]}
+        pageHeader={<BlogHeader />}
+        backgroundImage="blog.jpg"
+      >
         <SEO title={blogTitle} description={blogDescription} />
-        <BlogHeader />
         <div className="content">
           <div className="innerContent">
             <h1>All Tags</h1>

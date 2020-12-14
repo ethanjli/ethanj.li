@@ -19,7 +19,7 @@ body {
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.54;
-  background-color: var(--light-background);
+  background-color: var(--light-header-background);
   color: var(--light-color);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -239,11 +239,23 @@ button, input, textarea {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI",  Helvetica, Arial, sans-serif;
 }
 
+.layoutContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
 .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: left;
+
+  background: var(--light-background);
+  .dark-theme & {
+    background: var(--dark-background);
+  }
 }
 
 .content {
@@ -318,11 +330,10 @@ hr {
 }
 
 footer {
-  margin: 2.5rem 0;
+  margin-bottom: 2.5rem;
 }
 
 .footer {
-  background: var(--light-header-background);
   margin-bottom: 0;
   max-width: none;
 }
@@ -345,4 +356,11 @@ footer {
 
 .footnotes > ol > li > a {
   display: inline;
+}
+
+.pageHeaderBackground {
+  width: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
