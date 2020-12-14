@@ -34,6 +34,7 @@ const Post = ({
 
       {ReactHTMLParser(html)}
       <div className={style.footer}>
+        <hr />
         <p>
           See {tags ? <>more posts about: <Tags tags={tags} /></> :
           <><Link to="/posts">more posts</Link>.</>

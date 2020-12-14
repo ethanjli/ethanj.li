@@ -50,7 +50,7 @@ h1 {
 }
 
 h2 {
-  font-size: 1.625rem;
+  font-size: 2rem;
 }
 
 h3 {
@@ -58,7 +58,7 @@ h3 {
 }
 
 h4 {
-  font-size: 1.125rem;
+  font-size: 1rem;
 }
 
 @media (--phone) {
@@ -152,7 +152,6 @@ code {
   background: var(--light-background-secondary);
   padding: 1px 6px;
   margin: 0 2px;
-  border-radius: 5px;
   font-size: .9rem;
 
   .dark-theme & {
@@ -163,7 +162,6 @@ code {
 pre {
   background: #1a1a1d;
   padding: 20px;
-  border-radius: 8px;
   font-size: .9rem;
   overflow: auto;
 
@@ -205,7 +203,6 @@ table {
   border-collapse: collapse;
   width: 100%;
   margin: 40px 0;
-  border-radius: 5px;
 }
 
 table, th, td {
@@ -288,7 +285,6 @@ hr {
   text-align: left;
   margin: 1.5rem 0 40px;
   padding: 10px 1.5rem;
-  border-radius: 10px;
   width: 100%;
   background: var(--light-background-secondary);
 
@@ -325,6 +321,28 @@ footer {
   margin: 2.5rem 0;
 }
 
+.footer {
+  background: var(--light-header-background);
+  margin-bottom: 0;
+  max-width: none;
+}
+
 .wrap-together {
   display: inline-block;
+}
+
+.footnotes > hr {
+  display: none;
+}
+
+.footnotes > ol > li > p {
+  display: inline;
+}
+
+.footnotes > ol > li > p:after {
+  content: ' ';
+}
+
+.footnotes > ol > li > a {
+  display: inline;
 }

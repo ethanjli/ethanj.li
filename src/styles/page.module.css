@@ -13,10 +13,6 @@
     }
   }
 
-  @media (--tablet) {
-    max-width: 660px;
-  }
-
   h1 {
     margin: 0 0 10px;
   }

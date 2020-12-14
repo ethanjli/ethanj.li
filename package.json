@@ -28,6 +28,7 @@
   "dependencies": {
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
+    "bibtex-parse-js": "^0.0.24",
     "gatsby": "^2.0.76",
     "gatsby-awesome-pagination": "^0.3.3",
     "gatsby-image": "^2.0.20",
@@ -43,7 +44,9 @@
     "gatsby-plugin-sharp": "^2.0.17",
     "gatsby-plugin-sitemap": "^2.8.0",
     "gatsby-remark-autolink-headers": "^2.7.0",
+    "gatsby-remark-bibliography": "https://github.com/ptigas/gatsby-remark-bibliography",
     "gatsby-remark-images": "^3.0.1",
+    "gatsby-remark-numbered-footnotes": "^1.0.1",
     "gatsby-remark-prismjs": "^3.2.0",
     "gatsby-remark-responsive-iframe": "^2.7.0",
     "gatsby-source-filesystem": "^2.0.8",

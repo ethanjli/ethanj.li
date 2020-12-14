@@ -98,6 +98,8 @@ module.exports = {
               noInlineHighlight: false,
             },
           },
+          `gatsby-remark-numbered-footnotes`,
+          `gatsby-remark-bibliography`,
         ],
       },
     },

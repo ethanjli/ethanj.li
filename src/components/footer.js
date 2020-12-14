@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Footer = () => (
-  <div className="content">
+  <div className="content footer">
     <div className="innerContent">
       <footer>
         All content in this website is licensed under{' '}
