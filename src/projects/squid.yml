@@ -1,0 +1,10 @@
+title: Squid
+subtitle: Simplifying quantitative imaging platform development and deployment
+description: Squid is a full suite of modular and open-source hardware and software components and configurations to implement portable facility-grade widefield microscopes and other application-specific imaging capabilities at a fraction of the cost of comercial solutions ($500-$10k vs. $50k-$120k).
+status: prototype
+role: maintainer
+repos:
+  - name: electronics
+    url: https://github.com/prakashlab/octopi-driver-board
+  - name: software
+    url: https://github.com/hongquanli/octopi-research

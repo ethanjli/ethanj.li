@@ -1,0 +1,13 @@
+title: Handyfuge
+subtitle: Portable, low-cost, electricity-free centrifugation
+description: Centrifugation is a crucial step in many diagnostic procedures. Handyfuge is a proof-of-concept of a modular, safety-first design for hand-powered centrifugation. Handyfuge's modularity and compatibility with distributed manufactuing technologies will be used to investigate strategies for platform design and community-building to enable broad exploration of design variations, scale-up, and rapid adaptation and implementation of diagnostic assays for local needs.
+status: preview
+role: maintainer
+repos:
+  - name: main
+    url: https://github.com/prakashlab/handyfuge
+preprints:
+  - description: announcement of SARS-CoV-2 saliva assay using Handyfuge
+    server: medRxiv
+    date: July 2020
+    url: https://www.medrxiv.org/content/10.1101/2020.06.30.20143255v1

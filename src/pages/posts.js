@@ -13,42 +13,40 @@ const Posts = ({ data }) => {
   } = data
 
   return (
-    <>
-      <Layout breadcrumbs={[{ title: 'writing', path: '/posts' }]}>
-        <SEO title={blogTitle} description={blogDescription} />
-        <BlogHeader />
-        <div className="content">
-          <div className="innerContent">
-            {posts.map(({ node }) => {
-              const {
-                id,
-                excerpt: autoExcerpt,
-                fields: {
-                  slug,
-                },
-                frontmatter: {
-                  title,
-                  date,
-                  excerpt,
-                  tags,
-                },
-              } = node
+    <Layout breadcrumbs={[{ title: 'writing', path: '/posts' }]}>
+      <SEO title={blogTitle} description={blogDescription} />
+      <BlogHeader />
+      <div className="content">
+        <div className="innerContent">
+          {posts.map(({ node }) => {
+            const {
+              id,
+              excerpt: autoExcerpt,
+              fields: {
+                slug,
+              },
+              frontmatter: {
+                title,
+                date,
+                excerpt,
+                tags,
+              },
+            } = node
 
-              return (
-                <PostPreview
-                  key={id}
-                  title={title}
-                  date={date}
-                  path={slug}
-                  tags={tags}
-                  excerpt={excerpt || autoExcerpt}
-                />
-              )
-            })}
-          </div>
+            return (
+              <PostPreview
+                key={id}
+                title={title}
+                date={date}
+                path={slug}
+                tags={tags}
+                excerpt={excerpt || autoExcerpt}
+              />
+            )
+          })}
         </div>
-      </Layout>
-    </>
+      </div>
+    </Layout>
   )
 }
 

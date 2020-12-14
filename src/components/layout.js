@@ -66,7 +66,7 @@ Layout.propTypes = {
     })
   ),
   children: PropTypes.node.isRequired,
-  hideLogoText: Boolean
+  hideLogoText: PropTypes.bool,
 }
 
 export default Layout

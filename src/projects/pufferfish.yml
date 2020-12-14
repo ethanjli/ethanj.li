@@ -1,0 +1,16 @@
+title: Pufferfish
+subtitle: An open-source full-featured ICU ventilator
+description: Pufferfish is a full-featured ICU ventilator designed to be clinically relevant for COVID-19 patients. It is the focus of an ongoing international collaboration between three universities in the US and industrial partners in India, Nepal, Kenya, and the US.
+status: preview
+role: maintainer
+repos:
+  - name: organization
+    url: https://github.com/pez-globo/
+preprints:
+  - description: announcement of early design of ventilator
+    server: medRxiv
+    date: April 2020
+    url: https://www.medrxiv.org/content/10.1101/2020.04.18.20070367v1
+websites:
+  - name: project
+    url: https://pez-globo.org

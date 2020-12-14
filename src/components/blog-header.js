@@ -28,8 +28,12 @@ const BlogHeader = ({ children }) => {
       description={blogDescription}
     >
       <p>
-        You can browse posts by <Link to="/tags">tag</Link> and subscribe via{' '}
-        <Link to='/posts/rss.xml'>RSS/Atom</Link>.
+        You can browse posts <Link to="/tags">by tag</Link> or
+        view <Link to="/posts">all posts</Link>.{' '}
+        <span className="wrap-together">
+          You can subscribe to posts via{' '}
+          <Link to='/posts/rss.xml'>RSS</Link>.
+        </span>
       </p>
       {children}
     </PageHeader>

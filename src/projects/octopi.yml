@@ -1,0 +1,10 @@
+title: Octopi
+subtitle: Open configurable high-throughput imaging platform for infectious disease diagnosis in the field
+description: Access to quantitative, robust, yet affordable diagnostic tools is necessary to reduce global infectious disease burden. Octopi is a low-cost ($250-$500) automated imaging platform which can quantify malaria parasitemia by scanning 1.5 million red blood cells per minute.
+status: preview
+role: contributor
+preprints:
+  - description: announcement of Octopi
+    server: bioRxiv
+    date: June 2019
+    url: https://www.biorxiv.org/content/10.1101/684423v1

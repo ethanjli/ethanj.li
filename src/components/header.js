@@ -85,7 +85,7 @@ const Header = props => {
 Header.propTypes = {
   siteLogo: PropTypes.object,
   logoText: PropTypes.string,
-  hideLogoText: Boolean,
+  hideLogoText: PropTypes.bool,
   defaultTheme: PropTypes.string,
   mainMenu: PropTypes.arrayOf(
     PropTypes.shape({

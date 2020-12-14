@@ -1,0 +1,11 @@
+title: Open Hardware Site
+subtitle: Gatsby starter for building websites for open hardware projects
+description: It can be challenging or costly for people without web development experience (e.g. scientists and engineers) to build user-friendly, maintainable websites for documenting and sharing their open hardware work. This project is developing a template for building freely-hosted static websites for open hardware projects. It is first being developed to help launch websites for various open hardware projects in the Prakash Lab.
+status: prototype
+role: maintainer
+repos:
+  - name: main
+    url: https://github.com/prakashlab/open-hardware-site
+websites:
+  - name: demo
+    url: https://prakashlab.github.io/open-hardware-site
