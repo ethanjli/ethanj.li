@@ -11,6 +11,7 @@ const Header = props => {
   const {
     siteLogo,
     logoText,
+    hideLogoText,
     mainMenu,
     mainMenuItems,
     menuMoreText,
@@ -53,7 +54,7 @@ const Header = props => {
               ) : (
                 <>
                   <span className={style.mark}>&#9679;</span>{' '}
-                  <span className={style.text}>{logoText}</span>
+                  {hideLogoText ? null : <span className={style.text}>{logoText}</span>}
                 </>
               )}
             </Link>
@@ -84,6 +85,7 @@ const Header = props => {
 Header.propTypes = {
   siteLogo: PropTypes.object,
   logoText: PropTypes.string,
+  hideLogoText: Boolean,
   defaultTheme: PropTypes.string,
   mainMenu: PropTypes.arrayOf(
     PropTypes.shape({

@@ -7,7 +7,7 @@ import Footer from './footer'
 
 import '../styles/layout.css'
 
-const Layout = ({ breadcrumbs, children }) => {
+const Layout = ({ breadcrumbs, children, hideLogoText }) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -45,6 +45,7 @@ const Layout = ({ breadcrumbs, children }) => {
         siteTitle={title}
         siteLogo={logo}
         logoText={logoText}
+        hideLogoText={hideLogoText}
         defaultTheme={defaultTheme}
         mainMenu={mainMenu}
         mainMenuItems={showMenuItems}
@@ -65,6 +66,7 @@ Layout.propTypes = {
     })
   ),
   children: PropTypes.node.isRequired,
+  hideLogoText: Boolean
 }
 
 export default Layout

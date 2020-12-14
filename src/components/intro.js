@@ -28,16 +28,14 @@ const Intro = () => {
     <>
       <SectionHeader>
         <div className={style.intro}>
-          <h1>Hello!</h1> <Img fluid={childImageSharp.fluid} className={style.avatar} />
+          <h1>Hi!</h1> <Img fluid={childImageSharp.fluid} className={style.avatar} />
         </div>
         <p>
           I'm Ethan Li, a third-year Bioengineering PhD student in{' '}
           <a href="http://prakashlab.stanford.edu/">Manu Prakash's lab</a> at
-          Stanford University. I go by they/them pronouns. In the Prakash Lab,
-          I work together with teammates to develop open platforms and tools for
-          global health and <a href="https://www.frugalscience.org/">frugal science</a>.
-          Much of my work involves designing and building integrated software,
-          electronics, and mechanical systems.
+          Stanford University.  I design and build hardware+software systems
+          for global health and <a href="https://www.frugalscience.org/">frugal science</a>.
+          I go by they/them <a href="https://www.mypronouns.org/they-them">pronouns</a>.
         </p>
         <p>
           The working title of my thesis project is{' '}
@@ -47,12 +45,14 @@ const Intro = () => {
           >
             Open-source medical devices towards global health equity: invention,
             development, and implementation
-          </a>. I'm studying challenges and strategies for how platforms and
-          communities might be built to support international cooperative production
-          of medical devices appropriate for local settings. There are many
+          </a>. The medical device industry is unable to make accessible, affordable,
+          and appropriate technologies at the scales needed by the >6 billion people outside
+          wealthy areas of wealthy countries. So I'm studying challenges and strategies for
+          how platforms and communities might be built to support international cooperative
+          production of medical devices appropriate for local settings. There are many
           exciting questions in this area, including sustainability, governance,
           ethics, regulations, and standardization. For my thesis, I'm focusing on
-          three key technical and organizational questions for open-source medical devices:
+          three key technical and organizational questions:
           scalability, clinical efficacy, and safety.
         </p>
         <p>
