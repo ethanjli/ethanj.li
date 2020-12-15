@@ -126,9 +126,13 @@ An easy and accessible resource is Github's [Choose a License](https://chooseali
 
 This where you'll need to dive a bit deeper: unfortunately, I haven't found comprehensive resources which I like yet, and open hardware licensing is still a young area. There are fewer license options, which can be good because it means you don't have to evaluate so many options, or it can be bad if no license does what you want.
 
-## How long can we delay on choosing a license?
+## What about medical devices?
 
-Choosing a license can feel like a commitment, and you have so many other important things to do for your project. If any of the following apply, then you should not delay in choosing a license:
+This is a complicated topic which deserves its own post, and the answer will be different for different kinds of medical devices. What I'll say here is that if you're sharing a medical device, you absolutely need a license which includes a good warranty disclaimer so that, if something goes wrong, other people or companies don't sue you for their decision to use your work - the license should make them take all responsibility themselves as a condition for using your work. You should also be aware that there are other things to be careful about outside of licenses and warranty disclaimers.
+
+## How long can we wait before choosing a license?
+
+Choosing a license can feel like a commitment, and you already have so many other important things to do for your project. If any of the following apply, then you should choose a license as soon as possible:
 
 * Your project uses somebody else's work which was released under a reciprocal license. Then you will need to look at whether you have to release your work under the same license, and whether you want to do that or whether you want to switch away replace that work with something else.
 * You are ready to share your work with other people so that they can use it, share it, adapt it, etc.
@@ -143,9 +147,9 @@ Changing licenses for a project can get complicated quickly, but it really depen
 
 If your frugal science project starts small and obscure and stays small and obscure, in practice nobody will really care about your lack of a license. And in countries with a different attitude to intellectual property law than the US and Europe, or communities where intellectual property isn't a relevant everyday concept, choosing a license might not be practically important if there's already a good culture of sharing work (for example, consider the [Jaipur Foot](https://en.wikipedia.org/wiki/Jaipur_leg)).
 
-But know that people who take intellectual property seriously (e.g. companies, open-source projects, and people who are very involved in open source as a movement) will avoid unlicensed work or ask you about your license, and that if you share your work for others to use without a warranty disclaimer (which is something all good licenses have), then people may be legally allowed to sue you for problems with the work.
+But be aware that if you share your work for others to use without a warranty disclaimer (which is something all good licenses have), then people may be legally allowed to sue you for problems with the work. And know that people who take intellectual property seriously (e.g. companies, open-source projects, and people who are very involved in open source as a community) will avoid unlicensed work, or if they are in the open source community they may ask you about your license.
 
-Dealing with licenses may feel like a lot of trouble. If it helps, you can make some basic decisions now and do the bare minimum effort (e.g. putting up a license notice, making sure your license is compatible with the licenses of any work you are using from other people, and being careful about contributions to your project from companies) to save headaches later, and delay making further decisions until your project begins growing more.
+Dealing with licenses may feel like a lot of trouble. If it helps, you can make some basic decisions now and do the bare minimum effort (e.g. adding a license notice, making sure your license is compatible with the licenses of any work you are using from other people, and being careful about contributions to your project from companies) to save headaches later, and delay making further decisions until your project begins growing more.
 
 ## What are noncommercial licenses?
 
@@ -178,7 +182,7 @@ I'd also suggest that your license should be written in plain English so that it
 
 ## What about (question not listed here)?
 
-Please raise this question by adding a comment below, or reaching out to me on Mastodon (details below)! If I can write a general answer, I will add it to this post. But remember that I'm not a lawyer.
+Please ask me this question in the comments box below, or by reaching out to me on Mastodon (details below)! If I can write a general answer, I will add it to this post. But remember that I'm not a lawyer.
 
 Note that posting a comment below requires you to register or log in on a Github account, because this blog's comments are stored there. If you don't already have a Github account, I recommend getting one because it's the largest platform for sharing and working together on open-source projects (especially software and electronics, but also some other hardware).
 
