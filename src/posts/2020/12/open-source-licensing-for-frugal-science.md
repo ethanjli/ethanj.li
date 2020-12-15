@@ -163,11 +163,13 @@ Changing licenses for a project can get complicated quickly, but it really depen
 
 Choosing a license can feel like a commitment, and you have so many other important things to do for your project. If any of the following apply, then you should not delay in choosing a license:
 
-* You are using somebody else's work which was released under a reciprocal license. Then you will need to look at whether you have to release your work under the same license, and whether you want to do that or whether you want to switch away from that reciprocally-licensed work.
+* Your project uses somebody else's work which was released under a reciprocal license. Then you will need to look at whether you have to release your work under the same license, and whether you want to do that or whether you want to switch away replace that work with something else.
 * You are ready to share your work with other people so that they can use it, share it, adapt it, etc.
 
 However, starting a conversation with your team about licensing is a great way to start a broader conversation about your team's values and goals, and what strategies you want to use for building a community around your project. So I recommend at least starting this conversation as early as you can, even if you don't choose a license soon.
 
 ## What about <question not listed here>?
 
-Please raise this question by either reaching out to me on Mastodon or adding a comment below. Note that posting a comment below requires you to register or log in on a Github account - I recommend getting a Github account anyways, because Github is the largest platform for sharing and working together on open-source projects (especially software and electronics, but also some other hardware).
+Please raise this question by adding a comment below, or reaching out to me on Mastodon (details below)! If I can write a general answer, I will add it to this post. But remember that I'm not a lawyer.
+
+Note that posting a comment below requires you to register or log in on a Github account, because this blog's comments are stored there. If you don't already have a Github account, I recommend getting one because it's the largest platform for sharing and working together on open-source projects (especially software and electronics, but also some other hardware).
