@@ -1,0 +1,44 @@
+---
+label: Project
+hide_body: true
+fields:
+- type: text
+  name: title
+  label: title
+- type: text
+  name: subtitle
+  label: subtitle
+- type: textarea
+  name: why
+  label: why
+- type: textarea
+  name: what
+  label: what
+- type: text
+  name: status
+  label: status
+- type: text
+  name: role
+  label: role
+- type: text
+  name: url
+  label: url
+- type: number
+  name: priority
+  label: priority
+- type: field_group_list
+  name: preprints
+  label: preprints
+  fields:
+  - type: text
+    name: description
+    label: description
+  - type: text
+    name: server
+    label: server
+  - type: text
+    name: date
+    label: date
+  - type: text
+    name: url
+    label: url

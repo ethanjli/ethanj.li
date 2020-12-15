@@ -19,7 +19,7 @@ sections:
   label: Projects
   create: all
   match: "**/*.yml"
-  new_doc_ext: ".yml"
+  new_doc_ext: yml
 upload_dir: src/uploads
 public_path: "/uploads"
 front_matter_path: ''
