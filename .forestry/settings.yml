@@ -2,7 +2,7 @@
 new_page_extension: md
 auto_deploy: false
 admin_path: static/admin
-webhook_url: 
+webhook_url: https://webhook.gatsbyjs.com/hooks/data_source/acf7b49d-acbc-495f-bb97-382e23a0a519
 sections:
 - type: directory
   path: src/pages
