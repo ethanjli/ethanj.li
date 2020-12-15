@@ -1,6 +1,6 @@
 ---
-date: 2020-12-18
-draft: true
+date: 2020-12-15
+draft: false
 tags:
 - open source
 - licensing
