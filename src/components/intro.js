@@ -58,13 +58,14 @@ const Intro = () => {
           If you want to chat about any of these topics, you can find me on Mastodon
           as <a href="https://scholar.social/@ethanjli">@ethanjli@scholar.social</a>, or
           you can email me at <a href="mailto:ethanli@stanford.edu">ethanli@stanford.edu</a>.
-          If you want to check out my background or my work, please refer to{' '}
+          If you want to check out my background or my work, please refer to my{' '}
+          <Link to="/projects">Projects page</Link> and{' '}
           <a href={
             'https://docs.google.com/document/d/108EKsWw4GVyhvMiCY9wna' +
             'VAvcOXCppiHDL8jIVvOtcA/edit?usp=sharing'}
           >
             my CV
-          </a> and my <Link to="/projects">Projects page</Link>.
+          </a>.
         </p>
       </SectionHeader>
     </>
