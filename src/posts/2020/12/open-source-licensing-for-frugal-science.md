@@ -26,7 +26,7 @@ This is an introduction to the _why_s and _what_s of open-source licensing for h
 
 Everything here is based on information from various sources and my interpretation of key points from Github's [The Legal Side of Open Source](https://opensource.guide/legal/) and Kyle E. Mitchell's [Open Source: Theory of Operation](https://oss.kemitchell.com/), which are practical guides written for software programmers. Note that I am not a lawyer, this is not legal advice, the documents which informed this background are not legal advice, and I have not run any of this past any lawyers. If you need to make serious legal decisions, you should talk to a real lawyer or at least do a lot more reading and learning.
 
-If you'd prefer to learn by watching a video rather than reading an article, you can watch the recording of a lecture/discussion I did on this topic, for the Fall 2020 offering of the [Frugal Science](https://www.frugalscience.org/) international online course, [on YouTube](https://www.youtube.com/watch?v=skMvQ9aHbg4). This article covers the main points from that recording but also adds some important things which I did not have time to talk about.
+If you'd prefer to learn by watching a video rather than reading an article, you can watch the recording of a lecture/discussion I did on this topic, for the Fall 2020 offering of the [Frugal Science](https://www.frugalscience.org/) international online course, [on YouTube](https://www.youtube.com/watch?v=skMvQ9aHbg4). This article covers the main points from that recording but also adds some important things which I did not have time to talk about, so after watching the video I recommend coming back to this post and skipping to any sections which look relevant to you.
 
 ## What are the key points?
 
@@ -80,7 +80,7 @@ The biggest differences among open-source licenses are in what kinds of work the
 
 The next biggest differences among open-source licenses are in what default requirements they impose for using/sharing/etc. the licensed work.
 
-Some licenses have more requirements, typically ones known as "reciprocal" or "copyleft" terms (e.g. "you also must share your adaptations of our work under the same or a similar license). They have some differences about what situations trigger that condition for sharing, and this is where things get nuanced and complicated very quickly. Examples of licenses:
+Some licenses require that work derived from the licensed work must be shared under the same license or a similar license. These are typically known as "reciprocal" or "copyleft" terms. Reciprocal licenses have some differences about what situations trigger that condition for sharing, and this is where things get nuanced and complicated very quickly. Examples of well-established standard licenses in this category:
 
 * For software: [GPL](https://spdx.org/licenses/GPL-3.0-or-later.html), [LGPL](https://spdx.org/licenses/LGPL-3.0-or-later.html), and [MPL](https://spdx.org/licenses/MPL-2.0.html) are common licenses.
 * For hardware: [CERN-OHL-S](https://spdx.org/licenses/CERN-OHL-S-2.0.html), [CERN-OHL-W](https://spdx.org/licenses/CERN-OHL-W-2.0.html)
@@ -92,11 +92,15 @@ Other licenses have fewer requirements and are called "permissive" (e.g. "do wha
 * For hardware: [CERN-OHL-P](https://spdx.org/licenses/CERN-OHL-P-2.0.html), [SHL](https://spdx.org/licenses/SHL-2.1.html)
 * For media/art/data/etc.: [CC-BY](CC-BY, CC-BY-NC), [CC-BY-NC](https://creativecommons.org/licenses/by-nc/4.0/)
 
-Licenses can be very long and challenging to read, and many use very specific legal terminology so they can try to be as clear to lawyers as possible; unfortunately, this usually means that it's less clear to normal people. Some licenses have a FAQ section or a human-readable summary to help you understand what they are doing (e.g. the Creative Commons licenses). There are some very new, somewhat experimental software licenses written in plain English for everyday people (e.g. the [Blue Oak Model License](https://blueoakcouncil.org/license/1.0.0)), but they are not widely used; and I am not aware of similar licenses for hardware.
+## Why is it so hard to read these licenses?
+
+Some licenses can be very long. Most licenses are written for lawyers and use very technical legal words. Unfortunately, this usually means that it's harder to understand for normal people. This is still an unsolved problem.
+
+Some licenses have a FAQ section or a human-readable summary to help you understand what they are doing (e.g. the Creative Commons licenses). There are also some very new, somewhat experimental software licenses written in plain English for everyday people (e.g. the [Blue Oak Model License](https://blueoakcouncil.org/license/1.0.0)), but they are not widely used; and I am not aware of similar licenses for hardware. I think we need more plain-English licenses if we want to have good licensing options for frugal science projects, and we also need licenses which would be easy to translate across a variety of languages and countries.
 
 ## How are licenses enforced?
 
-Usually enforcement of licenses is done to gain compliance from license violators rather than to collect legal damages for the license violation. In practice, legal enforcement of open-source licenses can be difficult or out-of-reach for community projects. Outside the courts, enforcement can be done by naming license violators as a way of raising the stakes on their community goodwill and reputation. Even so, discovery of license violations may be difficult. Thus, for our projects, the open-source license serves less as a legal hammer to wield against others and more as a strong encouragement of the values and practices we want people to follow if they use/share/etc. our work.
+Usually enforcement of licenses is done to gain compliance from license violators rather than to collect legal damages for the license violation. In practice, legal enforcement of open-source licenses can be difficult or out-of-reach for community projects. Outside the courts, enforcement can be done by naming license violators to point out the risks for their community goodwill and reputation. But for small projects, it may be hard to discover license violations in the first place. So for our projects, the open-source license is useful less as a legal hammer to wield against others and more as a strong encouragement of the values and practices we want people to follow if they use/share/etc. our work.
 
 ## Can we just use Creative Commons for everything?
 
@@ -122,9 +126,20 @@ An easy and accessible resource is Github's [Choose a License](https://chooseali
 
 This where you'll need to dive a bit deeper: unfortunately, I haven't found comprehensive resources which I like yet, and open hardware licensing is still a young area. There are fewer license options, which can be good because it means you don't have to evaluate so many options, or it can be bad if no license does what you want. I plan to share some opinions on open-source hardware licenses in future posts.
 
-## What about licenses which only allow noncommercial use?
+## How long can we delay on choosing a license?
 
-General noncommercial licenses exist for software but are not widely used. I'm not aware of similar licenses for hardware.
+Choosing a license can feel like a commitment, and you have so many other important things to do for your project. If any of the following apply, then you should not delay in choosing a license:
+
+* Your project uses somebody else's work which was released under a reciprocal license. Then you will need to look at whether you have to release your work under the same license, and whether you want to do that or whether you want to switch away replace that work with something else.
+* You are ready to share your work with other people so that they can use it, share it, adapt it, etc.
+
+However, starting a conversation with your team about licensing is a great way to start a broader conversation about your team's values and goals, and what strategies you want to use for building a community around your project. So I recommend at least starting this conversation as early as you can, even if you don't choose a license soon.
+
+## Can change our minds about licenses later?
+
+Changing licenses for a project can get complicated quickly, but it really depends on your project, how much progress it has made, what license you were using, and what license you want to use. Refer to Github's [The Legal Side of Open Source](https://opensource.guide/legal/#what-if-i-want-to-change-the-license-of-my-project) for a discussion.
+
+## What are noncommercial licenses?
 
 If you've seen Creative Commons licenses, you may have seen its "noncommercial" versions [CC-BY-NC](https://creativecommons.org/licenses/by-nc/4.0/) and [CC-BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/), which state that "You may not use the material for commercial purposes", where a "commercial purpose" is defined as one "primarily intended for or directed towards commercial advantage or monetary compensation". The word "primarily" was [intentionally included](https://wiki.creativecommons.org/wiki/NonCommercial_interpretation) to make the licenses flexible, but it also feels a bit ambiguous to me when we're talking about open hardware.
 
@@ -155,21 +170,12 @@ If no licenses meet your needs, you may want to consider writing your own licens
 
 I'd also suggest that your license should be written in plain English so that it is clear and easy for other people to understand without having to rely on a lawyer. Otherwise, you might end up just adding noise into the licensing landscape which makes it harder for people to understand how they can use open hardware projects. Because there aren't enough tools to help you write a good license on your own, you should get review from a lawyer if you write a license or other legal document.
 
-## What if we later change our minds about licenses?
-
-Changing licenses for a project can get complicated quickly, but it really depends on your project, how much progress it has made, what license you were using, and what license you want to use. Refer to Github's [The Legal Side of Open Source](https://opensource.guide/legal/#what-if-i-want-to-change-the-license-of-my-project) for a discussion.
-
-## How long can we delay on choosing a license?
-
-Choosing a license can feel like a commitment, and you have so many other important things to do for your project. If any of the following apply, then you should not delay in choosing a license:
-
-* Your project uses somebody else's work which was released under a reciprocal license. Then you will need to look at whether you have to release your work under the same license, and whether you want to do that or whether you want to switch away replace that work with something else.
-* You are ready to share your work with other people so that they can use it, share it, adapt it, etc.
-
-However, starting a conversation with your team about licensing is a great way to start a broader conversation about your team's values and goals, and what strategies you want to use for building a community around your project. So I recommend at least starting this conversation as early as you can, even if you don't choose a license soon.
-
 ## What about (question not listed here)?
 
 Please raise this question by adding a comment below, or reaching out to me on Mastodon (details below)! If I can write a general answer, I will add it to this post. But remember that I'm not a lawyer.
 
 Note that posting a comment below requires you to register or log in on a Github account, because this blog's comments are stored there. If you don't already have a Github account, I recommend getting one because it's the largest platform for sharing and working together on open-source projects (especially software and electronics, but also some other hardware).
+
+## Acknowledgements
+
+Thanks to the [Fall 2020 Frugal Science](https://www.frugalscience.org/) class for a great discussion which helped me think about what to include in this post!
