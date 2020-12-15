@@ -12,9 +12,13 @@ const Tags = ({ tags }) => (
       {tags.map(tag => (
         <>
           {' '}
-          <Link to={`/tags/${toKebabCase(tag)}`} key={toKebabCase(tag)}>
-            <span className={style.tag}>#{tag}</span>
-          </Link>
+          <span className={style.tag}>
+            <Link to={`/tags/${toKebabCase(tag)}`} key={toKebabCase(tag)}>
+              <span className={style.delimiter}>[</span>
+              #{tag}
+              <span className={style.delimiter}>]</span>
+            </Link>
+          </span>
         </>
       ))}
     </span>

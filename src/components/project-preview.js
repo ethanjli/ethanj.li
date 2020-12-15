@@ -16,13 +16,40 @@ const ProjectPreview = ({
 }) => {
   const links = []
     .concat((papers || []).map(
-      ({ journal, date, url: paperUrl }) => <a href={paperUrl}>paper: {journal}, {date}</a>
+      ({ journal, date, url: paperUrl }) => (
+        <>
+          {' '}
+          <a href={paperUrl}>
+            <span className={style.delimiter}>[</span>
+            paper: {journal}, {date}
+            <span className={style.delimiter}>]</span>
+          </a>
+        </>
+      )
     ))
     .concat((preprints || []).map(
-      ({ server, date, url: preprintUrl }) => <a href={preprintUrl}>preprint: {server}, {date}</a>
+      ({ server, date, url: preprintUrl }) => (
+        <>
+          {' '}
+          <a href={preprintUrl}>
+            <span className={style.delimiter}>[</span>
+            preprint: {server}, {date}
+            <span className={style.delimiter}>]</span>
+          </a>
+        </>
+      )
     ))
     .concat((repos || []).map(
-      ({ name, url: repoUrl }) => <a href={repoUrl}>repo: {name}</a>
+      ({ name, url: repoUrl }) => (
+        <>
+          {' '}
+          <a href={repoUrl}>
+            <span className={style.delimiter}>[</span>
+            repo: {name}
+            <span className={style.delimiter}>]</span>
+          </a>
+        </>
+      )
     ))
   return (
     <div className={style.project}>

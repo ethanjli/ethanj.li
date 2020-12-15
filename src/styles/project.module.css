@@ -37,19 +37,22 @@
 }
 
 .links {
+  font-weight: 700;
+
+  a {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: var(--light-background);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--light-background-secondary);
+  }
 }
 
-.links > a {
-  display: inline-block;
-  padding: 0 0.5rem;
-  margin-right: 0.5rem;
-  text-decoration: none;
-  background-color: var(--accent-color);
-  color: var(--light-background);
-}
-
-.links > a:hover {
-  color: var(--light-background-secondary);
+.delimiter {
+  color: var(--accent-color);
 }
 
 .projectContent {
