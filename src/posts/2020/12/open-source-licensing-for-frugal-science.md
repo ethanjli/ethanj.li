@@ -168,7 +168,7 @@ Choosing a license can feel like a commitment, and you have so many other import
 
 However, starting a conversation with your team about licensing is a great way to start a broader conversation about your team's values and goals, and what strategies you want to use for building a community around your project. So I recommend at least starting this conversation as early as you can, even if you don't choose a license soon.
 
-## What about <question not listed here>?
+## What about (question not listed here)?
 
 Please raise this question by adding a comment below, or reaching out to me on Mastodon (details below)! If I can write a general answer, I will add it to this post. But remember that I'm not a lawyer.
 
