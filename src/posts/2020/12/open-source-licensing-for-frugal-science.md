@@ -96,7 +96,7 @@ Other licenses have fewer requirements and are called "permissive" (e.g. "do wha
 
 Some licenses can be very long. Most licenses are written for lawyers and use very technical legal words. Unfortunately, this usually means that it's harder to understand for normal people. This is still an unsolved problem.
 
-Some licenses have a FAQ section or a human-readable summary to help you understand what they are doing (e.g. the Creative Commons licenses). There are also some very new, somewhat experimental software licenses written in plain English for everyday people (e.g. the [Blue Oak Model License](https://blueoakcouncil.org/license/1.0.0)), but they are not widely used; and I am not aware of similar licenses for hardware. I think we need more plain-English licenses if we want to have good licensing options for frugal science projects, and we also need licenses which would be easy to translate across a variety of languages and countries.
+Some licenses have a FAQ section or a human-readable summary to help you understand what they're doing (e.g. the Creative Commons licenses). There are also some very new, somewhat experimental software licenses written in plain English for everyday people (e.g. the [Blue Oak Model License](https://blueoakcouncil.org/license/1.0.0)), but they're not widely used; and I'm not aware of similar licenses for hardware. I think we need more plain-English licenses if we want to have good licensing options for frugal science projects, and we also need licenses which would be easy to translate across a variety of languages and countries.
 
 ## How are licenses enforced?
 
@@ -104,11 +104,9 @@ Usually enforcement of licenses is done to gain compliance from license violator
 
 ## Can we just use Creative Commons for everything?
 
-This might not do what you think it will do.
+Because open-source hardware licensing is a bit complicated, this may or may not do what you think it will do for hardware. But I would recommend against using Creative Commons for software.
 
-For people who have seen Creative Commons license used elsewhere (e.g. Wikipedia), it may be tempting to just choose a Creative Commons license and move on. For example, out of 35 projects in the Frugal Science course, 7 projects have listed licenses on their project pages, and all 7 are CC-BY-NC-SA for releasing their work so far. I can understand why these projects may have made this decision: most projects have proposed concepts but have not yet reached functional proof-of-concept prototypes with design files to share. However, once projects develop past this stage and want to share full hardware designs, it will be important for them to consider a license which addresses issues specific to sharing hardware designs.
-
-If you are releasing design files for hardware or source code for software under a Creative Commons license, then you are giving other people legal permission/protection to adapt, remix, share, and copy the media you've created (images, text, drawings, documentation, data, etc.), but you are not giving legal permission/protections related to use of the work under patent law, and you are not saying anything about source code. This is probably not what you want. Indeed, Creative Commons [recommends against](https://creativecommons.org/faq/#can-i-apply-a-creative-commons-license-to-software) using a CC license on software.
+For people who have seen Creative Commons license used elsewhere (e.g. Wikipedia), it may be tempting to just choose a Creative Commons license and move on. For example, out of 35 projects in the Frugal Science course, 7 projects have listed licenses on their project pages, and all 7 are CC-BY-NC-SA for releasing their work so far. I can understand why these projects may have made this decision: most projects have proposed concepts but have not yet reached functional proof-of-concept prototypes with design files to share. However, once projects develop past this stage and want to share full hardware designs, I strongly recommend comparing Creative Commons licenses with licenses designed to address various issues specific to hardware. If your project includes software, you should review the reasons Creative Commons [recommends against](https://creativecommons.org/faq/#can-i-apply-a-creative-commons-license-to-software) using a CC license on software, and make an informed decision with that in mind.
 
 ## How do we choose a license?
 
@@ -149,7 +147,7 @@ If your frugal science project starts small and obscure and stays small and obsc
 
 But be aware that if you share your work for others to use without a warranty disclaimer (which is something all good licenses have), then people may be legally allowed to sue you for problems with the work. And know that people who take intellectual property seriously (e.g. companies, open-source projects, and people who are very involved in open source as a community) will avoid unlicensed work, or if they are in the open source community they may ask you about your license.
 
-Dealing with licenses may feel like a lot of trouble. If it helps, you can make some basic decisions now and do the bare minimum effort (e.g. adding a license notice, making sure your license is compatible with the licenses of any work you are using from other people, and being careful about contributions to your project from companies) to save headaches later, and delay making further decisions until your project begins growing more.
+Dealing with licenses may feel like a lot of trouble. If it helps, you can make some basic decisions now and do the bare minimum effort (e.g. adding a license notice, making sure your license is compatible with the licenses of any work you're using from other people, and being careful about contributions to your project from companies) to save headaches later, and delay making further decisions until your project begins growing more.
 
 ## What are noncommercial licenses?
 
@@ -178,7 +176,7 @@ If no licenses meet your needs, you may want to consider writing your own licens
 * Kyle E. Mitchell's breakdowns of the [MIT license](https://writing.kemitchell.com/2016/09/21/MIT-License-Line-by-Line.html), [CERN-OHL-S](https://writing.kemitchell.com/2020/04/01/CERN-OHL-S-2.0.html), [Medtronic's license for its PB560 ventilator](https://writing.kemitchell.com/2020/03/31/Medtronic-Ventilator-License.html), the [Sharetribe Community Public License](https://writing.kemitchell.com/2020/04/04/Sharetribe-1.0.html), and the [Fair Source License](https://writing.kemitchell.com/2016/03/30/First-Read-of-the-Fair-Source-License.html); and his reflections on [writing statements of purpose in legal drafting](https://writing.kemitchell.com/2019/01/10/Discipline-Stated-Purpose.html).
 * The Blue Oak Council's [announcement of the Blue Oak Model License](https://blueoakcouncil.org/2019/03/06/model.html).
 
-I'd also suggest that your license should be written in plain English so that it is clear and easy for other people to understand without having to rely on a lawyer. Otherwise, you might end up just adding noise into the licensing landscape which makes it harder for people to understand how they can use open hardware projects. Because there aren't enough tools to help you write a good license on your own, you should get review from a lawyer if you write a license or other legal document.
+I'd also suggest that your license should be written in plain English so that it's clear and easy for other people to understand without having to rely on a lawyer. Otherwise, you might end up just adding noise into the licensing landscape which makes it harder for people to understand how they can use open hardware projects. Because there aren't enough tools to help you write a good license on your own, you should get review from a lawyer if you write a license or other legal document.
 
 ## What about (question not listed here)?
 
