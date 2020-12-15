@@ -32,3 +32,5 @@ fields:
 - type: file
   name: coverImage
   label: coverImage
+pages:
+- src/posts/2020/12/open-source-licensing-for-frugal-science.md
