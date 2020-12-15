@@ -47,13 +47,13 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `uploads`,
-        path: `${__dirname}/src/uploads`,
-      },
-    },
+    // {
+    //   resolve: `gatsby-source-filesystem`,
+    //   options: {
+    //     name: `uploads`,
+    //     path: `${__dirname}/src/uploads`,
+    //   },
+    // },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -79,6 +79,17 @@ module.exports = {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
+          {
+            resolve: `gatsby-remark-table-of-contents`,
+            options: {
+              exclude: 'Table of Contents',
+              tight: true,
+              ordered: false,
+              fromHeading: 2,
+              toHeading: 4,
+              className: 'tableOfContents',
+            },
+          },
           `gatsby-remark-autolink-headers`,
           `gatsby-remark-responsive-iframe`,
           {

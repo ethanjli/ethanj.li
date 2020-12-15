@@ -5,10 +5,16 @@ tags:
 - open source
 - explainer
 title: Open-source licensing for frugal science
-excerpt: a brief FAQ-style introduction in plain English
+excerpt: a practical FAQ-style introduction in plain English
 coverImage: ''
 
 ---
+## Table of Contents
+
+```toc
+to-heading: 2
+```
+
 ## What is this article?
 
 This is an introduction to the _why_s and _what_s of open-source licensing for hardware projects. This guide is written for you if:
@@ -87,6 +93,10 @@ Other licenses have fewer requirements and are called "permissive" (e.g. "do wha
 
 Licenses can be very long and challenging to read, and many use very specific legal terminology so they can try to be as clear to lawyers as possible; unfortunately, this usually means that it's less clear to normal people. Some licenses have a FAQ section or a human-readable summary to help you understand what they are doing (e.g. the Creative Commons licenses). There are some very new, somewhat experimental software licenses written in plain English for everyday people (e.g. the [Blue Oak Model License](https://blueoakcouncil.org/license/1.0.0)), but they are not widely used; and I am not aware of similar licenses for hardware.
 
+## How are licenses enforced?
+
+Usually enforcement of licenses is done to gain compliance from license violators rather than to collect legal damages for the license violation. In practice, legal enforcement of open-source licenses can be difficult or infeasible for community projects. Outside the courts, enforcement can be done by naming license violators as a way of raising the stakes on their community goodwill and reputation. Even so, discovery of license violations may be difficult. Thus, for our projects, the open-source license serves less as a legal hammer to wield against others and more as a strong encouragement of the values and practices we want people to follow if they use/share/etc. our work.
+
 ## Can we just use Creative Commons for everything?
 
 This might not do what you think it will do.
@@ -94,12 +104,6 @@ This might not do what you think it will do.
 For people who have seen Creative Commons license used elsewhere (e.g. Wikipedia), it may be tempting to just choose a Creative Commons license and move on. For example, out of 35 projects in the Frugal Science course, 7 projects have listed licenses on their project pages, and all 7 chose a Creative Commons license for releasing their work. I can understand why these projects may have made this decision: most projects have proposed concepts but have not yet reached functional proof-of-concept prototypes with design files to share. However, once projects develop past this stage and want to share full hardware designs, it will be important for them to consider a license which addresses issues specific to sharing hardware designs.
 
 If you are releasing design files for hardware or source code for software under a Creative Commons license, then you are giving other people legal permission/protection to adapt, remix, share, and copy the media you've created (images, text, drawings, documentation, data, etc.), but you are not giving legal permission/protections related to use under patent law and you are not saying anything about source code. This is probably the opposite of what you want. Indeed, Creative Commons [recommends against](https://creativecommons.org/faq/#can-i-apply-a-creative-commons-license-to-software) using a CC license on software.
-
-## How are licenses enforced?
-
-Usually enforcement of licenses is done to gain compliance from license violators rather than to collect legal damages for the license violation. In practice, legal enforcement of open-source licenses can be difficult or infeasible for community projects. Outside the courts, enforcement can be done by naming license violators as a way of raising the stakes on their community goodwill and reputation. Even so, discovery of license violations may be difficult. Thus, for our projects, the open-source license serves less as a legal hammer to wield against others and more as a strong encouragement of the values and practices we want people to follow if they use/share/etc. our work.
-
-## Are there licenses for non-commercial use?
 
 ## Can we write our own license?
 
@@ -109,10 +113,10 @@ If no licenses meet your needs, you may want to consider writing your own licens
 
 * Andrew Katz's [Towards a Functional Licence for Open Hardware](https://www.jolts.world/index.php/jolts/article/view/69/131), which explains his motivations for drafting the Solderpad Hardware License.
 * Myriam Ayass, Andrew Katz, and Javier Serrano's [introduction and explanation for drafting the CERN-OHL v2 licenses](https://ohwr.org/project/cernohl/wikis/uploads/0be6f561d2b4a686c5765c74be32daf9/CERN_OHL_rationale.pdf)
-* Kyle E. Mitchell's breakdowns of the [MIT license](https://writing.kemitchell.com/2016/09/21/MIT-License-Line-by-Line.html), [CERN-OHL-S](https://writing.kemitchell.com/2020/04/01/CERN-OHL-S-2.0.html), [Medtronic's license for its PB560 ventilator](https://writing.kemitchell.com/2020/03/31/Medtronic-Ventilator-License.html), the [Sharetribe Community Public License](https://writing.kemitchell.com/2020/04/04/Sharetribe-1.0.html), and the [Fair Source License](https://writing.kemitchell.com/2016/03/30/First-Read-of-the-Fair-Source-License.html); and his reflections on [writing statements of purpose](https://writing.kemitchell.com/2019/01/10/Discipline-Stated-Purpose.html)
-* The Blue Oak Council's [announcement of the Blue Oak Model License](https://blueoakcouncil.org/2019/03/06/model.html)
+* Kyle E. Mitchell's breakdowns of the [MIT license](https://writing.kemitchell.com/2016/09/21/MIT-License-Line-by-Line.html), [CERN-OHL-S](https://writing.kemitchell.com/2020/04/01/CERN-OHL-S-2.0.html), [Medtronic's license for its PB560 ventilator](https://writing.kemitchell.com/2020/03/31/Medtronic-Ventilator-License.html), the [Sharetribe Community Public License](https://writing.kemitchell.com/2020/04/04/Sharetribe-1.0.html), and the [Fair Source License](https://writing.kemitchell.com/2016/03/30/First-Read-of-the-Fair-Source-License.html); and his reflections on [writing statements of purpose in legal drafting](https://writing.kemitchell.com/2019/01/10/Discipline-Stated-Purpose.html).
+* The Blue Oak Council's [announcement of the Blue Oak Model License](https://blueoakcouncil.org/2019/03/06/model.html).
 
-I would also suggest that your license should be written in plain English so that it is clear and easy for other people to understand. Otherwise, you might end up just adding noise which makes it harder for people to understand how they can use open hardware projects. Because there aren't enough tools to help you write a good license, you should get review from a lawyer if you do write a license or other legal document.
+I would also suggest that your license should be written in plain English so that it is clear and easy for other people to understand. Otherwise, you might end up just adding noise into the licensing landscape which makes it harder for people to understand how they can use open hardware projects. Because there aren't enough tools to help you write a good license, you should get review from a lawyer if you do write a license or other legal document.
 
 ## How do we choose a license?
 
@@ -128,8 +132,22 @@ An easy and accessible resource is Github's [Choose a License](https://chooseali
 
 ### Hardware
 
-This where you'll need to dive a bit deeper: unfortunately, there aren't comprehensive resources yet, and open hardware licensing is still a relatively new area. I plan to share some opinions on specific open hardware licenses in future posts.
+This where you'll need to dive a bit deeper: unfortunately, I haven't found comprehensive resources which I like yet, and open hardware licensing is still a young area. There are fewer license options, which can be good because it means you don't have to evaluate so many options, or it can be bad if no license does what you want. I plan to share some opinions on open-source hardware licenses in future posts.
 
-## What if we change our minds later?
+## What about licenses which only allow non-commercial use?
 
-This gets really complicated really quickly. Refer to Github's [The Legal Side of Open Source](https://opensource.guide/legal/#what-if-i-want-to-change-the-license-of-my-project) for a discussion.
+If you've seen Creative Commons licenses, you may have come across its "non-commercial" versions [CC-BY-NC](https://creativecommons.org/licenses/by-nc/4.0/) and [CC-BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/), which state that "You may not use the material for commercial purposes", where a "commercial purpose" is defined as one "primarily intended for or directed towards commercial advantage or monetary compensation". The word "primarily" was [intentionally included](https://wiki.creativecommons.org/wiki/NonCommercial_interpretation) to make this flexible, but it also feels a bit ambiguous to me when we're talking about open hardware. For example, if a person with a 3-D printer prints a design as part of a COVID-19 response, and accepts money just to cover the cost of filament but not to make a profit, is that primarily intended for monetary compensation, or is it primarily intended for COVID-19 response? I think there's some legal ambiguity here and I personally would argue that this scenario is fine; but as [Andre Maia Chagas](https://amchagas.github.io/) described to me in an email discussion, the [Glia project](https://glia.org/) faced barriers to distributing non-commercial-licensed Prusa face shields to hospitals in Canada for this exact issue, and they had to create a new design as a workaround, which wasted precious time. So it's important to think about what your priorities are for licensing, and also to be aware of how ambiguous license text (whether intentional or unintentional) may help or hinder your goals.
+
+While general noncommercial licenses exist for software, I am not aware of any for hardware.
+
+If your concern is about your work being taken and used by a corporation without giving back to the community, you could consider using a reciprocal license instead of a noncommercial license, e.g. the Mozilla Foundation's use of the [Mozilla Public License](https://www.mozilla.org/en-US/MPL/), Qt's use of [dual-licensing under GPL and commercial licenses](https://www.qt.io/licensing/), or MongoDB's use of the [Server Side Public License](https://www.mongodb.com/licensing/server-side-public-license).
+
+## Do non-commercial licenses count as open-source licenses?
+
+In the open-source software world, a techno-libertarian tendency has decided that open-source cannot include non-commercial licenses, and that open-source cannot include licenses with conditions against unethical use of software; this is vocally policed by the [Open Source Initiative](https://opensource.org/osd). Their definition is also the basis for the Open Source Hardware Association's [definition of open-source hardware](https://www.oshwa.org/definition/). If you use a non-commercial license for your work and call it open-source, you will get criticism for not respecting those definitions; it's up to you what you want to do with those definitions. Note that non-commercial software licenses don't call themselves open-souce or open, either (e.g. [PolyForm](https://polyformproject.org/what-is-polyform/)).
+
+Personally, I think the pragmatic questions of how people might interpret noncommercial terms of a license, and how that might affect whether they think they can use the licensed work, are more practically relevant for hardware than the gatekeeping around how people use or understand a phrase ("open-source") which is ultimately about industry branding and marketing.
+
+## What if we later change our minds about licenses?
+
+Changing licenses for a project can get really complicated really quickly, but it really depends on your project and how much progress it has made. Refer to Github's [The Legal Side of Open Source](https://opensource.guide/legal/#what-if-i-want-to-change-the-license-of-my-project) for a discussion.

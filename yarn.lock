@@ -7915,6 +7915,14 @@ gatsby-remark-responsive-iframe@^2.7.0:
     lodash "^4.17.20"
     unist-util-visit "^1.4.1"
 
+gatsby-remark-table-of-contents@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/gatsby-remark-table-of-contents/-/gatsby-remark-table-of-contents-1.0.0.tgz#c59221f6dfc3c17e4041d5a36feaf0fb8d7cc0f7"
+  integrity sha512-Ku8PXV8V1TOLDIhxd/ajq0JD/9/a17KSABpkZGBiV922pxyBWoso+6h+y6dzURfvbajw4YeCAQdpsa5s5M4Aqg==
+  dependencies:
+    js-yaml "^3.14.1"
+    mdast-util-toc "^5.1.0"
+
 gatsby-source-filesystem@^2.0.8:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-2.7.0.tgz#09da0ecfb85a6527858029d38b7bc2c68c9a91a3"
@@ -10290,7 +10298,7 @@ js-tokens@^3.0.2:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
   integrity sha1-mGbfOVECEw449/mWvOtlRDIJwls=
 
-js-yaml@^3.11.0, js-yaml@^3.13.0, js-yaml@^3.13.1, js-yaml@^3.14.0:
+js-yaml@^3.11.0, js-yaml@^3.13.0, js-yaml@^3.13.1, js-yaml@^3.14.0, js-yaml@^3.14.1:
   version "3.14.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.14.1.tgz#dae812fdb3825fa306609a8717383c50c36a0537"
   integrity sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g==
@@ -11090,7 +11098,7 @@ mdast-util-toc@^3.1.0:
     unist-util-is "^2.1.2"
     unist-util-visit "^1.1.0"
 
-mdast-util-toc@^5.0:
+mdast-util-toc@^5.0, mdast-util-toc@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/mdast-util-toc/-/mdast-util-toc-5.1.0.tgz#3af0f9c9a764b993538af03f1f79f4e3cec22736"
   integrity sha512-csimbRIVkiqc+PpFeKDGQ/Ck2N4f9FYH3zzBMMJzcxoKL8m+cM0n94xXm0I9eaxHnKdY9n145SGTdyJC7i273g==
