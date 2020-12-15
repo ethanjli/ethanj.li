@@ -77,7 +77,10 @@ Index.propTypes = {
 export const postsPreviewQuery = graphql`
   query {
     allMarkdownRemark(
-      filter: { fields: { type: { eq: "posts" } } }
+      filter: { fields: {
+        type: { eq: "posts" }
+        draft: { eq: false }
+      } }
       sort: { fields: [frontmatter___date], order: DESC }
       limit: 3
     ) {
