@@ -159,7 +159,7 @@ I'd also suggest that your license should be written in plain English so that it
 
 Changing licenses for a project can get complicated quickly, but it really depends on your project, how much progress it has made, what license you were using, and what license you want to use. Refer to Github's [The Legal Side of Open Source](https://opensource.guide/legal/#what-if-i-want-to-change-the-license-of-my-project) for a discussion.
 
-## How long can I delay on choosing a license?
+## How long can we delay on choosing a license?
 
 Choosing a license can feel like a commitment, and you have so many other important things to do for your project. If any of the following apply, then you should not delay in choosing a license:
 
