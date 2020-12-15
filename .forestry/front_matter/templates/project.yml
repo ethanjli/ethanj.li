@@ -14,11 +14,35 @@ fields:
 - type: textarea
   name: what
   label: what
-- type: text
-  name: status
+- name: status
+  type: select
+  default: []
+  config:
+    required: false
+    options:
+    - production
+    - preview
+    - prototype
+    source:
+      type: simple
+      section: 
+      file: 
+      path: 
   label: status
-- type: text
-  name: role
+- name: role
+  type: select
+  default: []
+  config:
+    required: false
+    options:
+    - lead maintainer
+    - maintainer
+    - contributor
+    source:
+      type: simple
+      section: 
+      file: 
+      path: 
   label: role
 - type: text
   name: url
@@ -42,3 +66,49 @@ fields:
   - type: text
     name: url
     label: url
+- name: papers
+  type: field_group_list
+  fields:
+  - name: description
+    type: text
+    config:
+      required: false
+    label: description
+  - name: journal
+    type: text
+    config:
+      required: false
+    label: journal
+  - name: date
+    type: text
+    config:
+      required: false
+    label: date
+  - name: url
+    type: text
+    config:
+      required: false
+    label: url
+  config:
+    min: 
+    max: 
+    labelField: 
+  label: papers
+- name: websites
+  type: field_group_list
+  fields:
+  - name: name
+    type: text
+    config:
+      required: false
+    label: name
+  - name: url
+    type: text
+    config:
+      required: false
+    label: url
+  config:
+    min: 
+    max: 
+    labelField: 
+  label: websites
