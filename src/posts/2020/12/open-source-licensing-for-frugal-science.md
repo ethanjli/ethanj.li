@@ -19,8 +19,8 @@ to-heading: 2
 
 This is an introduction to the _why_s and _what_s of open-source licensing for hardware projects. This guide is written for you if:
 
-1. you are working on a project involving hardware, especially open science hardware, and you want to share it,
-2. you do not know much about open-source, and
+1. you're working on a project involving hardware, especially frugal science hardware, and you want to share it,
+2. you don't know much about open-source, and
 3. you want a simplified "just the basics" understanding of what questions to ask when making decisions about how to share your work.
 
 Everything here is based on information from various sources and my interpretation of key points from Github's [The Legal Side of Open Source](https://opensource.guide/legal/) and Kyle E. Mitchell's [Open Source: Theory of Operation](https://oss.kemitchell.com/), which are practical guides written for software programmers. Note that I am not a lawyer, this is not legal advice, the documents which informed this background are not legal advice, and I have not run any of this past any lawyers. If you need to make serious legal decisions, you should talk to a real lawyer or at least do a lot more reading and learning.
@@ -34,7 +34,7 @@ Open-source licensing is a kind of tool you can use to help support your project
 1. What kinds of work they cover: some licenses (such [Creative Commons](https://creativecommons.org/)) give permission to people to copy and adapt media and data and documents but do not give any permission related to using, adapting, and sharing software or hardware. Some licenses (such as [MIT](https://spdx.org/licenses/MIT.html) and [GPL](https://www.gnu.org/licenses/gpl-3.0.en.html)) give permissions related to software but not to hardware. And some licenses (such as [CERN OHL](https://ohwr.org/project/cernohl/wikis/Documents/CERN-OHL-version-2)) give permissions related to hardware but not to software.
 2. What kinds of conditions they place: some licenses (which we call "reciprocal", but you might also see the terms "copyleft" or "share-alike") require that any adaptations of the released work also need to be shared under the same license or a similar license. Other licenses (which we call "permissive") do not have this condition.
 
-Companies with money for lawyers can try to enforce licenses by suing other companies who have violated the license. Community projects usually don't have the resources. Instead, they may choose a license to express and implement their goals, and they may try to build social and cultural norms in the community to encourage people to respect the license.
+Companies with money for lawyers can try to enforce licenses by suing other companies who have violated the license. Community projects usually don't have the resources to do that. Instead, they may choose a license to express and implement their goals, and they may try to build social and cultural norms in the community to encourage people to respect the license.
 
 You should choose a license to share your work, so that other people know they can use it legally. If a standard open-source license written by a lawyer does what you want, you should use it; otherwise, you should have a good understanding of how past licenses have been written and what are the important things needed to write a license which other people can easily interpret and follow.
 
@@ -50,7 +50,7 @@ Most projects will have most or all of the following goals:
 
 1. Not getting sued
 2. Making an impact
-3. Sustaining the project
+3. Keeping the project 
 4. Receiving credit for the work
 
 Additionally, many community projects will have the following goals:
