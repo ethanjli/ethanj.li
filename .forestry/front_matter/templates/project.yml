@@ -5,20 +5,28 @@ fields:
 - type: text
   name: title
   label: title
+  config:
+    required: true
 - type: text
   name: subtitle
   label: subtitle
+  config:
+    required: true
 - type: textarea
   name: why
   label: why
+  config:
+    required: true
 - type: textarea
   name: what
   label: what
+  config:
+    required: true
 - name: status
   type: select
-  default: []
+  default: prototype
   config:
-    required: false
+    required: true
     options:
     - production
     - preview
@@ -31,9 +39,9 @@ fields:
   label: status
 - name: role
   type: select
-  default: []
+  default: contributor
   config:
-    required: false
+    required: true
     options:
     - lead maintainer
     - maintainer
@@ -47,9 +55,14 @@ fields:
 - type: text
   name: url
   label: url
+  config:
+    required: true
 - type: number
   name: priority
   label: priority
+  config:
+    required: true
+  default: 0
 - type: field_group_list
   name: preprints
   label: preprints
@@ -60,12 +73,18 @@ fields:
   - type: text
     name: server
     label: server
+    config:
+      required: true
   - type: text
     name: date
     label: date
+    config:
+      required: true
   - type: text
     name: url
     label: url
+    config:
+      required: true
 - name: papers
   type: field_group_list
   fields:
@@ -77,17 +96,17 @@ fields:
   - name: journal
     type: text
     config:
-      required: false
+      required: true
     label: journal
   - name: date
     type: text
     config:
-      required: false
+      required: true
     label: date
   - name: url
     type: text
     config:
-      required: false
+      required: true
     label: url
   config:
     min: 
@@ -100,12 +119,13 @@ fields:
   - name: name
     type: text
     config:
-      required: false
+      required: true
     label: name
+    default: main
   - name: url
     type: text
     config:
-      required: false
+      required: true
     label: url
   config:
     min: 
