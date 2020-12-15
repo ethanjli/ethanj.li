@@ -4,16 +4,12 @@ import { graphql } from 'gatsby'
 
 import SEO from '../components/seo'
 import Layout from '../components/layout'
-import SectionHeader from '../components/section-header'
-import ProjectPreview from '../components/project-preview'
+import ProjectsSection from '../components/projects-section'
 
 const Projects = ({ data }) => {
   const {
     allProjectsYaml: { edges },
   } = data
-
-  const projectsPreview = edges.filter(({ node }) => node.status === 'preview')
-  const projectsPrototype = edges.filter(({ node }) => node.status === 'prototype')
 
   return (
     <>
@@ -21,57 +17,21 @@ const Projects = ({ data }) => {
         <SEO title="Projects" description="Ongoing and past projects." />
         <div className="content">
           <div className="innerContent">
-            <SectionHeader
+            <ProjectsSection
               title="Preview"
               description="These projects have been announced in papers, preprints,
               and/or websites. They require significant work in technical development
               and/or documentation before they will be ready for broad use."
+              status="preview"
+              edges={edges}
             />
-            {projectsPreview.map(({ node }) => {
-              const {
-                title,
-                subtitle,
-                description,
-                role,
-                // repos,
-                // preprints,
-                // websites,
-              } = node
-
-              return (
-                <ProjectPreview
-                  title={title}
-                  subtitle={subtitle}
-                  role={role}
-                  description={description}
-                />
-              )
-            })}
-            <SectionHeader
+            <ProjectsSection
               title="Prototype"
               description="These projects are proofs-of-concept and require further development
               before they will be ready for reuse."
+              status="prototype"
+              edges={edges}
             />
-            {projectsPrototype.map(({ node }) => {
-              const {
-                title,
-                subtitle,
-                description,
-                role,
-                // repos,
-                // preprints,
-                // websites,
-              } = node
-
-              return (
-                <ProjectPreview
-                  title={title}
-                  subtitle={subtitle}
-                  role={role}
-                  description={description}
-                />
-              )
-            })}
           </div>
         </div>
       </Layout>
@@ -85,14 +45,19 @@ Projects.propTypes = {
 
 export const postsQuery = graphql`
   query {
-    allProjectsYaml {
+    allProjectsYaml(sort: {
+      fields: [priority],
+      order: [DESC]
+    }) {
       edges {
         node {
           title
           subtitle
-          description
+          why
+          what
           status
           role
+          url
           repos {
             name
             url
@@ -103,8 +68,10 @@ export const postsQuery = graphql`
             date
             url
           }
-          websites {
-            name
+          papers {
+            description
+            journal
+            date
             url
           }
         }

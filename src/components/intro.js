@@ -45,15 +45,14 @@ const Intro = () => {
           >
             Open-source medical devices towards global health equity: invention,
             development, and implementation
-          </a>. The medical device industry is unable to make accessible, affordable,
-          and appropriate technologies at the scales needed by the >6 billion people outside
-          wealthy areas of wealthy countries. So I'm studying challenges and strategies for
-          how platforms and communities might be built to support international cooperative
-          production of medical devices appropriate for local settings. There are many
-          exciting questions in this area, including sustainability, governance,
-          ethics, regulations, and standardization. For my thesis, I'm focusing on
-          three key technical and organizational questions:
-          scalability, clinical efficacy, and safety.
+          </a>. The global medical device industry does not &ndash; and will not &ndash; make
+          accessible, affordable, and appropriate technologies at the scales needed by the
+          >6 billion people outside wealthy areas of wealthy countries. So I'm studying
+          strategies for how platforms and international communities might be built to
+          support cooperative development of locally-appropriate medical devices.
+          There are many exciting questions in this area, including sustainability, governance,
+          ethics, and standardization. For my thesis, I'm focusing on three key
+          questions: scalability, clinical efficacy, and safety.
         </p>
         <p>
           If you want to chat about any of these topics, you can find me on Mastodon

@@ -17,7 +17,7 @@ const PostPreview = ({
 }) => (
   <div className={style.post}>
     <div className={style.postContent}>
-      {excerpt && <h1 className={style.title}><Link to={path}>{title}</Link></h1>}
+      <h1 className={style.title}><Link to={path}>{title}</Link></h1>
       <div className={style.meta}>
         <span className={style.date}>{date}</span> <Tags tags={tags} />
         {excerpt && (<p className={style.excerpt}>{excerpt}</p>)}
