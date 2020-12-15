@@ -85,7 +85,7 @@ Other licenses have fewer requirements and are called "permissive" (e.g. "do wha
 * For hardware: [CERN-OHL-P](https://spdx.org/licenses/CERN-OHL-P-2.0.html), [SHL](https://spdx.org/licenses/SHL-2.1.html)
 * For media/art/data/etc.: [CC-BY](CC-BY, CC-BY-NC), [CC-BY-NC](https://creativecommons.org/licenses/by-nc/4.0/)
 
-Licenses can be very long and challenging to read, and many use very specific legal terminology so they can try to be as clear to lawyers as possible; unfortunately, this usually means that it's less clear to normal people. Some licenses have a FAQ section or a human-readable summary to help you understand what they are doing (e.g. the Creative Commons licenses). 
+Licenses can be very long and challenging to read, and many use very specific legal terminology so they can try to be as clear to lawyers as possible; unfortunately, this usually means that it's less clear to normal people. Some licenses have a FAQ section or a human-readable summary to help you understand what they are doing (e.g. the Creative Commons licenses). There are some very new, somewhat experimental software licenses written in plain English for everyday people (e.g. the [Blue Oak Model License](https://blueoakcouncil.org/license/1.0.0)), but they are not widely used; and I am not aware of similar licenses for hardware.
 
 ## Can we just use Creative Commons for everything?
 
@@ -118,7 +118,9 @@ I would also suggest that your license should be written in plain English so tha
 
 The first thing you will need to do is look at any third-party works you will be using (e.g. software libraries, or hardware designs) in your work, and look at what licenses they have. The license you choose will need to be compatible with their licenses - so, for example, you cannot use a GPL-licensed software library and release your project under a permissive license like Apache, although you can use an Apache-licensed software library and release your project under a reciprocal license like GPL.
 
-Next, you will need to prioritize your project's goals and values and the situation your project is responding to. Different licenses will make sense for different goals and values and situations. The project's highest-priority goals and values should guide what license you choose. It may be helpful to think through some hypothetical scenarios to see how you feel about them (e.g. "if a company wants to use our work, what do we want to happen?").
+Next, you will need to prioritize your project's goals and values and the situation your project is responding to. Different licenses will make sense for different goals and values and situations. The project's highest-priority goals and values should guide what license you choose. It may be helpful to think through some hypothetical scenarios to see how you feel about them (e.g. "if a company wants to use our work, what do we want to happen?"), as well as to write out the purpose of your licensing strategy, independent of whichever license(s) you choose.
+
+Then you will need to look at the available choices to see which ones fit with your priorities. There probably won't be a perfect fit, but hopefully there is one which meets all your top priorities and some of your lower priorities. You might find useful [this comparison I did of hardware and hardware licenses](-), where I tabulated all the messy details about what makes each license different; I created this to identify a set of choices of license combinations for the [Pufferfish ventilator project](https://www.pez-globo.org/) to choose between.
 
 ### Software
 
@@ -126,7 +128,7 @@ An easy and accessible resource is Github's [Choose a License](https://chooseali
 
 ### Hardware
 
-This where you'll need to dive a bit deeper: unfortunately, there aren't comprehensive resources yet, and open hardware licensing is still a relatively new area. I plan to share some thoughts on specific open hardware licenses in future posts.
+This where you'll need to dive a bit deeper: unfortunately, there aren't comprehensive resources yet, and open hardware licensing is still a relatively new area. I plan to share some opinions on specific open hardware licenses in future posts.
 
 ## What if we change our minds later?
 
