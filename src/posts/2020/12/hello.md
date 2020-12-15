@@ -3,7 +3,7 @@ title: "Hello Friend"
 date: "2020-12-15"
 excerpt: '"Hello, friend?" That''s lame. Maybe I should give you a name...'
 tags: ["rob____ot", "hello friend"]
-coverImage: "/2020/12/hello.jpg"
+coverImage: "/uploads/2020/12/hello.jpg"
 ---
 
 > "Hello, friend?" That's lame. Maybe I should give you a name...\
@@ -16,7 +16,9 @@ coverImage: "/2020/12/hello.jpg"
 >
 > **— Mr. Robot S01E01**
 
-![Hello, world!](/2020/12/hello.jpg)
+![Hello, world!](/uploads/2020/12/hello.jpg)
+
+![header](/images/header-backgrounds/blog.jpg)
 
 <img src="/2020/12/hello.jpg" />
 
