@@ -7,10 +7,6 @@
   h1 {
     margin: 0 0 10px;
   }
-
-  img {
-    border-radius: 8px;
-  }
 }
 
 .title {
@@ -23,7 +19,6 @@
 }
 
 .coverImage {
-  border-radius: 8px;
   margin: 1rem 0;
 }
 

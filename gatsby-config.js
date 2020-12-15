@@ -89,6 +89,13 @@ module.exports = {
             },
           },
           {
+            resolve: `gatsby-remark-relative-images`,
+            options: {
+              staticFolderName: `uploads`,
+              include: ['coverImage'],
+            },
+          },
+          {
             resolve: `gatsby-remark-images`,
             options: {
               maxWidth: 800,
