@@ -31,7 +31,9 @@ const Tags = ({ data }) => {
               {group.map(tag => (
                 <li key={toKebabCase(tag.fieldValue)}>
                   <Link className={style.tag} to={`/tags/${toKebabCase(tag.fieldValue)}`}>
-                    {tag.fieldValue}
+                    <span className={style.delimiter}>[</span>
+                    #{tag.fieldValue}
+                    <span className={style.delimiter}>]</span>
                   </Link> ({tag.totalCount} posts)
                 </li>
               ))}
@@ -50,10 +52,12 @@ Tags.propTypes = {
 export const postsQuery = graphql`
   query {
     allMarkdownRemark(
-      filter: { fields: {
-        type: { eq: "posts" }
-        draft: { eq: false }
-      } }
+      filter: {
+        fields: {
+          type: { eq: "posts" }
+          draft: { eq: false }
+        }
+      }
     ) {
       group(field: frontmatter___tags) {
         fieldValue

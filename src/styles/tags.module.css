@@ -24,3 +24,19 @@
 .delimiter {
   color: var(--accent-color);
 }
+
+.tagList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1.25rem;
+
+  li {
+    margin: 2rem 0;
+  }
+
+  a {
+    font-weight: 700;
+    text-decoration: none;
+  }
+}
