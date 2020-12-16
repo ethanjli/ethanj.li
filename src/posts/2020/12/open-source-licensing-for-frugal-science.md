@@ -196,4 +196,4 @@ Note that posting a comment below requires you to register or log in on a Github
 
 ## Acknowledgements
 
-Thanks to the [Fall 2020 Frugal Science](https://www.frugalscience.org/) class for a great discussion which helped me think about what to include in this post! Thanks also to [Andre Maia Chagas](https://amchagas.github.io/) for valuable information about problems people have encountered with noncommercial licenses.
+Thanks to the [Fall 2020 Frugal Science](https://www.frugalscience.org/) class for a great discussion which helped me think about what to include in this post! Thanks also to [Andre Maia Chagas](https://amchagas.github.io/) for valuable information about the problems which the Glia project encountered with noncommercial licensing.
