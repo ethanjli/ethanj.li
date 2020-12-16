@@ -145,7 +145,7 @@ Even if these don't apply to you, starting a conversation with your team about l
 
 Changing licenses for a project can get complicated quickly, but it really depends on your project, how much progress it has made, what license you were using, what license you want to use, and how your project has gotten contributions from people. Refer to Github's [The Legal Side of Open Source](https://opensource.guide/legal/#what-if-i-want-to-change-the-license-of-my-project) for a discussion.
 
-## Can we just _not_ use a license?
+## Can we just not use a license?
 
 If your frugal science project starts small and obscure and stays small and obscure, in practice nobody will really care about your lack of a license, because they won't care about your project. Also, in countries with a different attitude to intellectual property law than the US and Europe, or communities where intellectual property isn't a relevant everyday concept, choosing a license might not be practically important if there's already a good culture of sharing work (for example, consider the [Jaipur Foot](https://en.wikipedia.org/wiki/Jaipur_leg)).
 
