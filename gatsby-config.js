@@ -163,6 +163,19 @@ module.exports = {
         icon: `src/images/icon.png`,
       },
     },
+    {
+      resolve: `gatsby-plugin-offline`,
+      options: {
+        precachePages: [
+          `/`,
+          `/projects`,
+          `/posts`,
+          `/posts/*`,
+          `/tags`,
+          `/tags/*`,
+        ],
+      },
+    },
     `gatsby-plugin-remove-trailing-slashes`,
     `gatsby-plugin-catch-links`,
     {
