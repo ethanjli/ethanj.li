@@ -32,7 +32,10 @@ const Index = ({ data }) => {
                   {
                     numPosts > 1 ?
                     `Here are the ${numPosts} most recent posts:` :
-                    `Here is the first and only post so far:`
+                    (
+                      numPosts > 0 ? `Here is the first and only post so far:` :
+                      `No posts have been published yet.`
+                    )
                   }
                 </span>
               </p>
@@ -77,10 +80,13 @@ Index.propTypes = {
 export const postsPreviewQuery = graphql`
   query {
     allMarkdownRemark(
-      filter: { fields: {
-        type: { eq: "posts" }
-        draft: { eq: false }
-      } }
+      filter: {
+        fields: {
+          type: { eq: "posts" }
+          draft: { eq: false }
+        }
+        frontmatter: { unlisted: { eq: false } }
+      }
       sort: { fields: [frontmatter___date], order: DESC }
       limit: 3
     ) {

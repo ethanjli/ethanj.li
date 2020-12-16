@@ -204,7 +204,13 @@ module.exports = {
             query: `
               {
                 allMarkdownRemark(
-                  filter: { fields: { type: { eq: "posts" } } },
+                  filter: {
+                    fields: {
+                      type: { eq: "posts" }
+                      draft: { eq: false }
+                    }
+                    frontmatter: { unlisted: { eq: false } }
+                  }
                   sort: { fields: [frontmatter___date], order: DESC },
                 ) {
                   edges {

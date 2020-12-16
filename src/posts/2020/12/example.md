@@ -3,6 +3,7 @@ title: Example
 date: 2020-12-01
 excerpt: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 draft: true
+unlisted: true
 tags: []
 
 ---

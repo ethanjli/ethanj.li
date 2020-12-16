@@ -61,10 +61,13 @@ Posts.propTypes = {
 export const postsQuery = graphql`
   query {
     allMarkdownRemark(
-      filter: { fields: {
-        type: { eq: "posts" }
-        draft: { eq: false }
-      } }
+      filter: {
+        fields: {
+          type: { eq: "posts" }
+          draft: { eq: false }
+        }
+        frontmatter: { unlisted: { eq: false } }
+      }
       sort: { fields: [frontmatter___date], order: DESC }
     ) {
       edges {
