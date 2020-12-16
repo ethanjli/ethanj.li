@@ -170,7 +170,13 @@ Many (or most?) people in the open-source software world have decided that open-
 
 Note that noncommercial software licenses don't call themselves open-source, but rather "noncommercial" or "source-available" (e.g. [PolyForm](https://polyformproject.org/what-is-polyform/)). If you use a noncommercial license for your work and call it open-source and it gets publicity, random strangers on the internet _will_ feel the urge to strongly criticize your project for not obeying the OSI's definition of "open source".
 
-If you're doing a frugal science project and your values around commercial uses or unethical uses are different from what the OSI demands, you don't have to use the "open source" brand if you don't want your branding to distract open-source people from your project. For example, you can use the phrase "frugal science" instead of "open source" and help develop "frugal science" as a community with a different set of values and ethics than "open source". Ultimately, the phrases "frugal science" or "open source" can only get practical meaning through how the communities of people who do "frugal science" or "open source" projects decide to use those terms, not though top-down rules declared by me or you or an industry association.
+If you're doing a frugal science project and your values around commercial uses or unethical uses are different from what the OSI demands for open-source licenses, you have several options. Here are three:
+
+1. You can choose a license which goes against the OSI/OSHWA definition of "open-source", call your project "open-source", and ignore the OSI/OSHWA.
+2. You can choose that license and avoid using the phrase "open source", perhaps using the phrase "frugal science" to help develop it as a community with a different set of values and ethics than "open source".
+3. You could choose a license which follows OSI/OSHWA's definitions, and find other ways to express and enforce your project's values.
+
+All three options can be valid. It's up to you. Ultimately, the phrases "frugal science" or "open source" can only get practical meaning through how the communities of people who do "frugal science" or "open source" projects define the terms for themselves, not though top-down rules declared by me or you or an industry association trying to build or preserve "open-source" as a commercial brand.
 
 ## Can we write our own license?
 
