@@ -20,7 +20,7 @@ const Index = ({ data }) => {
 
   return (
     <>
-      <SEO />
+      <SEO title="About Ethan" />
       <Layout>
         <div className="content">
           <div className="innerContent">

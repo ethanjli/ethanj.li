@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { useStaticQuery, graphql } from 'gatsby'
+import stripHtml from 'string-strip-html'
 
 const SEO = ({ description, lang, meta, keywords, title, image }) => {
   const data = useStaticQuery(graphql`
@@ -23,9 +24,8 @@ const SEO = ({ description, lang, meta, keywords, title, image }) => {
     siteUrl,
   } = data.site.siteMetadata
   const metaTitle = title || siteTitle
-  const metaDescription = description || siteDescription
+  const metaDescription = stripHtml(description || siteDescription).result
   const metaImage = image && image.src ? `${siteUrl}${image.src}` : null
-  console.log(image, metaImage)
 
   return (
     <Helmet
