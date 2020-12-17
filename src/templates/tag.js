@@ -15,17 +15,20 @@ const Tag = ({
 }) => {
   const {
     allMarkdownRemark: { edges: posts },
-    site: { siteMetadata: { blogDescription } },
+    site: { siteMetadata: { blogTitle, blogDescription } },
   } = data
 
   return (
     <>
-      <SEO title={`#${tag}`} description={blogDescription} />
       <Layout
         breadcrumbs={[{ title: 'writing', path: '/posts' }]}
         pageHeader={<BlogHeader />}
         backgroundImage="blog.jpg"
       >
+        <SEO
+          title={`${blogTitle}: #${tag}`}
+          description={blogDescription}
+        />
         <div className="content">
           <div className="innerContent">
             <div className="infoBanner">
@@ -99,6 +102,7 @@ export const postsQuery = graphql`
     }
     site {
       siteMetadata {
+        blogTitle
         blogDescription
       }
     }

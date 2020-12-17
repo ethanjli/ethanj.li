@@ -12,30 +12,31 @@ const Projects = ({ data }) => {
   } = data
 
   return (
-    <>
-      <Layout breadcrumbs={[{ title: 'projects', path: '/projects' }]}>
-        <SEO title="Projects" description="Ongoing and past projects." />
-        <div className="content">
-          <div className="innerContent">
-            <ProjectsSection
-              title="Preview"
-              description="These projects have been announced in papers, preprints,
-              and/or websites. They require significant work in technical development
-              and/or documentation before they will be ready for broad use."
-              status="preview"
-              edges={edges}
-            />
-            <ProjectsSection
-              title="Prototype"
-              description="These projects are proofs-of-concept and require further development
-              before they will be ready for reuse."
-              status="prototype"
-              edges={edges}
-            />
-          </div>
+    <Layout breadcrumbs={[{ title: 'projects', path: '/projects' }]}>
+      <SEO
+        title="Projects"
+        description="Ongoing and past projects."
+      />
+      <div className="content">
+        <div className="innerContent">
+          <ProjectsSection
+            title="Preview"
+            description="These projects have been announced in papers, preprints,
+            and/or websites. They require significant work in technical development
+            and/or documentation before they will be ready for broad use."
+            status="preview"
+            edges={edges}
+          />
+          <ProjectsSection
+            title="Prototype"
+            description="These projects are proofs-of-concept and require further development
+            before they will be ready for reuse."
+            status="prototype"
+            edges={edges}
+          />
         </div>
-      </Layout>
-    </>
+      </div>
+    </Layout>
   )
 }
 

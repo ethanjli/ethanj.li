@@ -17,31 +17,32 @@ const Tags = ({ data }) => {
   } = data
 
   return (
-    <>
-      <Layout
-        breadcrumbs={[{ title: 'writing', path: '/posts' }]}
-        pageHeader={<BlogHeader />}
-        backgroundImage="blog.jpg"
-      >
-        <SEO title={blogTitle} description={blogDescription} />
-        <div className="content">
-          <div className="innerContent">
-            <h1>All Tags</h1>
-            <ul className={style.tagList}>
-              {group.map(tag => (
-                <li key={toKebabCase(tag.fieldValue)}>
-                  <Link className={style.tag} to={`/tags/${toKebabCase(tag.fieldValue)}`}>
-                    <span className={style.delimiter}>[</span>
-                    #{tag.fieldValue}
-                    <span className={style.delimiter}>]</span>
-                  </Link> ({tag.totalCount} posts)
-                </li>
-              ))}
-            </ul>
-          </div>
+    <Layout
+      breadcrumbs={[{ title: 'writing', path: '/posts' }]}
+      pageHeader={<BlogHeader />}
+      backgroundImage="blog.jpg"
+    >
+      <SEO
+        title={`${blogTitle}: tags`}
+        description={blogDescription}
+      />
+      <div className="content">
+        <div className="innerContent">
+          <h1>All Tags</h1>
+          <ul className={style.tagList}>
+            {group.map(tag => (
+              <li key={toKebabCase(tag.fieldValue)}>
+                <Link className={style.tag} to={`/tags/${toKebabCase(tag.fieldValue)}`}>
+                  <span className={style.delimiter}>[</span>
+                  #{tag.fieldValue}
+                  <span className={style.delimiter}>]</span>
+                </Link> ({tag.totalCount} posts)
+              </li>
+            ))}
+          </ul>
         </div>
-      </Layout>
-    </>
+      </div>
+    </Layout>
   )
 }
 
