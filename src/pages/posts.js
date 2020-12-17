@@ -13,13 +13,20 @@ const Posts = ({ data }) => {
     site: { siteMetadata: { blogTitle, blogDescription } },
   } = data
 
+  const image = data.allFile.nodes.filter(({ base }) => base === 'blog.jpg')[0]
+  const imageData = image.childImageSharp.resize
+
   return (
     <Layout
       breadcrumbs={[{ title: 'writing', path: '/posts' }]}
       pageHeader={<BlogHeader />}
       backgroundImage="blog.jpg"
     >
-      <SEO title={blogTitle} description={blogDescription} />
+      <SEO
+        title={blogTitle}
+        description={blogDescription}
+        image={imageData}
+      />
       <div className="content">
         <div className="innerContent">
           {posts.map(({ node }) => {
@@ -83,6 +90,18 @@ export const postsQuery = graphql`
             date(formatString: "MMMM DD, YYYY")
             excerpt
             tags
+          }
+        }
+      }
+    }
+    allFile(filter: {relativePath: {eq: "header-backgrounds/blog.jpg"}}) {
+      nodes {
+        base
+        childImageSharp {
+          resize(width: 1200, height: 600, fit: COVER, cropFocus: CENTER) {
+            src
+            width
+            height
           }
         }
       }

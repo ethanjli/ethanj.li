@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { useStaticQuery, graphql } from 'gatsby'
 
-const SEO = ({ description, lang, meta, keywords, title }) => {
+const SEO = ({ description, lang, meta, keywords, title, image }) => {
   const data = useStaticQuery(graphql`
     query DefaultSEOQuery {
       site {
@@ -11,6 +11,7 @@ const SEO = ({ description, lang, meta, keywords, title }) => {
           title
           description
           author
+          siteUrl
         }
       }
     }
@@ -19,9 +20,12 @@ const SEO = ({ description, lang, meta, keywords, title }) => {
     title: siteTitle,
     description: siteDescription,
     author,
+    siteUrl,
   } = data.site.siteMetadata
   const metaTitle = title || siteTitle
   const metaDescription = description || siteDescription
+  const metaImage = image && image.src ? `${siteUrl}${image.src}` : null
+  console.log(image, metaImage)
 
   return (
     <Helmet
@@ -48,10 +52,6 @@ const SEO = ({ description, lang, meta, keywords, title }) => {
           content: `website`,
         },
         {
-          name: `twitter:card`,
-          content: `summary`,
-        },
-        {
           name: `twitter:title`,
           content: metaTitle,
         },
@@ -70,6 +70,29 @@ const SEO = ({ description, lang, meta, keywords, title }) => {
             content: keywords.join(`, `),
           } : [],
         )
+        .concat(image ? [
+          {
+            property: `og:image`,
+            content: metaImage,
+          },
+          {
+            property: `og:image:width`,
+            content: image.width,
+          },
+          {
+            property: `og:image:height`,
+            content: image.height,
+          },
+          {
+            name: `twitter:card`,
+            content: `summary_large_image`,
+          },
+        ] : [
+          {
+            name: `twitter:card`,
+            content: `summary`,
+          },
+        ])
         .concat(meta)}
     />
   )
@@ -83,11 +106,14 @@ SEO.defaultProps = {
     'open source',
     'medical devices',
     'global health',
+    'health equity',
+    'health justice',
     'open hardware',
     'open science hardware',
     'frugal science',
     'embedded systems',
     'systems engineering',
+    'system architecture',
     'bioengineering',
     'biomedical engineering',
   ],
@@ -99,6 +125,11 @@ SEO.propTypes = {
   meta: PropTypes.array,
   keywords: PropTypes.arrayOf(PropTypes.string),
   title: PropTypes.string,
+  image: PropTypes.shape({
+    src: PropTypes.string.isRequired,
+    height: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+  }),
 }
 
 export default SEO

@@ -23,7 +23,11 @@ const BlogPostTemplate = ({ data }) => {
       pageHeader={<BlogHeader />}
       backgroundImage="blog.jpg"
     >
-      <SEO title={title} description={excerpt || autoExcerpt} />
+      <SEO
+        title={title}
+        description={excerpt || autoExcerpt}
+        image={coverImage ? coverImage.childImageSharp.resize : null}
+      />
       <div className="content">
         <div className="innerContent">
           <Post
@@ -59,6 +63,11 @@ export const pageQuery = graphql`
           childImageSharp {
             fluid(maxWidth: 800) {
               ...GatsbyImageSharpFluid
+            }
+            resize(width: 1200) {
+              src
+              height
+              width
             }
           }
         }
