@@ -1,13 +1,24 @@
+---
 title: Squid
 subtitle: Simplifying quantitative imaging platform development and deployment
-why: Recent progress in microscopy hardware, software, and techniques have enabled new methods for making biological discoveries, yet the cost of hardware makes them accessible only to labs at well-resourced research institutions.
-what: Squid is a full suite of modular and open-source hardware and software components and configurations to quickly implement portable facility-grade widefield microscopes and other application-specific imaging capabilities at a fraction of the cost of commercial solutions ($500-$10k vs. $50k-$120k).
-status: prototype
+why: Recent progress in microscopy hardware, software, and techniques have enabled
+  new methods for making biological discoveries, yet the cost of hardware makes them
+  accessible only to labs at well-resourced research institutions.
+what: Squid is a full suite of modular and open-source hardware and software components
+  and configurations to quickly implement portable facility-grade widefield microscopes
+  and other application-specific imaging capabilities at a fraction of the cost of
+  commercial solutions ($500-$10k vs. $50k-$120k).
+status: preview
 role: maintainer
-url: https://github.com/hongquanli/octopi-research
+url: https://squid-imaging.org/
 priority: 5
 repos:
-  - name: electronics
-    url: https://github.com/prakashlab/octopi-driver-board
-  - name: software
-    url: https://github.com/hongquanli/octopi-research
+- name: electronics
+  url: https://github.com/prakashlab/octopi-driver-board
+- name: software
+  url: https://github.com/hongquanli/octopi-research
+websites:
+- name: 'repo: electronics'
+  url: https://github.com/prakashlab/octopi-driver-board
+- url: https://github.com/hongquanli/octopi-research
+  name: 'repo: software'
