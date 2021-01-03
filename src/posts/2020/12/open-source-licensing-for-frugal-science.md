@@ -92,7 +92,7 @@ Other licenses have fewer requirements and are called "permissive". Usually they
 
 * For software: [Apache](https://spdx.org/licenses/Apache-2.0.html), [BSD](https://spdx.org/licenses/BSD-2-Clause-Patent.html), and [MIT](https://spdx.org/licenses/MIT.html) are common licenses.
 * For hardware: [CERN-OHL-P](https://spdx.org/licenses/CERN-OHL-P-2.0.html), [SHL](https://spdx.org/licenses/SHL-2.1.html)
-* For media/art/data/etc.: [CC-BY](CC-BY, CC-BY-NC), [CC-BY-NC](https://creativecommons.org/licenses/by-nc/4.0/)
+* For media/art/data/etc.: [CC-BY](https://creativecommons.org/licenses/by/4.0/ "CC-BY"), [CC-BY-NC](https://creativecommons.org/licenses/by-nc/4.0/)
 
 ## Why is it so hard to read these licenses?
 
