@@ -22,3 +22,8 @@ websites:
   url: https://github.com/prakashlab/octopi-driver-board
 - url: https://github.com/hongquanli/octopi-research
   name: 'repo: software'
+preprints:
+- description: announcement of Squid
+  server: bioRxiv
+  date: December 2020
+  url: https://www.biorxiv.org/content/10.1101/2020.12.28.424613v1
