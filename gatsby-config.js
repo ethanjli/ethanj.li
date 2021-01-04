@@ -125,6 +125,14 @@ module.exports = {
           },
           `gatsby-remark-numbered-footnotes`,
           `gatsby-remark-bibliography`,
+          {
+            resolve: `gatsby-remark-twemoji-shortcut`,
+            options: {
+              style: {
+                display: 'inline',
+              },
+            },
+          },
         ],
       },
     },
