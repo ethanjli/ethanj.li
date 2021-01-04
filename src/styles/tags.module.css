@@ -19,6 +19,9 @@
 
 .tag:hover {
   color: var(--light-background-secondary);
+  a {
+    color: var(--light-background-secondary);
+  }
 }
 
 .delimiter {
