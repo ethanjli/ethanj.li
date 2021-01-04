@@ -18,9 +18,9 @@ coverImage: "/uploads/2021/01/octopi-driver-stack-left.jpg"
 As makers and engineers, the first things we built were probably small and simple. Early activities might have looked like a "hello world" program, a simple webpage, an Arduino sketch to blink the built-in LED, or a basic shape on a 3-D printer or laser cutter. We keep learning and improving our building skills, and we start realizing just how useful our creations can become. But as we apply our initial skills to larger and more interesting problems, we start hitting up against unexpected limits where it _should_ be easy to add just one more small feature to a project, but in practice it's a whole ordeal:
 
 * It could look like [a circuit board](https://github.com/prakashlab/octopi-driver-board/blob/ODMv0.1.1/Board/Layout.pdf) where you can't implement the features which your collaborator has recently added to their wishlist, because you've used up too many of the pins on your 60-pin Arduino board. 😐
-* It could look like a design you have for [a robot](https://cad.onshape.com/documents/6f3ff9e60612f07463807b51/w/7c9831bb106114d48918156b/e/a9da1141e808ee4cb8c5dd81) which has so many dimensional constraints and parameters that your CAD software freezes for a full minute whenever you make changes which force it to rebuild the whole model. 😬
+* It could look like [a mechanical design](https://cad.onshape.com/documents/6f3ff9e60612f07463807b51/w/7c9831bb106114d48918156b/e/a9da1141e808ee4cb8c5dd81) which uses so many dimensional constraints and parameters that your CAD software freezes for a full minute whenever you make changes which force it to rebuild the whole model. 😬
 * It could look like a [2000-line single-file Arduino sketch](https://github.com/deepakkrishnamurthy/gravitymachine-research/blob/55c388bb2cd5719427131d440dd91720b3f6768f/firmware/GravityMachine_Firmware_ArduinoIDE/GravityMachine_Firmware_ArduinoIDE.ino) where you've gradually added pieces of code and now you have 150 global constants and 150 global variables and 40 functions, with each function possibly interacting with up to all 300 of those global constants and variables. 😱
-* It could look like a [multithreaded+asyncio Python program](https://github.com/ethanjli/liquid-handling-robotics) which quits normally 99% of the time but which rarely dies or hangs in ways you can't consistently reproduce, and it happens _because_ of how you used multithreading and asyncio at the core of your program. 😨
+* It could look like a [multithreaded+asyncio Python program](https://github.com/ethanjli/liquid-handling-robotics) which quits normally 99% of the time when you press Ctrl+C but which rarely throws exceptions or hangs in ways you can't consistently reproduce, and it happens because of how you used asyncio, [which you never fully understood anyways](https://vorpus.org/blog/some-thoughts-on-asynchronous-api-design-in-a-post-asyncawait-world/). 😨
 
 Maintaining the project becomes painful and difficult because we let our designs become complex without responding appropriately to that complexity. But it doesn't have to be like this.
 
@@ -71,23 +71,25 @@ Another thing which is especially feasible in computer systems compared to other
 
 ## ...but their lessons are useful elsewhere.
 
-## Modularity in electronics
+## Case study: modularity guides redesign of the Octopi microscope electronics.
 
-## Modularity in mechanical systems
-
-## Modularity is an important dimension of open-source hardware development.
+## Modularity is an important dimension of open-source hardware.
 
 Discuss open-source hardware licensing
 
-In [_Standardisation of Practices in Open Source Hardware_](Standardisation of Practices in Open Source Hardware), Bonvoisin, Molloy, et al. (2020) review recent efforts to standardize documentation of open-source hardware and remaining areas where future standardization work may be helpful. They spend one section discussing modularity as a property of hardware which is often mentioned as a key enabler of hardware openness; to summarize previous literature, modular design goes hand-in-hand with task decomposition and influences how people organize to develop products. Finally, they call for gathering more guidance for designers on how to use modular product design to facilitate distributed development and production as well as product maintainability and upgradability.
+In [_Standardisation of Practices in Open Source Hardware_](Standardisation of Practices in Open Source Hardware), Bonvoisin, Molloy, et al. (2020) review recent efforts to standardize documentation of open-source hardware and other areas where future standardization work may be helpful. They also discuss descriptions of modularity as a key enabler of hardware openness: to summarize previous literature, modular design goes hand-in-hand with task decomposition and influences how people organize to develop products. Finally, they call for clearer guidance for designers on how to use modular product design to facilitate distributed development and production as well as product maintainability and upgradability.
 
 ## Learn design through practice.
 
-I hope the concepts and case studies discussed in this post have helped you think about modularity from more perspectives and given you a more abstract and concrete sense of how modularity can help you design systems which are more maintainable and upgradable in projects where that's important. But really understanding at a deeper level how to design such systems requires trying to design them well, paying attention to what works and what doesn't, and learning from the mistakes you will make. So:
+I hope the concepts and case study discussed in this post have helped you think about modularity from more perspectives and given you a clearer sense of how modularity can help you design systems which are more maintainable and upgradable in projects where that's important. But really understanding at a deeper level how to design such systems requires trying to design them well, paying attention to what works and what doesn't, and learning from the mistakes you will make. Here's what I've been practicing, due to lessons learned from my past mistakes:
 
-* Each time you start designing a system or hit some limit in what you've design, first step back and do some brainstorming to figure out what requirements your system will need to meet, and what future requirements might arise.
-* Aggressively remove requirements from your next version and save them for a future iteration, but look at how much complexity you'd add by including ways to extend your design to meet those requirements in the future.
+* Each time you start designing a system or hit some limit in what you've design, first pause and do some brainstorming to figure out what requirements your system will need to meet, what future requirements might arise, and what areas you don't understand well enough to identify clear requirements.
+* Design for iteration. Unless you are planning to stop developing or using your system, you will need to redesign modules or the modularity as your system, its requirements, and your understanding evolve, and as you get feedback from other people. So make sure your timelines and your modularity leave room for this.
+* Aggressively remove requirements from what you will support in your next iteration and save them for a later iteration, but also make a plan for how your later iterations will be technically feasible from your design.
 * Identify things you'll probably need to change in the foreseeable future, before your next planned redesign of the whole system. Look for ways modularity can give you an easier path from what you'll have in your upcoming design to what you'll need to have later.
-* Identify requirements which aren't clear enough that you can design features for them yet. Look for ways modularity can let you delay your design work for them until the requirements become clearer.
-* Identify problem areas in your previous design and map out how different designs might have different implications for your system.
-* Using what you've learned from your earlier prototypes or system designs, plan out how you will break down your system into different modules, and how you will keep their interfaces and interactions as simple as possible.
+* Identify requirements which aren't clear enough that you can design features for them yet. Look for ways modularity and abstraction can let you delay your design work on them until the requirements become clearer.
+* Identify problem areas or failures you've found in your previous design, and map out how different designs might have different implications for your system.
+* Using what you've learned from your earlier prototypes or system designs, plan out how you will break down your system into different modules and how you will keep their interfaces and interactions as simple as possible for other people to understand and maintain.
+* Document your current assumptions and how they inform your design, so that as your understanding evolves you can more easily understand how your design needs to evolve.
+
+## Acknowledgements
