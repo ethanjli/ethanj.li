@@ -5,7 +5,7 @@ unlisted: false
 tags:
 - systems engineering
 title: The unyielding foundations rule
-excerpt: practicing modular design as an engineer/maker
+excerpt: practicing modular design
 coverImage: "/uploads/2021/01/octopi-driver-stack-left.jpg"
 
 ---
@@ -73,15 +73,9 @@ Another thing which is especially feasible in computer systems compared to other
 
 ## Case study: modularity guides redesign of the Octopi microscope electronics.
 
-## Modularity is an important dimension of open-source hardware.
-
-Discuss open-source hardware licensing
-
-In [_Standardisation of Practices in Open Source Hardware_](Standardisation of Practices in Open Source Hardware), Bonvoisin, Molloy, et al. (2020) review recent efforts to standardize documentation of open-source hardware and other areas where future standardization work may be helpful. They also discuss descriptions of modularity as a key enabler of hardware openness: to summarize previous literature, modular design goes hand-in-hand with task decomposition and influences how people organize to develop products. Finally, they call for clearer guidance for designers on how to use modular product design to facilitate distributed development and production as well as product maintainability and upgradability.
-
 ## Learn design through practice.
 
-I hope the concepts and case study discussed in this post have helped you think about modularity from more perspectives and given you a clearer sense of how modularity can help you design systems which are more maintainable and upgradable in projects where that's important. But really understanding at a deeper level how to design such systems requires trying to design them well, paying attention to what works and what doesn't, and learning from the mistakes you will make. Here's what I've been practicing, due to lessons learned from my past mistakes:
+I hope the concepts and case study discussed in this post have helped you think about modularity from more perspectives and about how modularity can help you design systems which are more maintainable and upgradable in projects where that's important. But really understanding at a deeper level how to design such systems requires trying to design them well, paying attention to what works and what doesn't, and learning from the mistakes you will make. Here's what I've been practicing, due to lessons learned from my past mistakes:
 
 * Each time you start designing a system or hit some limit in what you've design, first pause and do some brainstorming to figure out what requirements your system will need to meet, what future requirements might arise, and what areas you don't understand well enough to identify clear requirements.
 * Design for iteration. Unless you are planning to stop developing or using your system, you will need to redesign modules or the modularity as your system, its requirements, and your understanding evolve, and as you get feedback from other people. So make sure your timelines and your modularity leave room for this.
