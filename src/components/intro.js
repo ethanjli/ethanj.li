@@ -34,7 +34,7 @@ const Intro = () => {
           I'm Ethan Li, a third-year Bioengineering PhD student in{' '}
           <a href="http://prakashlab.stanford.edu/">Manu Prakash's lab</a> at
           Stanford University.  I design and build hardware+software systems
-          for global health and <a href="https://www.frugalscience.org/">frugal science</a>.
+          for global health and frugal science.
           I go by they/them <a href="https://www.mypronouns.org/they-them">pronouns</a>.
         </p>
         <p>
