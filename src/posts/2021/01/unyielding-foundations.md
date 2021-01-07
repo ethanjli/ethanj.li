@@ -63,30 +63,15 @@ Saltzer & Kaashoek identify four general categories of common techniques for cop
 <span style="font-size: 400%;">🐡</span><br />
 In the Pufferfish software architecture diagram from the previous section, you can see each of these techniques at work. Every block is a module. Hierarchical design keeps the modules within each of the Microcontroller Firmware, GUI Backend Server, and GUI Frontend Client subsystems separated, except by two arrows which correspond to the interfaces between the three subsystems. Those interfaces allow us to keep those subsystems running on entirely separate processes/processors, so that enforced modularity allows us to keep the Microcontroller Firmware running even if the GUI Backend Server crashes; because of the abstraction provided by this interface, the Microcontroller Firmware can completely ignore the implementation details of the software on the GUI computer. Layered design within each of these three subsystems allows modules for higher-level logic to be separated from modules for low-level I/O or hardware operations by modules for drivers and protocols in intermediate layers. All four techniques are also applied in recursively the design within each software module shown in the diagram. Thus, while the Pufferfish software is doing a lot of things, we've been able to keep complexity at a manageable level - at least for now.
 
-## Computer systems are a special case...
-
-Saltzer & Kaashoek argue that complexity and techniques for managing complexity in computer systems are different than in other kinds of systems (e.g. mechanical systems) for two reasons:
-
-1. Because computer systems are controlled by software, physical laws don't limit the complexity of a computer system. Abstraction can help control complexity from combining software modules, allowing huge numbers of software modules to be combined. But abstraction leakiness accumulates in the form of complexity as the number of software modules grows. So it's very easy to combine software modules into a system which is more complex than its designers can understand. If you've spent hours debugging software, then you've experienced this.
-2. Computer systems technologies change very quickly, which means requirements can also change quickly over the development of a system, which usually calls for major design changes or redesigns. Careful planning isn't rewarded as much as in slower-evolving fields. So computer systems are often delivered with rough edges.
-
-Another thing which is especially feasible in computer systems compared to other fields is an <dfn>iterative development process</dfn>, where designers start with a simple, working system, which meets only a key subset of the requirements, and then evolve it in small steps to progressively meet more and more of the requirements:
-
-* These small steps can help prevent complexity from overwhelming the designers all at once.
-* Always having a working system can help designers better understand their system and discover and fix bugs.
-* Adjustments for technology changes during development can be made as part of the development iterations.
-
-## ...but we can learn from them in other areas.
-
 ## Case study: modularity guides redesign of the Octopi microscope driver electronics.
 
 ## Improve your problem-solving through practice.
 
 I hope the concepts and case study discussed in this post have helped you think about modularity from more perspectives and about how modularity can help you design systems which are more maintainable and upgradable in projects where that's important. But really understanding at a deeper level how to design such systems requires trying to design them well, paying attention to what works and what doesn't, and learning from the mistakes you will make. Here's what I've been practicing, due to lessons learned from my past mistakes:
 
-* Each time you start designing a system or hit some limit in what you've design, first pause and do some brainstorming to figure out what requirements your system will need to meet, what future requirements might arise, and what areas you don't understand well enough to identify clear requirements.
+* Each time you start designing a system or hit some limit in what you've designed, first pause and do some brainstorming to (re-)clarify what requirements your system will need to meet, what future requirements might arise, and what areas you don't understand well enough to identify clear requirements.
 * Design for iteration. Unless you are planning to stop developing or using your system, you will need to redesign modules or the modularity as your system, its requirements, and your understanding evolve, and as you get feedback from other people. So make sure your timelines and your modularity leave room for this.
-* Aggressively remove requirements from what you will support in your next iteration and save them for a later iteration, but also make a plan for how your later iterations will be technically feasible from your design.
+* Aggressively remove requirements from what you will support in your next iteration, and save them for a later iteration. But also make a plan for how your later iterations will be technically feasible from your design.
 * Identify things you'll probably need to change in the foreseeable future, before your next planned redesign of the whole system. Look for ways modularity can give you an easier path from what you'll have in your upcoming design to what you'll need to have later.
 * Identify requirements which aren't clear enough that you can design features for them yet. Look for ways modularity and abstraction can let you delay your design work on them until the requirements become clearer.
 * Identify problem areas or failures you've found in your previous design, and map out how different designs might have different implications for your system.
@@ -95,4 +80,4 @@ I hope the concepts and case study discussed in this post have helped you think 
 
 ## Acknowledgements
 
-Thanks to Saltzer & Kaashoek's textbook [Principles of Computer System Design: An Introduction](https://dl.acm.org/doi/book/10.5555/1594884) for the concepts discussed in this post, as well as other principles and insights which have deeply influenced how I think about systems.
+Thanks to Saltzer & Kaashoek's textbook [Principles of Computer System Design: An Introduction](https://dl.acm.org/doi/book/10.5555/1594884) for the concepts discussed in this post, as well as other principles and insights which have deeply influenced how I think about designing robust systems.
