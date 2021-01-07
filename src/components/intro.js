@@ -31,7 +31,7 @@ const Intro = () => {
           <h1>Hi!</h1> <Img fluid={childImageSharp.fluid} className={style.avatar} />
         </div>
         <p>
-          I'm Ethan Li, a third-year Bioengineering PhD student in{' '}
+          I&#39;m Ethan Li, a third-year Bioengineering PhD student in{' '}
           <a href="http://prakashlab.stanford.edu/">Manu Prakash's lab</a> at
           Stanford University.  I design and build hardware+software systems
           for global health and frugal science.
@@ -51,7 +51,7 @@ const Intro = () => {
           strategies for how platforms and international communities might be built to
           support cooperative development of locally-appropriate medical devices.
           There are many exciting questions in this area, including sustainability, governance,
-          ethics, and standardization. For my thesis, I'm focusing on three key
+          ethics, and standardization. For my thesis, I&#39;m focusing on three key
           questions: scalability, clinical efficacy, and safety.
         </p>
         <p>
