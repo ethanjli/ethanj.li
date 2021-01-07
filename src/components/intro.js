@@ -31,11 +31,10 @@ const Intro = () => {
           <h1>Hi!</h1> <Img fluid={childImageSharp.fluid} className={style.avatar} />
         </div>
         <p>
-          I&#39;m Ethan Li, a third-year Bioengineering PhD student in{' '}
+          I'm Ethan Li, a third-year Bioengineering PhD student in{' '}
           <a href="http://prakashlab.stanford.edu/">Manu Prakash's lab</a> at
-          Stanford University.  I design and build hardware+software systems
-          for global health and frugal science.
-          I go by they/them <a href="https://www.mypronouns.org/they-them">pronouns</a>.
+          Stanford University. I design and build hardware+software systems
+          for global health and frugal science. I go by they/them pronouns.
         </p>
         <p>
           The working title of my thesis project is{' '}
@@ -51,7 +50,7 @@ const Intro = () => {
           strategies for how platforms and international communities might be built to
           support cooperative development of locally-appropriate medical devices.
           There are many exciting questions in this area, including sustainability, governance,
-          ethics, and standardization. For my thesis, I&#39;m focusing on three key
+          ethics, and standardization. For my thesis, I'm focusing on three key
           questions: scalability, clinical efficacy, and safety.
         </p>
         <p>
