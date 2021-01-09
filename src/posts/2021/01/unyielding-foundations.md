@@ -72,7 +72,25 @@ Squid's predecessor is the [Octopi microscope](https://www.biorxiv.org/content/1
 
 ![](/uploads/2021/01/squid-modules.png)
 
-The idea is that labs can quickly build compact microscopes to their exact needs by mixing and matching these modules.
+The idea is that labs can quickly build compact microscopes to their exact needs by mixing and matching these modules. However, the electronics for driving the various sensors and actuators in these modules (e.g. lights, lasers, motors, encoders, and limit switches) were a different story, one of increasing modularity.
+
+### Iteration 1: A monolithic design reveals important limitations.
+
+In prototype designs of the microscope, most actuators in our system were driven by off-the-shelf boards, and we just needed a way to integrate those boards with connectors for easier assembly. The project initially wanted to have a single circuit board to drive everything, so it required a relatively monolithic design. This required us to plan for every possible way the board might need to be used, from prototyping to production use, from basic configurations to advanced configurations, and allowing for future optical modules. The result was that requirements kept being revised and added, which made the design process slower and more difficult, and which forced a design with restrictive layout limitations.
+
+![](/uploads/2021/01/odmv0-1-0.png)
+
+While in retrospect this board is not that complicated, it was only the fourth PCB I had ever designed. But it quickly became clear that this design would be difficult to maintain and expand to support requirements which continued to be added during and after this design iteration.
+
+The primary source of constraints were requirements for many screw terminal blocks to connect everything, which all needed to be at the edges of the boards for easy access. This meant that most of the daughter boards exposed by these screw terminal connectors had to be near the edges, and since screw terminals generally come as through-hole components, we could only have connectors on one side of a PCB. Because the size (area) of the board scales quadratically against the perimeter of the board, and because the Arduino Due's pins would need to be routed to components at all edges of the board, we had a large number of constraints and interdependencies for board layout and routing.
+
+### Iteration 2: Mechanical modularity demonstrates advantages.
+
+Recognizing that the limiting factor in our board design was free space at board edges for connectors, and that we were likely to need even more connectors in the future, we decided to take a different approach for our next design iteration of the driver electronics. We took inspiration from the Arduino's stackable shield design as a way to increase the free space on board edges for connectors, as illustrated in [this image by Kushagra Keshari](https://commons.wikimedia.org/wiki/File:Multiple_shields_stacked_on_an_Arduino_board.jpg) published under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) on Wikimedia Commons:
+
+![](/uploads/2021/01/arduino-shields.jpg)
+
+### Iteration 3: Electronics modularity becomes necessary.
 
 ## Learn by doing.
 
