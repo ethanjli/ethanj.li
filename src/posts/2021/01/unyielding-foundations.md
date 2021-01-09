@@ -57,15 +57,24 @@ Saltzer & Kaashoek identify four general categories of common techniques for cop
 <span style="font-size: 400%;">🥞</span><br />
 <dfn>Layering</dfn> is one way of organizing modules to reduce interconnections by using one complete set of mechanisms (a lower layer) to create a different complete set of mechanisms (an upper layer); each layer may be implemented as several modules. To reduce interconnections, a module of one layer should only interact with other modules in the same layer and with modules in the next higher and lower layers.
 
-<span style="font-size: 400%;">🍱</span><br />
-<dfn>Hierarchy</dfn> reduces interconnections among modules differently than layering: a small group of modules is combined into a stable, self-contained subsystem with a well-defined interface; then a small group of subsystems is combined into a larger subsystem with a well-defined interface, and so on until large subsystems are combined to form the overall system. Hierarchy constrains interactions by only allowing them among the components of a subsystem. This lets the system designer design each subsystem one-at-a-time, focusing only on interactions between the interfaces of the components in the subsystem.
+<span style="font-size: 400%;">🍱</span><br /> <dfn>Hierarchy</dfn> reduces interconnections among modules differently than layering: a small group of modules is combined into a stable, self-contained subsystem with a well-defined interface; then a small group of subsystems is combined into a larger subsystem with a well-defined interface, and so on until large subsystems are combined to form the overall system. Hierarchy constrains interactions by only allowing them among the components of a subsystem. This lets the system designer design each subsystem one-at-a-time, focusing only on interactions between the interfaces of the components in the subsystem.
 
 <span style="font-size: 400%;">🐡</span><br />
 In the Pufferfish software architecture diagram from the previous section, you can see each of these techniques at work. Every block is a module. Hierarchical design keeps the modules within each of the Microcontroller Firmware, GUI Backend Server, and GUI Frontend Client subsystems separated, except by two arrows which correspond to the interfaces between the three subsystems. Those interfaces allow us to keep those subsystems running on entirely separate processes/processors, so that enforced modularity allows us to keep the Microcontroller Firmware running even if the GUI Backend Server crashes; because of the abstraction provided by this interface, the Microcontroller Firmware can completely ignore the implementation details of the software on the GUI computer. Layered design within each of these three subsystems allows modules for higher-level logic to be separated from modules for low-level I/O or hardware operations by modules for drivers and protocols in intermediate layers. All four techniques are also applied in recursively the design within each software module shown in the diagram. Thus, while the Pufferfish software is doing a lot of things, we've been able to keep complexity at a manageable level - at least for now.
 
 ## Case study: modularity guides redesign of the Octopi microscope driver electronics.
 
-## Improve your problem-solving through practice.
+To give a concrete illustration of when these techniques are useful and how they can be applied in practice, I will describe the evolution over three iterations of the design of the driver electronics system for the [Squid microscope](https://squid-imaging.org/). <dfn>Squid</dfn>, short for _Simplifying quantitative imaging platform development and deployment_, is a platform for implementing microscopes with advanced imaging capabilities comparable to what is available in commercial solutions, but at a fraction of the cost ($500-$10k vs. $50k-$120k) and higher portability. From left to right, here are renderings of Squid in a configuration for multi-color flat field epifluorescence microscopy with organism tracking, a basic configuration with a motorized  stage and focusing mechanism, and an upright microscope configuration for reading 96-well plates:
+
+![](/uploads/2021/01/squid-configurations.png)
+
+Squid's predecessor is the [Octopi microscope](https://www.biorxiv.org/content/10.1101/684423v1), a lower-cost design specialized for malaria diagnostic microscopy which only used custom-designed machined parts for the mechanical and optical subassemblies; Squid is a generalized design intended for greater versatility and configurability. Since the start of the Squid project, the optical and mechanical subassemblies have been a modular system of microscope building blocks combining structural parts from Thorlabs with custom-designed machined parts:
+
+![](/uploads/2021/01/squid-modules.png)
+
+The idea is that labs can quickly build compact microscopes to their exact needs by mixing and matching these modules.
+
+## Learn by doing.
 
 I hope the concepts and case study discussed in this post have helped you think about modularity from more perspectives and about how modularity can help you design systems which are more maintainable and upgradable in projects where that's important. But really understanding at a deeper level how to design such systems requires trying to design them well, paying attention to what works and what doesn't, and learning from the mistakes you will make. Here's what I've been practicing, due to lessons learned from my past mistakes:
 
