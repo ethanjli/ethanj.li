@@ -62,35 +62,49 @@ Saltzer & Kaashoek identify four general categories of common techniques for cop
 <span style="font-size: 400%;">🐡</span><br />
 In the Pufferfish software architecture diagram from the previous section, you can see each of these techniques at work. Every block is a module. Hierarchical design keeps the modules within each of the Microcontroller Firmware, GUI Backend Server, and GUI Frontend Client subsystems separated, except by two arrows which correspond to the interfaces between the three subsystems. Those interfaces allow us to keep those subsystems running on entirely separate processes/processors, so that enforced modularity allows us to keep the Microcontroller Firmware running even if the GUI Backend Server crashes; because of the abstraction provided by this interface, the Microcontroller Firmware can completely ignore the implementation details of the software on the GUI computer. Layered design within each of these three subsystems allows modules for higher-level logic to be separated from modules for low-level I/O or hardware operations by modules for drivers and protocols in intermediate layers. All four techniques are also applied in recursively the design within each software module shown in the diagram. Thus, while the Pufferfish software is doing a lot of things, we've been able to keep complexity at a manageable level - at least for now.
 
-## Case study: modularity guides redesign of the Octopi microscope driver electronics.
+## Case study: modularity in redesign of the Octopi microscope driver electronics.
 
-To give a concrete illustration of when these techniques are useful and how they can be applied in practice, I will describe the evolution over three iterations of the design of the driver electronics system for the [Squid microscope](https://squid-imaging.org/). <dfn>Squid</dfn>, short for _Simplifying quantitative imaging platform development and deployment_, is a platform for implementing microscopes with advanced imaging capabilities comparable to what is available in commercial solutions, but at a fraction of the cost ($500-$10k vs. $50k-$120k) and higher portability. From left to right, here are renderings of Squid in a configuration for multi-color flat field epifluorescence microscopy with organism tracking, a basic configuration with a motorized  stage and focusing mechanism, and an upright microscope configuration for reading 96-well plates:
+To give a concrete illustration of when these techniques are useful and how they can be applied in practice, I will describe the evolution over three iterations of the design of the driver electronics system for the [Squid microscope](https://squid-imaging.org/). <dfn>Squid</dfn>, short for _Simplifying quantitative imaging platform development and deployment_, is a toolkit for implementing microscopes with advanced imaging capabilities comparable to what is available in commercial solutions, but at a fraction of the cost ($500-$10k vs. $50k-$120k) and higher portability. From left to right, here are renderings of Squid with motorized stages and focusing in: 1) an inverted configuration for multi-color flat field epifluorescence microscopy with organism tracking, 2) the simplest inverted configuration, and 3) an upright configuration for reading 96-well plates:
 
-![](/uploads/2021/01/squid-configurations.png)
+![CAD renderings of three configurations of the Squid microscope](/uploads/2021/01/squid-configurations.png)
 
-Squid's predecessor is the [Octopi microscope](https://www.biorxiv.org/content/10.1101/684423v1), a lower-cost design specialized for malaria diagnostic microscopy which only used custom-designed machined parts for the mechanical and optical subassemblies; Squid is a generalized design intended for greater versatility and configurability. Since the start of the Squid project, the optical and mechanical subassemblies have been a modular system of microscope building blocks combining structural parts from Thorlabs with custom-designed machined parts:
+Squid's predecessor is the [Octopi microscope](https://www.biorxiv.org/content/10.1101/684423v1), a lower-cost upright design specialized for malaria diagnostic microscopy in field settings:
 
-![](/uploads/2021/01/squid-modules.png)
+![](/uploads/2021/01/octopi.jpg)
 
-The idea is that labs can quickly build compact microscopes to their exact needs by mixing and matching these modules. However, the electronics for driving the various sensors and actuators in these modules (e.g. lights, lasers, motors, encoders, and limit switches) were a different story, one of increasing modularity.
+While Octopi only used custom-designed machined metal parts for the mechanical and optical subassemblies, Squid is a generalized design intended for greater versatility and configurability. Since the start of the Squid project, the optical and mechanical subassemblies have been a modular system of microscope building blocks combining structural parts from Thorlabs with custom-designed machined parts:
+
+![CAD renderings of various building blocks for the Squid microscope, consisting of motorized focus blocks, motorized sample stages, image formation assemblies, and illumination modules](/uploads/2021/01/squid-modules.png)
+
+The idea is that labs can quickly build compact microscopes to their exact needs by mixing and matching these modules. However, the electronics for driving the various sensors and actuators in these modules (e.g. lights, lasers, motors, encoders, and limit switches) started with a monolithic design and have been evolving towards greater modularity over several design iterations.
 
 ### Iteration 1: A monolithic design reveals important limitations.
 
-In prototype designs of the microscope, most actuators in our system were driven by off-the-shelf boards, and we just needed a way to integrate those boards with connectors for easier assembly. The project initially wanted to have a single circuit board to drive everything, so it required a relatively monolithic design. This required us to plan for every possible way the board might need to be used, from prototyping to production use, from basic configurations to advanced configurations, and allowing for future optical modules. The result was that requirements kept being revised and added, which made the design process slower and more difficult, and which forced a design with restrictive layout limitations.
+In prototype designs of the microscope, most actuators in our system were driven by off-the-shelf boards, and we just needed a way to integrate those boards with connectors for easier assembly. The project initially wanted to have a single circuit board to drive everything from an Arduino Due, so it made sense to start with a relatively monolithic design. This required us to plan for every possible way the board might need to be used, from prototyping to production use, from basic configurations to advanced configurations, and allowing for future optical modules. The result was that requirements kept being revised and added, which made the design process slower and more difficult, and which forced a design with restrictive layout limitations.
 
-![](/uploads/2021/01/odmv0-1-0.png)
+![Layout of components and routing of traces on the first design iteration of the driver electronics for the Squid microscope, designed as a monolithic board.](/uploads/2021/01/odmv0-1-0.png)
 
 While in retrospect this board is not that complicated, it was only the fourth PCB I had ever designed. But it quickly became clear that this design would be difficult to maintain and expand to support requirements which continued to be added during and after this design iteration.
 
 The primary source of constraints were requirements for many screw terminal blocks to connect everything, which all needed to be at the edges of the boards for easy access. This meant that most of the daughter boards exposed by these screw terminal connectors had to be near the edges, and since screw terminals generally come as through-hole components, we could only have connectors on one side of a PCB. Because the size (area) of the board scales quadratically against the perimeter of the board, and because the Arduino Due's pins would need to be routed to components at all edges of the board, we had a large number of constraints and interdependencies for board layout and routing.
 
-### Iteration 2: Mechanical modularity demonstrates advantages.
+### Iteration 2: Physical modularity demonstrates advantages.
 
-Recognizing that the limiting factor in our board design was free space at board edges for connectors, and that we were likely to need even more connectors in the future, we decided to take a different approach for our next design iteration of the driver electronics. We took inspiration from the Arduino's stackable shield design as a way to increase the free space on board edges for connectors, as illustrated in [this image by Kushagra Keshari](https://commons.wikimedia.org/wiki/File:Multiple_shields_stacked_on_an_Arduino_board.jpg) published under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) on Wikimedia Commons:
+Recognizing that the limiting factor in our board design was free space at board edges for connectors and the number of traces which needed to be routed to various components, and that we were likely to need even more connectors in the future, we decided to take a different - hopefully easier and faster - approach for our next design iteration of the driver electronics. We took inspiration from the Arduino's stackable shield design, as illustrated in this image of an Arduino board with three shields stacked on top (by Kushagra Keshari, [published by Kushagra Keshari](https://commons.wikimedia.org/wiki/File:Multiple_shields_stacked_on_an_Arduino_board.jpg) on Wikimedia Commons under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)):
 
-![](/uploads/2021/01/arduino-shields.jpg)
+![An Arduino board with three shields stacked on top](/uploads/2021/01/arduino-shields.jpg)
 
-### Iteration 3: Electronics modularity becomes necessary.
+So the next design iteration of our board electronics added Arduino shield-style physical modularity to our system. As a proof-of-concept, I designed one board (which I call a "processing plane", because it does the computation and processing in the system) to break out an Arduino Due into a uniform set of stacking header connectors and expose some other pins through connectors (e.g. for a control panel or for prototyping with I2C and SPI components):
+
+![Layout of components and routing of traces on the processing plane for the second design iteration of the driver electronics for the Squid microscope.](/uploads/2021/01/odsv0-2-0-ppdv0-2-0.png)
+
+And then I designed one module (which I call a "motion plane", because it does motion control for the motors in the Squid microscope) which stacks under the processing plane and uses some pins from the stacking connectors to control some stepper motor driver boards, whose outputs are exposed through connectors:
+
+![Layout of components and routing of traces on the motion plane for the second design iteration of the driver electronics for the Squid microscope.](/uploads/2021/01/odsv0-2-0-mpsv0-3-1.png)
+
+These boards were successfully integrated into a stacked design:
+
+### Iteration 3: More modularity becomes necessary.
 
 ## Learn by doing.
 
@@ -107,4 +121,4 @@ I hope the concepts and case study discussed in this post have helped you think 
 
 ## Acknowledgements
 
-Thanks to Saltzer & Kaashoek's textbook [Principles of Computer System Design: An Introduction](https://dl.acm.org/doi/book/10.5555/1594884) for the concepts discussed in this post, as well as other principles and insights which have deeply influenced how I think about designing robust systems.
+Thanks to Saltzer & Kaashoek's textbook [Principles of Computer System Design: An Introduction](https://dl.acm.org/doi/book/10.5555/1594884) for the concepts discussed in this post, as well as other principles and insights which have deeply influenced how I think about designing robust systems. Thanks also to [Hongquan Li](https://twitter.com/hongquan_li) for leading the Octopi and Squid projects, managing the requirements for the driver electronics, identifying crucial components to integrate in the system, and providing formative feedback on the design of the driver electronics.
