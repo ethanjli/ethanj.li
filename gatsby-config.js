@@ -99,6 +99,7 @@ module.exports = {
               noIframeBorder: true,
             },
           },
+          `gatsby-remark-figure`,
           {
             resolve: `gatsby-remark-relative-images`,
             options: {
@@ -111,6 +112,8 @@ module.exports = {
             options: {
               maxWidth: 800,
               quality: 100,
+              showCaptions: ['title'],
+              markdownCaptions: true,
             },
           },
           {

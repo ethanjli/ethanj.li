@@ -45,3 +45,7 @@
 .footer {
   margin-top: 4rem;
 }
+
+figure {
+  width: 100%;
+}

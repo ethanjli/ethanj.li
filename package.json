@@ -46,6 +46,7 @@
     "gatsby-plugin-sitemap": "^2.9.0",
     "gatsby-remark-autolink-headers": "^2.8.0",
     "gatsby-remark-bibliography": "https://github.com/ptigas/gatsby-remark-bibliography",
+    "gatsby-remark-figure": "^1.0.0",
     "gatsby-remark-images": "^3.8.0",
     "gatsby-remark-numbered-footnotes": "^1.0.1",
     "gatsby-remark-prismjs": "^3.10.0",
