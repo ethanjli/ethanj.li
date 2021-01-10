@@ -4,6 +4,8 @@ draft: true
 unlisted: false
 tags:
 - systems engineering
+- design
+- case study
 title: The unyielding foundations rule
 excerpt: problem-solving with modular design
 coverImage: "/uploads/2021/01/octopi-driver-stack-left-cover.jpg"
@@ -77,8 +79,7 @@ Saltzer & Kaashoek identify four general categories of common techniques for cop
 
 <span style="font-size: 400%;">🍱</span><br /> <dfn>Hierarchy</dfn> reduces interconnections among modules differently than layering: a small group of modules is combined into a stable, self-contained subsystem with a well-defined interface; then a small group of subsystems is combined into a larger subsystem with a well-defined interface, and so on until large subsystems are combined to form the overall system. Hierarchy constrains interactions by only allowing them among the components of a subsystem. This lets the system designer design each subsystem one-at-a-time, focusing only on interactions between the interfaces of the components in the subsystem.
 
-<span style="font-size: 400%;">🐡</span><br />
-In the Pufferfish software architecture diagram from the previous section, you can see each of these techniques at work. Every block is a module. Hierarchical design keeps the modules within each of the Microcontroller Firmware, GUI Backend Server, and GUI Frontend Client subsystems separated, except by two arrows which correspond to the interfaces between the three subsystems. Those interfaces allow us to keep those subsystems running on entirely separate processes/processors, so that enforced modularity allows us to keep the Microcontroller Firmware running even if the GUI Backend Server crashes; because of the abstraction provided by this interface, the Microcontroller Firmware can completely ignore the implementation details of the software on the GUI computer. Layered design within each of these three subsystems allows modules for higher-level logic to be separated from modules for low-level I/O or hardware operations by modules for drivers and protocols in intermediate layers. All four techniques are also applied in recursively the design within each software module shown in the diagram. Thus, while the Pufferfish software is doing a lot of things, we've been able to keep complexity at a manageable level - at least for now.
+<span style="font-size: 400%;">🐡</span><br />Each of these techniques is used to reduce complexity in the design of the Pufferfish software (Fig. 2). Every block is a module. Hierarchical design keeps the modules within each of the Microcontroller Firmware, GUI Backend Server, and GUI Frontend Client subsystems separated, except by two arrows which correspond to the interfaces between the three subsystems. Those interfaces allow us to keep those subsystems running on entirely separate processes/processors, so that enforced modularity allows us to keep the Microcontroller Firmware running even if the GUI Backend Server crashes; because of the abstraction provided by this interface, the Microcontroller Firmware can completely ignore the implementation details of the software on the GUI computer. Layered design within each of these three subsystems allows modules for higher-level logic to be separated from modules for low-level I/O or hardware operations by modules for drivers and protocols in intermediate layers. All four techniques are also applied in recursively the design within each software module shown in the diagram. Thus, while the Pufferfish software is doing a lot of things, we've been able to keep complexity at a manageable level - at least for now.
 
 ## Case study: modularity in redesign of the Octopi microscope driver electronics.
 
@@ -138,9 +139,9 @@ In prototype designs of the microscope, most actuators in our system were driven
 </figcaption>
 </figure>
 
-While in retrospect this board is not that complicated, it was only the fourth PCB I had ever designed. But it quickly became clear that it would be difficult to maintain and expand this design in order to support requirements which continued to be added during and after this design iteration.
+While in retrospect this board is not that complicated, it was only the fourth PCB I had ever designed. But I quickly realized that it would be difficult to maintain and expand this design in order to support requirements which continued to be added during and after this design iteration.
 
-The primary source of constraints were requirements for many screw terminal blocks to connect everything, which all needed to be at the edges of the boards for easy access. This meant that most of the daughter boards exposed by these screw terminal connectors had to be near the edges, and since screw terminals generally come as through-hole components, we could only have connectors on one side of a PCB. Because the size (area) of the board scales quadratically against the perimeter of the board, and because the Arduino Due's pins would need to be routed to components at all edges of the board, we had a large number of constraints and interdependencies for board layout and routing.
+The primary source of constraints was a set of many requirements for screw terminal blocks as connectors for off-board components, which meant those connectors all needed to be at the edges of the boards for access. This meant that most of the daughter boards exposed by these screw terminal connectors had to be near the edges, and since screw terminals generally come as through-hole components, we could only have connectors on one side of a PCB. Because the size (area) of the board scales quadratically against the perimeter of the board, and because the Arduino Due's pins would need to be routed to components at all edges of the board, we had a large number of constraints and interdependencies for board layout and routing.
 
 ### Iteration 2: Physical modularity demonstrates advantages.
 
@@ -165,7 +166,7 @@ So the next design iteration of our board electronics added Arduino shield-style
 
 <figcaption>
 
-**Fig. 8**: PCB layout of components and routing of traces on the processing plane for the second design iteration of the driver electronics for the Squid microscope. Stacking header connectors and headers for the Arduino Due are through-hole components, in the middle of the board. Molex Pico-Lock connectors for a control panel are on the right edge of the board. Connectors for I2C and SPI buses are on the top and bottom edges of the board, for prototyping use. Mounting holes for an NVIDIA Jetson Nano single-board computer are around the area for the Arduino Due, while mounting holes for the stack of PCBs are at the corners of the board.
+**Fig. 8**: PCB layout of components and routing of traces on the processing plane for the second design iteration of the driver electronics for the Squid microscope. Stacking header connectors and headers for the Arduino Due are through-hole components, in the middle of the board. Molex Pico-Lock connectors for a control panel are on the right edge of the board. Connectors for I2C and SPI buses are on the top and bottom edges of the board, for prototyping use. Mounting holes for an NVIDIA Jetson Nano single-board computer are around the area for the Arduino Due, while the corners of the board have mounting holes for standoffs to hold the stack of PCBs together.
 
 </figcaption>
 </figure>
@@ -184,6 +185,18 @@ And then I designed one module (which I call a "motion plane", because it does m
 </figure>
 
 These boards were successfully integrated into a stacked design:
+
+<figure>
+
+![Photograph of a stacked design for the Octopi driver electronics](/uploads/2021/01/octopi-driver-stack-left.jpg)
+
+<figcaption>
+
+**Fig. 10**: Photograph of the processing plane stacked on top of the motion plane. An Arduino Due and NVIDIA Jetson Nano are mounted on the processing plane.
+
+</figcaption>
+
+</figure>
 
 ### Iteration 3: More modularity becomes necessary.
 
