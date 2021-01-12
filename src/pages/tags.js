@@ -36,7 +36,7 @@ const Tags = ({ data }) => {
                   <span className={style.delimiter}>[</span>
                   #{tag.fieldValue}
                   <span className={style.delimiter}>]</span>
-                </Link> ({tag.totalCount} posts)
+                </Link> ({tag.totalCount} {tag.totalCount === 1 ? 'post' : 'posts'})
               </li>
             ))}
           </ul>
