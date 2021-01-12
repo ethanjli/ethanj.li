@@ -212,11 +212,11 @@ This design was also successful in that other projects my lab is involved in hav
 
 <figure>
 
-`vimeo: https://vimeo.com/437316595`
+`vimeo: [Timelapse video of assembly of an early prototype of the Pufferfish ventilator.](https://vimeo.com/437316595)`
 
 <figcaption>
 
-**Fig. 11**: Timelapse video of assembly of the early prototype of the Pufferfish ventilator. Assembly of various additional electronics onto the driver stack begins at 01:52 and finishes at 02:39. By Hongquan Li.
+**Fig. 11**: Timelapse video of assembly of an early prototype of the Pufferfish ventilator, which included the Octopi driver stack as a key component. Assembly of various additional electronics onto the driver stack begins at 01:52 and finishes at 02:39. By Hongquan Li.
 
 </figcaption>
 </figure>
