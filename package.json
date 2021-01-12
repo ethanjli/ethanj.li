@@ -36,6 +36,7 @@
     "gatsby-plugin-catch-links": "^2.7.0",
     "gatsby-plugin-draft": "^0.1.0",
     "gatsby-plugin-feed": "^2.10.0",
+    "gatsby-plugin-goatcounter": "^0.4.0",
     "gatsby-plugin-manifest": "^2.9.0",
     "gatsby-plugin-mdx": "^1.7.0",
     "gatsby-plugin-offline": "^3.7.0",

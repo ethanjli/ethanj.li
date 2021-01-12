@@ -5,6 +5,8 @@ const postCSSImports = require('postcss-import')
 const cssnano = require('cssnano')
 const postCSSMixins = require('postcss-mixins')
 
+const isProduction = process.env.NODE_ENV === 'production'
+
 module.exports = {
   siteMetadata: {
     siteUrl: `https://ethanj.li`,
@@ -193,7 +195,15 @@ module.exports = {
       resolve: `gatsby-plugin-draft`,
       options: {
         timezone: 'America/Los_Angeles',
-        publishDraft: process.env.NODE_ENV !== 'production',
+        publishDraft: !isProduction,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-goatcounter`,
+      options: {
+        code: isProduction ? 'ethanjli' : 'ethanjli-dev',
+        allowLocal: !isProduction,
+        referrer: true,
       },
     },
     `gatsby-plugin-sitemap`,
