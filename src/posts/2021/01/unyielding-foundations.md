@@ -5,6 +5,7 @@ unlisted: false
 tags:
 - systems engineering
 - design
+- electronics
 - case study
 title: The unyielding foundations rule
 excerpt: problem-solving with modular design
@@ -126,7 +127,7 @@ The goal is for labs to quickly build a potentially large number of compact micr
 
 ### Iteration 1: A monolithic design reveals important limitations.
 
-For Octopi and early prototypes of Squid, most actuators in our system were driven by a fixed set of off-the-shelf boards, and we just needed a way to integrate those boards with connectors for easier assembly. The project initially wanted to have a single circuit board to drive everything from an Arduino Due, so it made sense to start with a relatively monolithic design. This required us to plan for every possible way the board might need to be used, from prototyping to production use, from basic configurations to advanced configurations, and allowing for future optical modules. The result was that requirements kept being revised and added, which made the design process slower and more difficult, and which forced a design with restrictive layout limitations:
+For Octopi and early prototypes of Squid, most actuators in our system were driven by a fixed set of off-the-shelf boards, and we just needed a way to integrate those boards with connectors for easier assembly. The project initially wanted to have a single circuit board to drive everything from an Arduino Due, so it made sense to start with a relatively monolithic design; and for historical reasons we called this board the Octopi driver. This required us to plan for every possible way the board might need to be used, from prototyping to production use, from basic configurations to advanced configurations, and allowing for future optical modules. The result was that requirements kept being revised and added, which made the design process slower and more difficult, and which forced a design with restrictive layout limitations:
 
 <figure>
 
@@ -145,7 +146,7 @@ The primary source of layout difficulty was a set of many requirements for screw
 
 ### Iteration 2: Physical modularity demonstrates advantages.
 
-Recognizing that the limiting factor in our board design was free space at board edges for connectors and the number of traces which needed to be routed to various components, and that we were likely to need even more connectors in the future, we decided to take a different - hopefully easier and faster - approach for our next design iteration of the driver electronics. We took inspiration from the Arduino's design for stackable shields:
+Recognizing that the limiting factor in our board design was free space at board edges for connectors and the number of traces which needed to be routed to various components, and that we were likely to need even more connectors in the future, we decided to take a different - hopefully easier and faster - approach for our next design iteration of the Octopi/Squid driver electronics. We took inspiration from the Arduino's design for stackable shields:
 
 <figure>
 
@@ -202,6 +203,7 @@ During the process of designing this stacking modularity, I realized a few impor
 
 * Because we needed many connectors at board edges but we didn't really need access to components from above or below the board, stacking multiple PCBs allowed us to use space more efficiently than in a monolithic design; our stack could add as much functionality as we wanted, all while staying within a 4.5" x 4.5" footprint.
 * Because I designed a uniform pin connection interface for the stacking headers, I could defer design decisions for different modules. So I could design the motion plane without having to account for or commit to the constantly-changing requirements for a future illumination plane to control lasers and LEDs the way I had to when I was laying out all components for all functionalities on the same board in the monolithic design. This modularity also let us assemble and test modules independently before committing to design decisions on other modules. This goes back to the concepts of modularity and hierarchy as discussed by Saltzer & Kaashoek.
+* Because functionalities were divided into separate modules, we could easily fix errors, change components, or upgrade one module without having to reassemble the entire system, the way we needed to do in the previous design iteration. For example, when we needed to add more pins to a connector on the processing plane for some off-board components, we just needed to replace the processing plane, and we could keep using the same motion plane as before.
 * Because it became easy to add future requirements or functionalities by adding or upgrading or making variations on modules, it became easy to imagine developing design variants for special microscopes beyond the core design.
 
 This design was also successful in that other projects my lab is involved in have started using the driver stack, even with only the processing plane and motion plane, what I had planned for. Early prototyping work in the Pufferfish ventilator project used this version of the driver stack as the core of the ventilator electronics, with many of the unassigned GPIO pins used for new sensors in the prototype:
@@ -221,34 +223,24 @@ And this driver stack, as part of Squid, is also being used in multiSero, a mult
 
 ### Iteration 3: More modularity becomes necessary.
 
-Because other labs have started using Squid and my lab is looking to scale up our own deployment of Squid for various lab members's projects, we needed to improve the design of our driver stack to make it easier and faster to assemble at a reasonable cost. In particular, we decided to use surface-mount parts (especially the stacking connectors) instead of through-hole parts wherever possible, so that we could assemble most of our PCBs through affordable surface-mount assembly services. Because it'd be nontrivial to modify the second design iteration for this change, and because the list of requirements and desired functionalities for Squid had also grown drastically, I decided to do a clean-sheet redesign for the third iteration of our driver stack design.
+Because other labs have started using Squid and my lab is looking to scale up our own deployment of Squid for various lab members's projects, we needed to improve the design of our Octopi/Squid driver stack to make it easier and faster to assemble at a reasonable cost. In particular, we decided to use surface-mount parts (especially the stacking connectors) instead of through-hole parts wherever possible, so that we could assemble most of our PCBs through affordable surface-mount assembly services. Because it'd be nontrivial to modify the second design iteration for this change, and because the list of requirements and desired functionalities for Squid had also grown drastically, I decided to do a clean-sheet redesign for the third iteration of our driver stack design.
 
 The most interesting design change in this iteration is a shift from directly using GPIO pins on our microcontroller to using SPI devices for I/O, in order to support the much greater number of devices we intend to connect to the microcontroller. The shift to SPI devices was necessary because controllers like the Arduino Due - which already have around 60 GPIO pins - simply don't have enough pins to talk to all the sensors and actuators which will need to be simultaneously integrated into certain configurations of Squid microscopes. As an additional benefit, moving all I/O to communication over SPI removes the complication of dealing with budgeting and assignment of GPIO pins, and allows almost all GPIO pins to be freed up for future prototyping uses.
 
-This shift is accompanied by my introduction of a way to hierarchically address each SPI devices from a set of many devices, so that I don't need to allocate another GPIO pin on the microcontroller for every new SPI device I add to the driver stack. The benefits of using this kind of hierarchical modularity to organize the I/O interfaces of the SPI devices on the planes is more subtle but may be quite powerful. First I'll describe how it works, then I'll describe the opportunities it may enable, and finally I'll discuss some open questions and potential limitations.
+This shift is accompanied by my introduction of a way to indirectly address each SPI devices from a set of many devices, so that I don't need to allocate another GPIO pin on the microcontroller to directly address every single SPI device I add to the driver stack. Using this kind of hierarchical modularity to organize the I/O interfaces of the SPI devices on the planes seems very promising to me. First I'll explain how it works, then I'll describe the opportunities it may enable for the Squid microscope, and finally I'll discuss some open questions and potential limitations of this design.
 
-#### Hierarchical modularity simplifies the electrical interfaces of planes in the driver stack.
+<blockquote>
+All problems in computer science can be solved by another level of indirection, except for the problem of too many levels of indirection.
+
+_(attributed to David Wheeler)_
+
+</blockquote>
+
+#### Adding two levels of indirection enables hierarchical modularity for I/O.
 
 My system for addressing SPI devices allows each of up to 256 SPI devices in the driver stack to be selected one-at-a-time using just one SPI bus and three GPIO pins from the microcontroller, by multiplexing the chip select pins for SPI devices over those three GPIO pins. Before I describe how I address SPI devices spread over multiple planes in a stack, I will first describe how I address SPI devices in a single plane.
 
-The basic idea is that each plane in the driver stack will have a module which acts as a chip-select demultiplexer module and consists of an SPI-controlled GPIO expander chip connected to an analog multiplexer chip. This allows an SPI command to connect zero or one of _N=16_ pins to a GPIO pin from the microcontroller, which is named <dfn>DCS</dfn> (short for "Device Chip Select") and is shared across all planes in the driver stack:
-
-<figure>
-
-![Circuit schematic symbol showing the external interface of the chip-select demultiplexer](/uploads/2021/01/ods-dcs-selector.png)
-
-![Circuit schematic showing the implementation of the chip-select demultiplexer](/uploads/2021/01/ods-dcs-selector-implementation.png)
-
-<figcaption>
-
-**Fig. 12**: Top: KiCAD hierarchical sheet symbol showing the external interface of the chip-select demultiplexer module, which is used to demultiplex the DCS pin over 16 pins, named DCS0, DCS1, ..., DCS15. The module also exposes five GPIO pins available for arbitrary use, named EXPGPIO5, EXPGPIO6, ..., EXPGPIO9. Bottom: KiCAD schematic showing the internal implementation of the chip-select demultiplexer module. Five pins from a 10-pin I/O expander, the MAX7317, control a 1:16 analog multiplexer, the 74HC4067, which demultiplexes the DCS pin by switching it over 16 pins.
-
-</figcaption>
-</figure>
-
-The chip select pin of each of up to _N=16_ SPI devices on the plane can be connected to one of those _N=16_ pins, so that the microcontroller can select a particular SPI device by first sending the corresponding SPI command to the GPIO expander inside the chip-select demultiplexer and then setting its DCS pin to active. Because this chip-select demultiplexer is used to select the DCS pin of a particular SPI device on the plane in order to switch between different SPI devices, I call it a "Device Switcher" (though it's labeled "DCS Selector" in Fig. 12). Note that the GPIO expander in the Device Switcher has its own chip select pin, which cannot be shared with the DCS pin, so I call that chip select pin <dfn>DSCS</dfn>, short for Device Switcher Chip Select. So now we can address up to 16 SPI devices on each plane just using a SPI bus shared across all planes, a DCS pin shared across all planes, and a DSCS pin uniquely assigned to each plane. But how do we address the Device Switchers in order to send a command to only one Device Switcher at a time when we have multiple planes stacked together?
-
-We can minimize the number of GPIO pins needed from the microcontroller for addressing different Device Switchers by reusing the chip-select demultiplexer design to multiplex _N=16_ pins (DSCS0, DSCS1, ..., DSCS15), each of which will be uniquely assigned to the Device Switcher for a particular plane, over a single DSCS pin from the microcontroller. Then plane 0's Device Switcher will listen to DSCS0 as its DSCS pin, plane 1's Device Switcher will listen to DSCS1 as its DSCS pin, and so on. Because this chip-select demultiplexer is used for switching between different planes, which are the high-level modules of the driver stack, I call this a "Module Switcher", and I call the chip select pin of its GPIO expander <dfn>MSCS</dfn>, short for Module Switcher Chip Select. The Module Switcher is placed on the processing plane which has the microcontroller, and it acts as the root of the tree for addressing SPI devices:
+The basic idea is that each plane in the driver stack will have a module which acts as a chip-select demultiplexer and consists of an SPI-controlled GPIO expander chip (e.g. the [MAX7317](https://www.maximintegrated.com/en/products/interface/controllers-expanders/MAX7317.html)) connected to an analog multiplexer chip (e.g. the [74HC4067](https://www.nexperia.com/products/analog-logic-ics/analog/analog-switches/series/74HC4067-74HCT4067.html)). These two chips together act like a [MAX349](https://www.maximintegrated.com/en/products/analog/analog-switches-multiplexers/MAX349.html) chip, but they allow demultiplexing one line over 16 lines instead of over just 8 lines. This allows an SPI command to connect zero or one of _N=16_ pins to a GPIO pin from the microcontroller, which is named <dfn>DCS</dfn> (short for "Device Chip Select") and is shared across all planes in the driver stack. The chip select pin of each of up to 16 SPI devices on the plane can be connected to one of those 16 pins, so that the microcontroller can select a particular SPI device by first sending the corresponding SPI command to the chip-select demultiplexer and then setting the microcontroller's DCS pin to active. Because this chip-select demultiplexer is used to select the DCS pin of a particular SPI device on the plane in order to switch between different SPI devices, I call it a "Device Switcher":
 
 <figure>
 
@@ -256,16 +248,39 @@ We can minimize the number of GPIO pins needed from the microcontroller for addr
 
 <figcaption>
 
-**Fig. 13**: Functional block diagram showing the hierarchical modularity for individually addressing SPI devices distributed over multiple planes. Each block corresponds to a module. Blue lines denote the CIPO and COPI data lines of the SPI bus shared across all SPI devices in the system. Purple lines denote the connected signal path for the DSCS line; the Module Switcher has been set by an SPI command to connect the DSCS pin of the Device Switcher in Plane 0 to the DSCS pin of the microcontroller. Red lines denote the connected signal paths for the DCS line; the Device Switcher in Plane 0 has been set by an SPI command to connect the CS pin of Device 2 in Plane 0 to the DCS pin of the microcontroller, while the Device Switchers in the other planes were set by previous SPI commands to disconnect the devices from the DCS pin of the microcontroller. At any given moment, only one of the MSCS, DSCS, and DCS pins is allowed to be active.
+**Fig. 12**: Functional block diagram showing the hierarchical modularity for individually addressing SPI devices distributed over multiple planes. Each block corresponds to a module. Blue lines denote the CIPO and COPI data lines of the SPI bus shared across all SPI devices in the system. Purple lines denote the connected signal path for the DSCS line; the Module Switcher has been set by an SPI command to connect the DSCS pin of the Device Switcher in Plane 0 to the DSCS pin of the microcontroller. Red lines denote the connected signal paths for the DCS line; the Device Switcher in Plane 0 has been set by an SPI command to connect the CS pin of Device 2 in Plane 0 to the DCS pin of the microcontroller, while the Device Switchers in the other planes were set by previous SPI commands to disconnect the devices from the DCS pin of the microcontroller. At any given moment, only one of the MSCS, DSCS, and DCS pins is allowed to be active. In this diagram, only three of up to 16 planes are shown, and only three of up to 16 SPI devices per plane are shown.
 
-</figcaption>
-</figure>
+</figcaption> </figure>
 
-#### Full modularity
+Note that the Device Switcher has its own chip select pin which must be different from the DCS pin, so I call that chip select pin <dfn>DSCS</dfn>, short for Device Switcher Chip Select. So now we can address up to 16 SPI devices on a plane just using an SPI bus shared across all planes, a DCS pin shared across all planes, and a DSCS pin uniquely assigned to each plane. But how do we address the Device Switchers in order to send a command to only one Device Switcher at a time, when we have multiple planes stacked together?
+
+As Fig. 12 shows, we can assign a minimal number of GPIO pins from the microcontroller for addressing different Device Switchers by the same chip-select demultiplexer to multiplex 16 pins (DSCS0, DSCS1, ..., DSCS15), each of which will be uniquely assigned to the Device Switcher for a particular plane, over a single DSCS pin from the microcontroller. Then plane 0's Device Switcher will listen to DSCS0 as its DSCS pin, plane 1's Device Switcher will listen to DSCS1 as its DSCS pin, and so on. Because this chip-select demultiplexer is used for switching between different planes, which are the high-level modules of the driver stack, I call it a "Module Switcher", and I call the chip select pin of its GPIO expander <dfn>MSCS</dfn>, short for Module Switcher Chip Select. The Module Switcher is placed on the processing plane which has the microcontroller, and it acts as the root of a two-layer address tree for selecting SPI devices.
+
+This addressing scheme allows us to expose a simple, uniform I/O interface for each plane, independent of the number or types of SPI devices on the plane, and independent of which planes are in the stack: each plane just:
+
+* shares the CIPO and COPI lines of an SPI bus
+* shares the DCS line
+* reserves one of the 16 available demultiplexed DSCS lines out of DSCS0, DSCS1, ..., DSCS15
+
+Because each plane only reserves one pin for its personal use, we've almost entirely prevented planes from making any unintentional interconnections, and we've grouped the SPI devices within each plane into an electrically self-contained subsystem which is functionally independent of the SPI devices in other planes, with a clean and small communication interface to the outside world. In other words, the Octopi/Squid driver stack is now hierarchically modular not only in its physical structure (as it was in the second design iteration of the stack), but also in its I/O communication interface.
+
+#### Hierarchical modularity allows arbitrary combinations of planes in the driver stack.
+
+We can use jumper wires, header pin jumpers, solder jumpers, or jumper resistors to (re)configure which demultiplexed DSCS line a given plane listens to. So if we always have 16 or fewer planes in a stack, then we can always remove any possible collisions resulting from two planes listening to the same demultiplexed DSCS line. Then it will always be possible to place any combination of 16 planes into a stack. So this removes the need to worry about pin budgets on the microcontroller or about multiple planes using the same pins on the microcontroller. So anyone can design an application-specific plane (e.g. a plane to pump fluids or control temperature gradients for a particular experiment) and **guarantee** that it can be integrated into the driver stack without any I/O issues, as long as it only uses SPI devices.
+
+Another consequence is that we can put multiple copies of the same plane into a stack, as long as we make them listen to different demultiplexed DSCS lines. This was not possible in the previous design iteration. For example, in the previous design iteration, the motion plane only had space to independently control four stepper motors; if someone wanted to build something with eight stepper motors (which did become a need in prototyping for the Pufferfish project), then they had to accept that they would always be driving two stepper motors simultaneously. In this new design, if someone needs drive eight stepper motors then they just need to add another motion plane to the stack and change a jumper.
+
+To summarize, the additional modularity in this third design iteration of the Octopi/Squid driver enables really powerful flexibility and customizability in the driver electronics, perhaps enough to keep up with the flexibility, customizability, and functionality demonstrated in the optomechanical subsystems of the Squid microscope.
+
+#### Modularity in electronics is limited by the laws of physics.
+
+While this design seems promising, I will need to test it out to determine how well it actually works. In particular, there is one concern I have about the way I am sharing the CIPO and COPI lines of a single SPI bus stretched across many planes, as well as with peripheral devices connected by long cables to the driver stack: reflections of signals on long conducting lines. Because I haven't learned about high-speed digital signal integrity, I don't have a good intuition for how concerned I should be with \~25 MHz SPI signals (with rise times on the order of microseconds) routed through many connectors and stretching over a total length of around 12 - 24 cm or even up to 50 cm. A back-of-the-envelope analysis suggests that my design may be in a regime where signal reflections start becoming relevant. If so, source termination or end termination may be able to solve this problem, at the cost of significantly higher power consumption. Right now I'm crossing my fingers and hoping that I've kept the lengths of signal paths low enough that I can scrape by without having to figure out termination for signal reflections, and I'll just have to test the stack in various configurations to see what happens.
+
+It's clear: even if we have a great modular design, there is a physical limit to how much we scale up the number of modules or SPI devices supported by the Octopi/Squid driver stack, because at some point we will run into signal integrity problems. But all that matters is whether we can meet the requirements for the Squid driver electronics before we run into those problems.
 
 ## Learn by doing.
 
-I hope the concepts and case study discussed in this post have helped you think about modularity from more perspectives and about how modularity can help you design systems which are more maintainable and upgradable in projects where that's important. But really understanding at a deeper level how to design such systems requires trying to design them well, paying attention to what works and what doesn't, and learning from the mistakes you will make. Here's what I've been practicing, due to lessons learned from my past mistakes:
+I hope the concepts and case study discussed in this post have helped you think about modularity from more perspectives and about how modularity can help you to design systems which are more maintainable and upgradable in projects where that's important. But really understanding at a deeper level how to design such systems requires trying to design them well, paying attention to what works and what doesn't, and learning from the mistakes you will make. Here's what I've been practicing, due to lessons learned from my past mistakes:
 
 * Each time you start designing a system or hit some limit in what you've designed, first pause and do some brainstorming to (re-)clarify what requirements your system will need to meet, what future requirements might arise, and what areas you don't understand well enough to identify clear requirements.
 * Design for iteration. Unless you are planning to stop developing or using your system, you will need to redesign modules or the modularity as your system, its requirements, and your understanding evolve, and as you get feedback from other people. So make sure your timelines and your modularity leave room for this.
@@ -278,4 +293,4 @@ I hope the concepts and case study discussed in this post have helped you think 
 
 ## Acknowledgements
 
-Thanks to Saltzer & Kaashoek's textbook [Principles of Computer System Design: An Introduction](https://dl.acm.org/doi/book/10.5555/1594884) for the concepts discussed in this post, as well as other principles and insights which have deeply influenced how I think about designing robust systems. Thanks also to [Hongquan Li](https://twitter.com/hongquan_li) for leading the Octopi and Squid projects, managing the requirements for the driver electronics, identifying crucial components to integrate in the system, providing formative feedback on the design of the driver electronics, and providing photos for me to use.
+Thanks to Saltzer & Kaashoek's textbook [Principles of Computer System Design: An Introduction](https://dl.acm.org/doi/book/10.5555/1594884) for the concepts discussed in this post, as well as other principles and insights which have deeply influenced how I think about designing robust systems. Thanks also to [Hongquan Li](https://twitter.com/hongquan_li) for leading the Octopi and Squid projects, managing the requirements for the driver electronics, providing formative feedback on the design of the driver electronics, and providing photos for me to use.
