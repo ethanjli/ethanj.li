@@ -223,6 +223,19 @@ This design was also successful in that other projects my lab is involved in hav
 
 And this driver stack, as part of Squid, is also being used in multiSero, a multiplex-ELISA platform for analyzing antibody responses to SARS-CoV-2 infection (link to bioRxiv preprint by Byrum, Waltari, et al. will be added when the preprint is uploaded).
 
+As an interesting sidenote, I later found that a similar concept, using 0.1" pitch stacking through-hole headers and standoffs to integrate PCBs into a stack, is also used in the [PC/104 industry standard](https://en.wikipedia.org/wiki/PC/104) for modular embedded computers:
+
+<figure>
+
+![](/uploads/2021/01/pc104-stack.jpg)
+
+<figcaption>
+
+**Fig. 12**: Example of a PC/104 stack consisting of a a single-board computer and I/O modules. The stacking headers can be seen near the right edge of the mechanical structure. Photograph [by Diamond Systems](http://www.diamondsystems.com/products/pc104.php).
+
+</figcaption>
+</figure>
+
 ### Iteration 3: More modularity becomes necessary.
 
 Because other labs have started using Squid and my lab is looking to scale up our own deployment of Squid for various lab members's projects, we needed to improve the design of our Octopi/Squid driver stack to make it easier and faster to assemble at a reasonable cost. In particular, we decided to use surface-mount parts (especially for the stacking connectors) instead of through-hole parts wherever possible, so that we could assemble most of our PCBs through affordable surface-mount assembly services. Because it'd be nontrivial to modify the second design iteration for this change, and because the list of requirements and desired functionalities for Squid had also grown drastically, I decided to do a clean-sheet redesign for the third iteration of our driver stack.
@@ -250,13 +263,13 @@ The basic idea is that each plane in the driver stack will have a module which a
 
 <figcaption>
 
-**Fig. 12**: Block diagram showing the hierarchical modularity for individually addressing SPI devices distributed over multiple planes. Blue lines denote the CIPO and COPI data lines of the SPI bus shared across all SPI devices in the system. Purple lines denote the connected signal path for the DSCS line; the Module Switcher has been set by an SPI command to connect the DSCS pin of the Device Switcher in Plane 0 to the DSCS pin of the microcontroller. Red lines denote the connected signal paths for the DCS line; the Device Switcher in Plane 0 has been set by an SPI command to connect the CS pin of Device 2 in Plane 0 to the DCS pin of the microcontroller, while the Device Switchers in the other planes were set by previous SPI commands to disconnect the devices from the DCS pin of the microcontroller. At any given moment, only one of the MSCS, DSCS, and DCS pins is allowed to be active. In this diagram, only three of up to 16 planes are shown, and only three of up to 16 SPI devices per plane are shown. The implementation of this design can be reviewed [on Github](https://github.com/prakashlab/octopi-driver-board/pull/4).
+**Fig. 13**: Block diagram showing the hierarchical modularity for individually addressing SPI devices distributed over multiple planes. Blue lines denote the CIPO and COPI data lines of the SPI bus shared across all SPI devices in the system. Purple lines denote the connected signal path for the DSCS line; the Module Switcher has been set by an SPI command to connect the DSCS pin of the Device Switcher in Plane 0 to the DSCS pin of the microcontroller. Red lines denote the connected signal paths for the DCS line; the Device Switcher in Plane 0 has been set by an SPI command to connect the CS pin of Device 2 in Plane 0 to the DCS pin of the microcontroller, while the Device Switchers in the other planes were set by previous SPI commands to disconnect the devices from the DCS pin of the microcontroller. At any given moment, only one of the MSCS, DSCS, and DCS pins is allowed to be active. In this diagram, only three of up to 16 planes are shown, and only three of up to 16 SPI devices per plane are shown. The implementation of this design can be reviewed [on Github](https://github.com/prakashlab/octopi-driver-board/pull/4).
 
 </figcaption> </figure>
 
 Note that the Device Switcher has its own chip select pin which must be different from the DCS pin, so I call that chip select pin <dfn>DSCS</dfn>, short for Device Switcher Chip Select. So now we can address up to 16 SPI devices on a plane just using an SPI bus shared across all planes, a DCS pin shared across all planes, and a DSCS pin uniquely assigned to each plane. But how do we address the Device Switchers in order to send a command to only one Device Switcher at a time, when we have multiple planes stacked together?
 
-As Fig. 12 shows, we can assign a minimal number of GPIO pins from the microcontroller for addressing different Device Switchers by the same chip-select demultiplexer to multiplex 16 pins (DSCS0, DSCS1, ..., DSCS15), each of which will be uniquely assigned to the Device Switcher for a particular plane, over a single DSCS pin from the microcontroller. Then plane 0's Device Switcher will listen to DSCS0 as its DSCS pin, plane 1's Device Switcher will listen to DSCS1 as its DSCS pin, and so on. Because this chip-select demultiplexer is used for switching between different planes, which are the high-level modules of the driver stack, I call it a "Module Switcher", and I call the chip select pin of its GPIO expander <dfn>MSCS</dfn>, short for Module Switcher Chip Select. The Module Switcher is placed on the processing plane which has the microcontroller, and it acts as the root of a two-layer address tree for selecting SPI devices.
+As Fig. 13 shows, we can assign a minimal number of GPIO pins from the microcontroller for addressing different Device Switchers by the same chip-select demultiplexer to multiplex 16 pins (DSCS0, DSCS1, ..., DSCS15), each of which will be uniquely assigned to the Device Switcher for a particular plane, over a single DSCS pin from the microcontroller. Then plane 0's Device Switcher will listen to DSCS0 as its DSCS pin, plane 1's Device Switcher will listen to DSCS1 as its DSCS pin, and so on. Because this chip-select demultiplexer is used for switching between different planes, which are the high-level modules of the driver stack, I call it a "Module Switcher", and I call the chip select pin of its GPIO expander <dfn>MSCS</dfn>, short for Module Switcher Chip Select. The Module Switcher is placed on the processing plane which has the microcontroller, and it acts as the root of a two-layer address tree for selecting SPI devices.
 
 This addressing scheme allows us to expose a simple, uniform I/O interface for each plane, independent of the number or types of SPI devices on the plane, and independent of which planes are in the stack. Each plane just:
 
