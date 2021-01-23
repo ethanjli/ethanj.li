@@ -133,9 +133,11 @@ For Octopi and early prototypes of Squid, most actuators in our system were driv
 
 ![PCB layout for a monolithic PCB for the Squid microscope.](/uploads/2021/01/odmv0-1-0.png)
 
+![Photo of a monolithic PCB for the Squid microscope.](/uploads/2021/01/octopi-driver-monolithic-top.jpg)
+
 <figcaption>
 
-**Fig. 6**: PCB layout of components and routing of traces on the first design iteration of the driver electronics for the Squid microscope, designed as a monolithic board. Almost all components are through-hole connectors. Connectors for an Arduino Due are on the left, while connectors to off-board components are on the top, bottom, and right edges of the board.
+**Fig. 6**: Layout (top) and assembled (bottom) PCB for the first design iteration of the driver electronics for the Squid microscope, designed as a monolithic board. Almost all components are through-hole connectors. Connectors for an Arduino Due are on the left, while connectors to off-board components are on the top, bottom, and right edges of the board.
 
 </figcaption>
 </figure>
