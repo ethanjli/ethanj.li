@@ -1,14 +1,13 @@
 ---
-date: 2021-04-20
+date: 2021-04-30
 draft: true
 unlisted: false
 tags:
 - design
 - case study
-title: proof of concept
+title: Reaching proof of concept
 excerpt: iterative rapid prototyping in the design of handyfuge
-coverImage: ""
+coverImage: ''
 
 ---
-
 Hello!
