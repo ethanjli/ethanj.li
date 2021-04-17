@@ -55,8 +55,8 @@ const Intro = () => {
         </p>
         <p>
           If you want to chat about any of these topics, you can find me on Mastodon
-          as <a href="https://scholar.social/@ethanjli">@ethanjli@scholar.social</a>, or
-          you can email me at <a href="mailto:ethanli@stanford.edu">ethanli@stanford.edu</a>.
+          as <a rel="me" href="https://scholar.social/@ethanjli">@ethanjli@scholar.social</a>,
+          or you can email me at <a href="mailto:ethanli@stanford.edu">ethanli@stanford.edu</a>.
           If you want to check out my background, please refer to{' '}
           <a href={
             'https://docs.google.com/document/d/108EKsWw4GVyhvMiCY9wna' +
