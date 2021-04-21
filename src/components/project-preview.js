@@ -61,9 +61,7 @@ const ProjectPreview = ({
         </div>
         <p><span className={style.label}>Why:</span> {why}</p>
         <p><span className={style.label}>What:</span> {what}</p>
-        <div className={style.meta}>
-          {links.length && <p className={style.links}>Links: {links}</p>}
-        </div>
+        {links.length ? <div className={style.meta}><p className={style.links}>Links: {links}</p></div> : ''}
       </div>
     </div>
   )
