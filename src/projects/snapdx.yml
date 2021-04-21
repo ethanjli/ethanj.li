@@ -1,0 +1,15 @@
+---
+status: prototype
+role: contributor
+priority: 4
+title: SnapDx
+subtitle: An at-home self-screening kit for COVID-19 testing using saliva
+why: COVID-19 testing access is still limited for many people due to cost, usability,
+  and other factors.
+what: SnapDx is a saliva-based home surveillance monitoring test for SARS-CoV-2 infection.
+url: https://www.snapdx.org/
+preprints: []
+papers: []
+websites:
+- url: https://clinicaltrials.gov/ct2/show/NCT04568122
+  name: clinical trial

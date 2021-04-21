@@ -133,3 +133,5 @@ fields:
     max: 
     labelField: 
   label: websites
+pages:
+- src/projects/snapdx.yml
