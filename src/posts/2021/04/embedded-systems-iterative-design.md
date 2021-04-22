@@ -29,4 +29,4 @@ In the above excerpt, Saltzer & Kaashoek describe the opposite of how two [proje
 
 ## Now we're actually ready!
 
-## We're not ready.
+## We weren't ready.
