@@ -11,7 +11,9 @@ excerpt: learning a lesson the hard way
 coverImage: ''
 
 ---
-<blockquote> <b>Design for iteration:</b> You won't get it right the first time, so make it easy to change.
+<blockquote>
+
+<b>Design for iteration:</b> You won't get it right the first time, so make it easy to change.
 
 The essence of iteration is to start by building a simple, working system that meets only a modest subset of the requirements and then evolve that system in small steps to gradually encompass more and more of the full set of requirements. \[...\] Having a working system available at all times helps provide assurance that something can be built and provides on-going experience with the current technology ground rules as well as an opportunity to discover and fix bugs. \[...\] Expect not only to modify and replace modules, but also to remodularize as the system and its requirements become better understood.
 
