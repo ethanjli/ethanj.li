@@ -30,12 +30,12 @@ const Index = ({ data }) => {
                 {blogDescription && ReactHTMLParser(blogDescription)}{' '}
                 <span className="wrap-together">
                   {
-                    numPosts > maxNumPosts ?
+                    posts.length >= maxNumPosts ?
                     `Here are the ${numPosts} most recent posts:` :
                     (
-                      numPosts > 1 ? `Here are the first ${numPosts} posts so far:` :
+                      posts.length > 1 ? `Here are the first ${numPosts} posts so far:` :
                       (
-                        numPosts > 0 ? `Here is the first and only post so far:` :
+                        posts.length > 0 ? `Here is the first and only post so far:` :
                         `No posts have been published yet.`
                       )
                     )
