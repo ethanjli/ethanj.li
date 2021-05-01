@@ -93,7 +93,6 @@ module.exports = {
             },
           },
           `gatsby-remark-autolink-headers`,
-          `gatsby-remark-responsive-iframe`,
           {
             resolve: 'gatsby-remark-embed-video',
             options: {
@@ -101,6 +100,7 @@ module.exports = {
               noIframeBorder: true,
             },
           },
+          `gatsby-remark-responsive-iframe`,
           `gatsby-remark-figure`,
           {
             resolve: `gatsby-remark-relative-images`,

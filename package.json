@@ -49,7 +49,7 @@
     "gatsby-remark-autolink-headers": "^2.11.0",
     "gatsby-remark-bibliography": "https://github.com/ptigas/gatsby-remark-bibliography",
     "gatsby-remark-figure": "^1.0.0",
-    "gatsby-remark-images": "^5.1.0",
+    "gatsby-remark-images": "^3.11.1",
     "gatsby-remark-numbered-footnotes": "^1.0.1",
     "gatsby-remark-prismjs": "^3.13.0",
     "gatsby-remark-relative-images": "^2.0.2",
