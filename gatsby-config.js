@@ -116,6 +116,7 @@ module.exports = {
               quality: 100,
               showCaptions: ['title'],
               markdownCaptions: true,
+              loading: 'eager',
             },
           },
           {
@@ -183,6 +184,7 @@ module.exports = {
           `/`,
           `/projects`,
           `/posts`,
+          `/posts/*`,
           `/tags`,
           `/tags/*`,
         ],
