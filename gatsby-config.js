@@ -183,7 +183,6 @@ module.exports = {
           `/`,
           `/projects`,
           `/posts`,
-          `/posts/*`,
           `/tags`,
           `/tags/*`,
         ],

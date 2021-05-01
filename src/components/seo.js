@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { useStaticQuery, graphql } from 'gatsby'
-import stripHtml from 'string-strip-html'
+import { stripHtml } from 'string-strip-html'
 
 const SEO = ({ description, lang, meta, keywords, title, image }) => {
   const data = useStaticQuery(graphql`
