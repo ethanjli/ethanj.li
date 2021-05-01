@@ -1,8 +1,9 @@
 {
-  "name": "gatsby-starter-hello-friend",
-  "description": "A simple starter for Gatsby. That's it.",
+  "private": true,
+  "name": "ethanj.li",
+  "description": "Ethan Li's personal website",
   "version": "0.2.0",
-  "author": "Radek Kozieł <radoslaw.koziel@gmail.com>",
+  "author": "Ethan Li <lietk12@gmail.com>",
   "keywords": [
     "gatsby",
     "minimal",
@@ -92,9 +93,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/panr/gatsby-starter-hello-friend"
+    "url": "https://github.com/ethanjli/ethanj.li"
   },
   "bugs": {
-    "url": "https://github.com/panr/gatsby-starter-hello-friend/issues"
+    "url": "https://github.com/ethanjli/ethanj.li/issues"
   }
 }
