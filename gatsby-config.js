@@ -116,7 +116,7 @@ module.exports = {
               quality: 100,
               showCaptions: ['title'],
               markdownCaptions: true,
-              loading: 'eager',
+              disableBgImage: true,
             },
           },
           {
