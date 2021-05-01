@@ -1,0 +1,44 @@
+/**
+   * @name ranges-apply
+   * @fileoverview Take an array of string index ranges, delete/replace the string according to them
+   * @version 5.0.16
+   * @author Roy Revelt, Codsen Ltd
+   * @license MIT
+   * {@link https://codsen.com/os/ranges-apply/}
+   */
+
+/**
+   * @name ranges-merge
+   * @fileoverview Merge and sort string index ranges
+   * @version 7.0.16
+   * @author Roy Revelt, Codsen Ltd
+   * @license MIT
+   * {@link https://codsen.com/os/ranges-merge/}
+   */
+
+/**
+   * @name ranges-push
+   * @fileoverview Gather string index ranges
+   * @version 5.0.16
+   * @author Roy Revelt, Codsen Ltd
+   * @license MIT
+   * {@link https://codsen.com/os/ranges-push/}
+   */
+
+/**
+   * @name string-collapse-leading-whitespace
+   * @fileoverview Collapse the leading and trailing whitespace of a string
+   * @version 5.0.16
+   * @author Roy Revelt, Codsen Ltd
+   * @license MIT
+   * {@link https://codsen.com/os/string-collapse-leading-whitespace/}
+   */
+
+/**
+ * @name string-strip-html
+ * @fileoverview Strips HTML tags from strings. No parser, accepts mixed sources.
+ * @version 8.2.13
+ * @author Roy Revelt, Codsen Ltd
+ * @license MIT
+ * {@link https://codsen.com/os/string-strip-html/}
+ */

@@ -1,0 +1,716 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[(un)yielding foundations]]></title><description><![CDATA[Notes on open-source medical devices, <span class="wrap-together">embedded systems,</span> and <span class="wrap-together">global health equity.</span>]]></description><link>https://ethanj.li/posts</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 01 May 2021 23:08:47 GMT</lastBuildDate><item><title><![CDATA[The unyielding foundations rule]]></title><description><![CDATA[problem-solving with modular design]]></description><link>https://ethanj.li/posts/posts/2021/01/unyielding-foundations</link><guid isPermaLink="false">https://ethanj.li/posts/posts/2021/01/unyielding-foundations</guid><pubDate>Tue, 12 Jan 2021 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;b&gt;The unyielding foundations rule:&lt;/b&gt; It is easier to change a module than to change the modularity.
+&lt;p&gt;The reason is that once an interface has been used by another module, changing the interface requires replacing at least two modules. If an interface is used by many modules, changing it requires replacing all of those modules simultaneously. For this reason, it is particularly important to get the modularity right.&lt;/p&gt;
+&lt;p&gt;— Saltzer &amp;#x26; Kaashoek, &lt;cite&gt;&lt;a href=&quot;https://dl.acm.org/doi/book/10.5555/1594884&quot;&gt;Principles of Computer System Design: An Introduction&lt;/a&gt;&lt;/cite&gt;, 2009. (&lt;a href=&quot;https://github.com/wangjohn/mit-courses/blob/master/6.033/Principles%20of%20Computer%20System%20Design%20An%20Introduction-2009.pdf&quot;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;As makers and engineers, the first things we built were probably small and simple. Early activities might have looked like a &quot;hello world&quot; program, a simple webpage, an Arduino sketch to blink the built-in LED, or a basic shape on a 3-D printer or laser cutter. We keep learning and improving our building skills, and we start realizing just how useful our creations can become. But as we apply our initial skills to larger and more interesting problems, we start hitting up against unexpected limits where it &lt;em&gt;should&lt;/em&gt; be easy to add just one more small feature to a project, but in practice it&apos;s a whole ordeal:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It could look like &lt;a href=&quot;https://github.com/prakashlab/octopi-driver-board/blob/ODMv0.1.1/Board/Layout.pdf&quot;&gt;a circuit board&lt;/a&gt; where you can&apos;t implement the features which your collaborator has recently added to their wishlist, because you&apos;ve used up too many of the pins on your 60-pin Arduino board. &lt;img class=&quot;emoji&quot; draggable=&quot;false&quot; alt=&quot;😐&quot; src=&quot;https://twemoji.maxcdn.com/2/72x72/1f610.png&quot; style=&quot;height: 1em; width: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; display: inline;&quot;&gt;&lt;/li&gt;
+&lt;li&gt;It could look like &lt;a href=&quot;https://cad.onshape.com/documents/6f3ff9e60612f07463807b51/w/7c9831bb106114d48918156b/e/a9da1141e808ee4cb8c5dd81&quot;&gt;a mechanical design&lt;/a&gt; which uses so many dimensional constraints and parameters that your CAD software freezes for a full minute whenever you make changes which force it to rebuild the whole model. &lt;img class=&quot;emoji&quot; draggable=&quot;false&quot; alt=&quot;😬&quot; src=&quot;https://twemoji.maxcdn.com/2/72x72/1f62c.png&quot; style=&quot;height: 1em; width: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; display: inline;&quot;&gt;&lt;/li&gt;
+&lt;li&gt;It could look like a &lt;a href=&quot;https://github.com/deepakkrishnamurthy/gravitymachine-research/blob/55c388bb2cd5719427131d440dd91720b3f6768f/firmware/GravityMachine_Firmware_ArduinoIDE/GravityMachine_Firmware_ArduinoIDE.ino&quot;&gt;2000-line single-file Arduino sketch&lt;/a&gt; where you&apos;ve gradually added pieces of code and now you have 150 global constants and 150 global variables and 40 functions, with each function possibly interacting with up to all 300 of those global constants and variables. &lt;img class=&quot;emoji&quot; draggable=&quot;false&quot; alt=&quot;😱&quot; src=&quot;https://twemoji.maxcdn.com/2/72x72/1f631.png&quot; style=&quot;height: 1em; width: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; display: inline;&quot;&gt;&lt;/li&gt;
+&lt;li&gt;It could look like a &lt;a href=&quot;https://github.com/ethanjli/phyllo-python/tree/1fc17737951df9c23a9fae72212e3004a78c4da2&quot;&gt;multithreaded Python implementation&lt;/a&gt; of a serial communication protocol which occasionally deadlocks in ways you can&apos;t consistently reproduce, and it happens because of how you initially decided to integrate I/O operations with protocol logic &lt;img class=&quot;emoji&quot; draggable=&quot;false&quot; alt=&quot;😨&quot; src=&quot;https://twemoji.maxcdn.com/2/72x72/1f628.png&quot; style=&quot;height: 1em; width: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; display: inline;&quot;&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Maintaining the project becomes painful and difficult because we let our designs become complex without responding appropriately to that complexity. But it doesn&apos;t have to be like this.&lt;/p&gt;
+&lt;h2 id=&quot;ignoring-complexity-will-make-it-harder&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#ignoring-complexity-will-make-it-harder&quot; aria-label=&quot;ignoring complexity will make it harder permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Ignoring complexity will make it harder.&lt;/h2&gt;
+&lt;p&gt;When we design things to meet many requirements or to achieve a few ambitious requirements, technical complexity becomes a big challenge. We can face it from the start, or we can risk doing a lot of work to get exciting early results but needing to redesign everything from scratch at an inconvenient future moment in order to be able to add our next feature to get more results. In academic science labs, I usually see the latter approach, because a rough prototype made as a proof-of-concept ended up being extended far beyond what its initial design was good for: the designer didn&apos;t deal with how complex the system was becoming, so their subsequent development made the system even more complex. Even when we do plan ways to manage complexity, we&apos;ll still eventually need to do a redesign - but hopefully we&apos;ll at least have a faster way forward or a better starting point.&lt;/p&gt;
+&lt;p&gt;Fortunately, the field of systems engineering gives us useful tools to cope with complexity in designing and maintaining systems. In &lt;em&gt;Principles of Computer System Design&lt;/em&gt;, Saltzer &amp;#x26; Kaashoek give a working definition of a &lt;dfn&gt;system&lt;/dfn&gt; as &quot;a set of interconnected components that has an expected behavior observed at the interface with the environment&quot;.&lt;/p&gt;
+&lt;p&gt;Depending on our design goals for a system, different things may be relevant to us as the components, the system, the interface, and the environment. For example, here is my functional block diagram describing the &lt;a href=&quot;https://www.pez-globo.org/&quot;&gt;Pufferfish ventilator&lt;/a&gt; at a high level:&lt;/p&gt;
+&lt;figure&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6cc378a669ab0cf71326eb2cf4e69a7d/8557b/pufferfish-overall-architecture.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 105%; position: relative; bottom: 0; left: 0; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Functional block diagram of the overall system architecture of the Pufferfish ventilator.&quot;
+        title=&quot;Functional block diagram of the overall system architecture of the Pufferfish ventilator.&quot;
+        src=&quot;/static/6cc378a669ab0cf71326eb2cf4e69a7d/78d47/pufferfish-overall-architecture.png&quot;
+        srcset=&quot;/static/6cc378a669ab0cf71326eb2cf4e69a7d/56d15/pufferfish-overall-architecture.png 200w,
+/static/6cc378a669ab0cf71326eb2cf4e69a7d/d9f49/pufferfish-overall-architecture.png 400w,
+/static/6cc378a669ab0cf71326eb2cf4e69a7d/78d47/pufferfish-overall-architecture.png 800w,
+/static/6cc378a669ab0cf71326eb2cf4e69a7d/64756/pufferfish-overall-architecture.png 1200w,
+/static/6cc378a669ab0cf71326eb2cf4e69a7d/42cbc/pufferfish-overall-architecture.png 1600w,
+/static/6cc378a669ab0cf71326eb2cf4e69a7d/8557b/pufferfish-overall-architecture.png 3150w&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;figcaption&gt;
+&lt;p&gt;&lt;strong&gt;Fig. 1&lt;/strong&gt;: Functional block diagram of the overall design of the Pufferfish ventilator. The mechanical enclosure defines the boundary between the system and environment. The grey blocks are high-level components which themselves consist of lower-level components. The arrows show the interconnections between various components, as well as the interface with the environment.&lt;/p&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;And at one lower level of detail, here is my functional block diagram describing the overall design of the Pufferfish ventilator&apos;s software. It breaks the &quot;User Interfacing&quot; and &quot;Control&quot; blocks from Fig. 1 down into many smaller components. This high-level design has been stable for the past 6 months, even as the design within each individual block has changed. From the number of boxes and arrows in this diagram, you can tell that there&apos;s a lot going on in the software of this ventilator, but most components have interconnections with only a few other components so it&apos;s relatively straightforward to follow how information flows through the system:&lt;/p&gt;
+&lt;figure&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/ac093ad5edf48f7dc00be0320a2dbcff/94d6d/pufferfish-software-architecture.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 67%; position: relative; bottom: 0; left: 0; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Functional block diagram of the software architecture of the Pufferfish ventilator.&quot;
+        title=&quot;Functional block diagram of the software architecture of the Pufferfish ventilator.&quot;
+        src=&quot;/static/ac093ad5edf48f7dc00be0320a2dbcff/78d47/pufferfish-software-architecture.png&quot;
+        srcset=&quot;/static/ac093ad5edf48f7dc00be0320a2dbcff/56d15/pufferfish-software-architecture.png 200w,
+/static/ac093ad5edf48f7dc00be0320a2dbcff/d9f49/pufferfish-software-architecture.png 400w,
+/static/ac093ad5edf48f7dc00be0320a2dbcff/78d47/pufferfish-software-architecture.png 800w,
+/static/ac093ad5edf48f7dc00be0320a2dbcff/64756/pufferfish-software-architecture.png 1200w,
+/static/ac093ad5edf48f7dc00be0320a2dbcff/42cbc/pufferfish-software-architecture.png 1600w,
+/static/ac093ad5edf48f7dc00be0320a2dbcff/94d6d/pufferfish-software-architecture.png 5595w&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;figcaption&gt;
+&lt;p&gt;&lt;strong&gt;Fig. 2&lt;/strong&gt;: Functional block diagram of the overall design of the software of the Pufferfish ventilator. The software consists of three domains running on two separate processors: safety-critical firmware running on an STM32 microcontroller, a graphical frontend running in a web browser on a Raspberry Pi single-board computer, and a Python backend WebSocket server on the computer to service the frontend and the firmware.&lt;/p&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;Saltzer &amp;#x26; Kaashoek emphasize complexity as a practical, subjective property of systems: systems are complex when they&apos;re difficult for us to understand at the levels we care about. System complexity is associated with having many components, having many interactions between components, having many irregularities or exceptions, requiring many words to describe what the system does, or being impossible for one person to fully understand or maintain. Complexity can come from the number of requirements a system must meet, from non-obvious interactions between each requirement, and from changes in the stated requirements over the lifetime of a system (such as to account for unforeseen requirements).&lt;/p&gt;
+&lt;p&gt;These sources of complexity are why I&apos;ve seen so many systems designed by academic-scientists-who-don&apos;t-consider-themselves-engineers (especially data analysis or computational modeling software) which are too difficult to understand by anyone other than the initial designers: as the designers add more requirements to support more and more interesting experiments, in the short term it&apos;s faster for them tack on features in an improvised way without dedicating time to revisit the system&apos;s underlying design. This matters because these developers prioritize getting scientific results quickly over making a system easy to improve and extend for future experiments - after all, results are needed to show that a system is useful enough to develop further. And so technical debt accumulates at the foundations of the design of these systems, ironically making it harder for future people to build on the previous work used to generate these exciting results. But all designers of interesting systems, whether scientists, engineers, hobbyists, or otherwise, have probably fallen into this pattern on several projects. And so we all need ways to reduce complexity in the systems we build so that we - and other people - can understand what we did in order to carry our work forward.&lt;/p&gt;
+&lt;h2 id=&quot;modular-design-helps-manage-complexity&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#modular-design-helps-manage-complexity&quot; aria-label=&quot;modular design helps manage complexity permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Modular design helps manage complexity.&lt;/h2&gt;
+&lt;p&gt;Saltzer &amp;#x26; Kaashoek identify four general categories of common techniques for coping with complexity, used across many different engineering fields: modularity, abstraction, layering, and hierarchy.&lt;/p&gt;
+&lt;p&gt;&lt;span style=&quot;font-size: 400%;&quot;&gt;&lt;img class=&quot;emoji&quot; draggable=&quot;false&quot; alt=&quot;🧩&quot; src=&quot;https://twemoji.maxcdn.com/2/72x72/1f9e9.png&quot; style=&quot;height: 1em; width: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; display: inline;&quot;&gt;&lt;/span&gt;&lt;br/&gt;
+&lt;dfn&gt;Modularity&lt;/dfn&gt; is a strategy of dividing a system into interacting subsystems, which we call &lt;dfn&gt;modules&lt;/dfn&gt;, in a way that we can consider each one separately. We can think about interactions among components of a module without also having to juggle components inside other modules. It&apos;s easier to troubleshoot a system by first identifying the faulty module instead of having to look at every single component in the system. And it&apos;s easier to improve a system by improving and replacing a module instead of completely rebuilding the system. Modularity helps a designer allow for uncertainty, experimentation, and future changes: as long as the design rules for a system&apos;s modularity are followed, the system can be improved later, potentially in unforeseen ways.&lt;/p&gt;
+&lt;p&gt;&lt;span style=&quot;font-size: 400%;&quot;&gt;&lt;img class=&quot;emoji&quot; draggable=&quot;false&quot; alt=&quot;🗳️&quot; src=&quot;https://twemoji.maxcdn.com/2/72x72/1f5f3.png&quot; style=&quot;height: 1em; width: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; display: inline;&quot;&gt;&lt;/span&gt;&lt;br/&gt;
+&lt;dfn&gt;Abstraction&lt;/dfn&gt; is a requirement to separate out the interface of a module from its implementation so that any module can interact with other modules only through their interfaces, ignoring their internal implementations. Saltzer &amp;#x26; Kaashoek introduce abstraction as an additional requirement on modularity: for a modular design to be useful, it should limit the interactions among modules, and the effects (and problems) which can propagate from one module to another. To prevent accidental or hidden interconnections from sneaking through/around interfaces and causing problems, designers in computer systems can use various techniques to enforce modularity. In practice, most abstractions are &quot;leaky&quot; and can&apos;t perfectly hide the implementation under the interface.&lt;/p&gt;
+&lt;p&gt;&lt;span style=&quot;font-size: 400%;&quot;&gt;&lt;img class=&quot;emoji&quot; draggable=&quot;false&quot; alt=&quot;🥞&quot; src=&quot;https://twemoji.maxcdn.com/2/72x72/1f95e.png&quot; style=&quot;height: 1em; width: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; display: inline;&quot;&gt;&lt;/span&gt;&lt;br/&gt;
+&lt;dfn&gt;Layering&lt;/dfn&gt; is one way of organizing modules to reduce interconnections by using one complete set of mechanisms (a lower layer) to create a different complete set of mechanisms (an upper layer); each layer may be implemented as several modules. To reduce interconnections, a module of one layer should only interact with other modules in the same layer and with modules in the next higher and lower layers.&lt;/p&gt;
+&lt;p&gt;&lt;span style=&quot;font-size: 400%;&quot;&gt;&lt;img class=&quot;emoji&quot; draggable=&quot;false&quot; alt=&quot;🍱&quot; src=&quot;https://twemoji.maxcdn.com/2/72x72/1f371.png&quot; style=&quot;height: 1em; width: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; display: inline;&quot;&gt;&lt;/span&gt;&lt;br/&gt; &lt;dfn&gt;Hierarchy&lt;/dfn&gt; reduces interconnections among modules differently than layering: a small group of modules is combined into a stable, self-contained subsystem with a well-defined interface; then a small group of subsystems is combined into a larger subsystem with a well-defined interface, and so on until large subsystems are combined to form the overall system. Hierarchy constrains interactions by only allowing them among the components of a subsystem. This lets the system designer develop one subsystem at a time, focusing only on interactions between the interfaces of the components within the subsystem.&lt;/p&gt;
+&lt;p&gt;&lt;span style=&quot;font-size: 400%;&quot;&gt;&lt;img class=&quot;emoji&quot; draggable=&quot;false&quot; alt=&quot;🐡&quot; src=&quot;https://twemoji.maxcdn.com/2/72x72/1f421.png&quot; style=&quot;height: 1em; width: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; display: inline;&quot;&gt;&lt;/span&gt;&lt;br/&gt;Each of these techniques is used to reduce complexity in the design of the Pufferfish software (Fig. 2). Every block in Fig. 2 is a module. Hierarchical design keeps the modules within each of the Microcontroller Firmware, GUI Backend Server, and GUI Frontend Client subsystems separated, except by two arrows which correspond to the interfaces between the three subsystems. Those interfaces allow us to keep those subsystems running on entirely separate processes/processors, so that enforced modularity allows us to keep the Microcontroller Firmware running even if the GUI Backend Server crashes; because of the abstraction provided by this interface, the Microcontroller Firmware can completely ignore the implementation details of the software on the GUI computer. Layered design within each of these three subsystems allows modules for higher-level logic to be separated from modules for low-level I/O or hardware operations by modules for drivers and protocols in intermediate layers. All four techniques are also applied recursively to the design within each software module shown in the diagram. Thus, although the Pufferfish software is doing a lot of things, we&apos;ve been able to keep complexity at a manageable level - at least for now.&lt;/p&gt;
+&lt;h2 id=&quot;case-study-modularity-emerges-in-redesign-of-the-octopi-microscope-driver-electronics&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#case-study-modularity-emerges-in-redesign-of-the-octopi-microscope-driver-electronics&quot; aria-label=&quot;case study modularity emerges in redesign of the octopi microscope driver electronics permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Case study: modularity emerges in redesign of the Octopi microscope driver electronics.&lt;/h2&gt;
+&lt;p&gt;To give a concrete illustration of when these techniques are useful and how they can be applied in practice, I&apos;ll describe the evolution over three iterations of the design of the driver electronics system for the &lt;a href=&quot;https://squid-imaging.org/&quot;&gt;Squid microscope&lt;/a&gt;. &lt;dfn&gt;Squid&lt;/dfn&gt;, short for &lt;em&gt;Simplifying quantitative imaging platform development and deployment&lt;/em&gt;, is a toolkit for implementing microscopes with advanced imaging capabilities comparable to what&apos;s available in commercial solutions, but at a fraction of the cost ($500-$10k vs. $50k-$120k) and with much higher portability:&lt;/p&gt;
+&lt;figure&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/5ce8263b4c58000a8af6213b03295a68/ea60f/squid-configurations.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 50.5%; position: relative; bottom: 0; left: 0; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;CAD renderings of three configurations of the Squid microscope.&quot;
+        title=&quot;CAD renderings of three configurations of the Squid microscope.&quot;
+        src=&quot;/static/5ce8263b4c58000a8af6213b03295a68/78d47/squid-configurations.png&quot;
+        srcset=&quot;/static/5ce8263b4c58000a8af6213b03295a68/56d15/squid-configurations.png 200w,
+/static/5ce8263b4c58000a8af6213b03295a68/d9f49/squid-configurations.png 400w,
+/static/5ce8263b4c58000a8af6213b03295a68/78d47/squid-configurations.png 800w,
+/static/5ce8263b4c58000a8af6213b03295a68/ea60f/squid-configurations.png 1060w&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;figcaption&gt;
+&lt;p&gt;&lt;strong&gt;Fig. 3&lt;/strong&gt;: CAD renderings of Squid with motorized stages and focusing mechanisms in three configurations, from left to right: 1) an inverted configuration for multi-color flat field epifluorescence microscopy with organism tracking, 2) the simplest inverted configuration, and 3) an upright configuration for reading 96-well plates. By Hongquan Li, from &lt;a href=&quot;https://squid-imaging.org/&quot;&gt;the website for the Squid project&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;For comparison, Squid&apos;s predecessor is the &lt;a href=&quot;https://www.biorxiv.org/content/10.1101/684423v1&quot;&gt;Octopi microscope&lt;/a&gt;, a lower-cost upright design specialized for malaria diagnostic microscopy in field settings, with two optomechanical modules:&lt;/p&gt;
+&lt;figure&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/96ba189e5d298b1b8b0ab666cba205b6/441eb/octopi.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 66.5%; position: relative; bottom: 0; left: 0; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Photo of the Octopi microscope.&quot;
+        title=&quot;Photo of the Octopi microscope.&quot;
+        src=&quot;/static/96ba189e5d298b1b8b0ab666cba205b6/a24e6/octopi.jpg&quot;
+        srcset=&quot;/static/96ba189e5d298b1b8b0ab666cba205b6/a6b4f/octopi.jpg 200w,
+/static/96ba189e5d298b1b8b0ab666cba205b6/a6407/octopi.jpg 400w,
+/static/96ba189e5d298b1b8b0ab666cba205b6/a24e6/octopi.jpg 800w,
+/static/96ba189e5d298b1b8b0ab666cba205b6/03ffe/octopi.jpg 1200w,
+/static/96ba189e5d298b1b8b0ab666cba205b6/04bec/octopi.jpg 1600w,
+/static/96ba189e5d298b1b8b0ab666cba205b6/441eb/octopi.jpg 6000w&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;figcaption&gt;
+&lt;p&gt;&lt;strong&gt;Fig. 4&lt;/strong&gt;: Photograph of the Octopi microscope. The upper half of the image shows the imaging module with a piezoelectric focusing mechanism, while the lower half of the image shows the motorized X-Y stage and illumination components. Driver electronics are not shown in this image. By Hongquan Li.&lt;/p&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;While Octopi only used custom-designed machined metal parts for the mechanical and optical subassemblies, and its design was optimized for scanning sample slides, Squid is intended to be a more general design with more versatility and configurability. Since the start of the Squid project, the optical and mechanical subassemblies have been a modular system of microscope building blocks consisting of structural parts from Thorlabs and custom-designed machined parts, with the modules composable in ways that allow for easier customization and configurability as well as prototyping of new functionalities:&lt;/p&gt;
+&lt;figure&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/889b7a9588751fb9f7506e3b4dda45f5/68141/squid-modules.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 55.00000000000001%; position: relative; bottom: 0; left: 0; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;CAD renderings of various building blocks for the Squid microscope.&quot;
+        title=&quot;CAD renderings of various building blocks for the Squid microscope.&quot;
+        src=&quot;/static/889b7a9588751fb9f7506e3b4dda45f5/78d47/squid-modules.png&quot;
+        srcset=&quot;/static/889b7a9588751fb9f7506e3b4dda45f5/56d15/squid-modules.png 200w,
+/static/889b7a9588751fb9f7506e3b4dda45f5/d9f49/squid-modules.png 400w,
+/static/889b7a9588751fb9f7506e3b4dda45f5/78d47/squid-modules.png 800w,
+/static/889b7a9588751fb9f7506e3b4dda45f5/64756/squid-modules.png 1200w,
+/static/889b7a9588751fb9f7506e3b4dda45f5/68141/squid-modules.png 1534w&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;figcaption&gt;
+&lt;p&gt;&lt;strong&gt;Fig. 5&lt;/strong&gt;: CAD renderings of various building blocks for Squid, consisting of motorized focus blocks, motorized sample stages, image formation assemblies, and illumination modules. By Hongquan Li, published under &lt;a href=&quot;https://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC-BY-NC-ND 4.0&lt;/a&gt; in the Squid project&apos;s &lt;a href=&quot;https://www.biorxiv.org/content/10.1101/2020.12.28.424613v1&quot;&gt;Jan 2020 bioRxiv preprint&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;The goal is for labs to quickly build a potentially large number of compact advanced microscopes to their exact needs by mixing and matching these modules, and at a much lower cost per microscope than commercial products with similar capabilities. But while Squid&apos;s optical and optomechanical design have been modular from the start, the electronics for driving the various sensors and actuators in these modules (e.g. lights, lasers, motors, encoders, and limit switches) started with a monolithic design and have been evolving towards greater modularity over several design iterations, for several interesting reasons which I&apos;ll discuss next.&lt;/p&gt;
+&lt;h3 id=&quot;iteration-1-a-monolithic-design-reveals-important-limitations&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#iteration-1-a-monolithic-design-reveals-important-limitations&quot; aria-label=&quot;iteration 1 a monolithic design reveals important limitations permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Iteration 1: A monolithic design reveals important limitations.&lt;/h3&gt;
+&lt;p&gt;For Octopi and early prototypes of Squid, most actuators in our system were driven by a fixed set of off-the-shelf boards, and we just needed a way to integrate those boards with connectors for easier assembly. The project initially wanted to have a single circuit board to drive everything from an Arduino Due, so it made sense to start with a relatively monolithic design; and for historical reasons we called this board the Octopi driver. This required us to plan for every possible way the board might need to be used, from prototyping to production use, from basic configurations to advanced configurations, and allowing for future optical modules. The result was that requirements kept being revised and added, which made the design process slower and more difficult, and which forced a design with restrictive layout limitations:&lt;/p&gt;
+&lt;figure&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/5c0bfcc18fa8aae5c849c3acefc78a9c/42cbc/odmv0-1-0.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 69%; position: relative; bottom: 0; left: 0; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;PCB layout for a monolithic PCB for the Squid microscope.&quot;
+        title=&quot;PCB layout for a monolithic PCB for the Squid microscope.&quot;
+        src=&quot;/static/5c0bfcc18fa8aae5c849c3acefc78a9c/78d47/odmv0-1-0.png&quot;
+        srcset=&quot;/static/5c0bfcc18fa8aae5c849c3acefc78a9c/56d15/odmv0-1-0.png 200w,
+/static/5c0bfcc18fa8aae5c849c3acefc78a9c/d9f49/odmv0-1-0.png 400w,
+/static/5c0bfcc18fa8aae5c849c3acefc78a9c/78d47/odmv0-1-0.png 800w,
+/static/5c0bfcc18fa8aae5c849c3acefc78a9c/64756/odmv0-1-0.png 1200w,
+/static/5c0bfcc18fa8aae5c849c3acefc78a9c/42cbc/odmv0-1-0.png 1600w&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/811132c56b36db2e79b32aeff665e594/68f82/octopi-driver-monolithic-top.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75%; position: relative; bottom: 0; left: 0; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Photo of a monolithic PCB for the Squid microscope.&quot;
+        title=&quot;Photo of a monolithic PCB for the Squid microscope.&quot;
+        src=&quot;/static/811132c56b36db2e79b32aeff665e594/a24e6/octopi-driver-monolithic-top.jpg&quot;
+        srcset=&quot;/static/811132c56b36db2e79b32aeff665e594/a6b4f/octopi-driver-monolithic-top.jpg 200w,
+/static/811132c56b36db2e79b32aeff665e594/a6407/octopi-driver-monolithic-top.jpg 400w,
+/static/811132c56b36db2e79b32aeff665e594/a24e6/octopi-driver-monolithic-top.jpg 800w,
+/static/811132c56b36db2e79b32aeff665e594/03ffe/octopi-driver-monolithic-top.jpg 1200w,
+/static/811132c56b36db2e79b32aeff665e594/04bec/octopi-driver-monolithic-top.jpg 1600w,
+/static/811132c56b36db2e79b32aeff665e594/68f82/octopi-driver-monolithic-top.jpg 3940w&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;figcaption&gt;
+&lt;p&gt;&lt;strong&gt;Fig. 6&lt;/strong&gt;: Layout (top) and assembled (bottom) PCB for the first design iteration of the driver electronics for the Squid microscope, designed as a monolithic board. Almost all components are through-hole connectors. Connectors for an Arduino Due are on the left, while connectors to off-board components are on the top, bottom, and right edges of the board.&lt;/p&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;While in retrospect this board is not that complicated, it was only the fourth PCB I had ever designed. But I quickly realized that it would be difficult to maintain and expand this design in order to support requirements which continued to be added during and after this design iteration.&lt;/p&gt;
+&lt;p&gt;The primary source of layout difficulty was a set of many requirements for screw terminal blocks as connectors for off-board components, which meant those connectors all needed to be at the edges of the boards for access. This meant that most of the daughter boards exposed by these screw terminal connectors had to be near the edges, and since screw terminals generally come as through-hole components, we could only have connectors on one side of a PCB. Because the size (area) of the board scales quadratically against the perimeter of the board, and because the Arduino Due&apos;s pins would need to be routed to components at all edges of the board, we had a large number of constraints and interdependencies for board layout and routing. In other words, there were many spatial relationships interconnecting the many components in the system.&lt;/p&gt;
+&lt;h3 id=&quot;iteration-2-physical-modularity-demonstrates-advantages&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#iteration-2-physical-modularity-demonstrates-advantages&quot; aria-label=&quot;iteration 2 physical modularity demonstrates advantages permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Iteration 2: Physical modularity demonstrates advantages.&lt;/h3&gt;
+&lt;p&gt;Recognizing that the limiting factor in our board design was free space at board edges for connectors and the number of traces which needed to be routed to various components, and that we were likely to need even more connectors in the future, we decided to take a different - hopefully easier and faster - approach for our next design iteration of the Octopi/Squid driver electronics. We took inspiration from the Arduino&apos;s design for stackable shields:&lt;/p&gt;
+&lt;figure&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/212c3f58189e3dafe327dc9d1e0b6a44/08826/arduino-shields.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75%; position: relative; bottom: 0; left: 0; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;An Arduino board with three shields stacked on top.&quot;
+        title=&quot;An Arduino board with three shields stacked on top.&quot;
+        src=&quot;/static/212c3f58189e3dafe327dc9d1e0b6a44/a24e6/arduino-shields.jpg&quot;
+        srcset=&quot;/static/212c3f58189e3dafe327dc9d1e0b6a44/a6b4f/arduino-shields.jpg 200w,
+/static/212c3f58189e3dafe327dc9d1e0b6a44/a6407/arduino-shields.jpg 400w,
+/static/212c3f58189e3dafe327dc9d1e0b6a44/a24e6/arduino-shields.jpg 800w,
+/static/212c3f58189e3dafe327dc9d1e0b6a44/03ffe/arduino-shields.jpg 1200w,
+/static/212c3f58189e3dafe327dc9d1e0b6a44/04bec/arduino-shields.jpg 1600w,
+/static/212c3f58189e3dafe327dc9d1e0b6a44/08826/arduino-shields.jpg 3264w&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;figcaption&gt;
+&lt;p&gt;&lt;strong&gt;Fig. 7&lt;/strong&gt;: Photo of an Arduino board with three shields stacked on top. By Kushagra Keshari, published &lt;a href=&quot;https://commons.wikimedia.org/wiki/File:Multiple_shields_stacked_on_an_Arduino_board.jpg&quot;&gt;on Wikimedia Commons&lt;/a&gt; under &lt;a href=&quot;https://creativecommons.org/licenses/by-sa/4.0&quot;&gt;CC BY-SA 4.0&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;So the next design iteration of our board electronics added the same kind of physical modularity to our system as is found in Arduino shields. By putting different components on different PCBs, we greatly reduced the number of spatial relationships interconnecting the components. And using multiple PCBs all in a stack removed the need to use 4-layer or 6-layer PCBs to make trace routing feasible, as 4-layer and 6-layer PCBs much more expensive to fabricate than 2-layer PCBs.&lt;/p&gt;
+&lt;p&gt;As a proof-of-concept, I designed one board (which I call a &quot;processing plane&quot;, because it does the computation and processing in the system) to break out an Arduino Due into a uniform set of stacking header connectors and to expose some other pins through connectors at the board edges (e.g. for a control panel or for prototyping with off-board I2C and SPI devices):&lt;/p&gt;
+&lt;figure&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/5992306ccd907475de7ad45174771faf/bac97/odsv0-2-0-ppdv0-2-0.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;PCB layout for the processing plane for a physically modular PCB system for the Squid microscope.&quot;
+        title=&quot;PCB layout for the processing plane for a physically modular PCB system for the Squid microscope.&quot;
+        src=&quot;/static/5992306ccd907475de7ad45174771faf/78d47/odsv0-2-0-ppdv0-2-0.png&quot;
+        srcset=&quot;/static/5992306ccd907475de7ad45174771faf/56d15/odsv0-2-0-ppdv0-2-0.png 200w,
+/static/5992306ccd907475de7ad45174771faf/d9f49/odsv0-2-0-ppdv0-2-0.png 400w,
+/static/5992306ccd907475de7ad45174771faf/78d47/odsv0-2-0-ppdv0-2-0.png 800w,
+/static/5992306ccd907475de7ad45174771faf/bac97/odsv0-2-0-ppdv0-2-0.png 1128w&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;figcaption&gt;
+&lt;p&gt;&lt;strong&gt;Fig. 8&lt;/strong&gt;: PCB layout of components and routing of traces on the processing plane for the second design iteration of the driver electronics for the Squid microscope. Stacking header connectors and headers for the Arduino Due are through-hole components, in the middle of the board. Molex Pico-Lock connectors for a control panel are on the right edge of the board. Connectors for I2C and SPI buses are on the top and bottom edges of the board, for prototyping use. Mounting holes for an NVIDIA Jetson Nano single-board computer are around the area for the Arduino Due, while the corners of the board have mounting holes for standoffs to hold the stack of PCBs together.&lt;/p&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;And then I designed one module (which I call a &quot;motion plane&quot;, because it does motion control for the motors in the Squid microscope) which stacks under the processing plane and uses some pins from the stacking connectors to control some stepper motor driver boards, whose outputs are exposed through connectors:&lt;/p&gt;
+&lt;figure&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/b238650cd359ccb3b4b310bcdea6a491/bac97/odsv0-2-0-mpsv0-3-1.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;PCB layout for the motion plane for a physically modular PCB system for the Squid microscope.&quot;
+        title=&quot;PCB layout for the motion plane for a physically modular PCB system for the Squid microscope.&quot;
+        src=&quot;/static/b238650cd359ccb3b4b310bcdea6a491/78d47/odsv0-2-0-mpsv0-3-1.png&quot;
+        srcset=&quot;/static/b238650cd359ccb3b4b310bcdea6a491/56d15/odsv0-2-0-mpsv0-3-1.png 200w,
+/static/b238650cd359ccb3b4b310bcdea6a491/d9f49/odsv0-2-0-mpsv0-3-1.png 400w,
+/static/b238650cd359ccb3b4b310bcdea6a491/78d47/odsv0-2-0-mpsv0-3-1.png 800w,
+/static/b238650cd359ccb3b4b310bcdea6a491/bac97/odsv0-2-0-mpsv0-3-1.png 1128w&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;figcaption&gt;
+&lt;p&gt;&lt;strong&gt;Fig. 9&lt;/strong&gt;: PCB layout of components and routing of traces on the motion control plane for the second design iteration of the driver electronics for the Squid microscope. Stacking header connectors are in the middle of the board. Surface-mount spring-cage terminal blocks as connectors for stepper motors are at the left edge of the board. Surface-mount headers for TMC2209 SilentStepStick stepper motor driver boards are above and below the stacking header connectors. A DC barrel jack for 12 V motor power supply is at the middle of the left edge of the board. A spring-cage terminal block for the 12 V power supply is at the right edge of the board, for prototyping purposes.&lt;/p&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;These boards were successfully integrated into a stacked design which worked well:&lt;/p&gt;
+&lt;figure&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/635a08922340697344cf2940424edeb1/6eef4/octopi-driver-stack-left.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 66.5%; position: relative; bottom: 0; left: 0; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Photograph of a stacked design for the Octopi driver electronics.&quot;
+        title=&quot;Photograph of a stacked design for the Octopi driver electronics.&quot;
+        src=&quot;/static/635a08922340697344cf2940424edeb1/a24e6/octopi-driver-stack-left.jpg&quot;
+        srcset=&quot;/static/635a08922340697344cf2940424edeb1/a6b4f/octopi-driver-stack-left.jpg 200w,
+/static/635a08922340697344cf2940424edeb1/a6407/octopi-driver-stack-left.jpg 400w,
+/static/635a08922340697344cf2940424edeb1/a24e6/octopi-driver-stack-left.jpg 800w,
+/static/635a08922340697344cf2940424edeb1/03ffe/octopi-driver-stack-left.jpg 1200w,
+/static/635a08922340697344cf2940424edeb1/04bec/octopi-driver-stack-left.jpg 1600w,
+/static/635a08922340697344cf2940424edeb1/6eef4/octopi-driver-stack-left.jpg 5387w&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;figcaption&gt;
+&lt;p&gt;&lt;strong&gt;Fig. 10&lt;/strong&gt;: Photograph of the processing plane stacked on top of the motion plane. An Arduino Due and NVIDIA Jetson Nano are mounted on the processing plane. By Hongquan Li.&lt;/p&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;During the process of designing this stacking modularity, I realized a few important lessons:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Because we needed many connectors at board edges but we didn&apos;t really need access to components from above or below the board, stacking multiple PCBs allowed us to use space more efficiently than in a monolithic design; our stack could add as much functionality as we wanted, all while staying within a 4.5&quot; x 4.5&quot; footprint.&lt;/li&gt;
+&lt;li&gt;Because I designed a uniform pin connection interface for the stacking headers, I could defer design decisions for different modules. So I could design the motion plane without having to account for or commit to the constantly-changing requirements for a future illumination plane to control lasers and LEDs the way I had to when I was laying out all components for all functionalities on the same board in the monolithic design. This modularity also let us assemble and test modules independently before committing to design decisions on other modules. This goes back to the concepts of modularity and hierarchy as discussed by Saltzer &amp;#x26; Kaashoek.&lt;/li&gt;
+&lt;li&gt;Because functionalities were divided into separate modules, we could easily fix errors, change components, or upgrade one module without having to reassemble the entire system, the way we needed to do in the previous design iteration. For example, when we needed to change the connector on the processing plane for some off-board components because the connector had stopped being produced, we just needed to replace the processing plane, and we could keep using the same motion plane as before.&lt;/li&gt;
+&lt;li&gt;Because it became easier to add future requirements or functionalities by adding or upgrading or making variations on modules, it became easy to imagine developing design variants for special microscopes beyond the core design.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This design was also successful in that other projects my lab is involved in have started using the Octopi/Squid driver stack, even with only the processing plane and motion plane, and they have been using it beyond any applications I had planned for. Early prototyping work in the Pufferfish ventilator project used this version of the driver stack as the core of the ventilator electronics, with many of the unassigned GPIO pins used for new sensors in the prototype:&lt;/p&gt;
+&lt;figure&gt;
+&lt;p&gt;&lt;div class=&quot;gatsby-resp-iframe-wrapper&quot; style=&quot;padding-bottom: 56.42857142857143%; position: relative; height: 0; overflow: hidden; &quot; &gt; &lt;div class=&quot;embedVideo-container&quot;&gt; &lt;iframe src=&quot;https://player.vimeo.com/video/437316595&quot; class=&quot;embedVideo-iframe&quot; style=&quot;border:0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; &quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt; &lt;/div&gt; &lt;/div&gt;&lt;/p&gt;
+&lt;figcaption&gt;
+&lt;p&gt;&lt;strong&gt;Fig. 11&lt;/strong&gt;: Timelapse video of assembly of an early prototype of the Pufferfish ventilator, which included the Octopi driver stack as a key component. Assembly of various additional electronics onto the driver stack begins at 01:52 and finishes at 02:39. By Hongquan Li.&lt;/p&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;And this driver stack, as part of Squid, is also being used in multiSero, a multiplex-ELISA platform for analyzing antibody responses to SARS-CoV-2 infection (link to bioRxiv preprint by Byrum, Waltari, et al. will be added when the preprint is uploaded).&lt;/p&gt;
+&lt;p&gt;As an interesting sidenote, I later found that a similar concept, using 0.1&quot; pitch stacking through-hole headers and standoffs to integrate PCBs into a stack, is also used in the &lt;a href=&quot;https://en.wikipedia.org/wiki/PC/104&quot;&gt;PC/104 industry standard&lt;/a&gt; for modular embedded computers:&lt;/p&gt;
+&lt;figure&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 614px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/c39f07b46716e60be1483eb9726d3c08/20b69/pc104-stack.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 81.5%; position: relative; bottom: 0; left: 0; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;pc104 stack&quot;
+        title=&quot;pc104 stack&quot;
+        src=&quot;/static/c39f07b46716e60be1483eb9726d3c08/20b69/pc104-stack.jpg&quot;
+        srcset=&quot;/static/c39f07b46716e60be1483eb9726d3c08/a6b4f/pc104-stack.jpg 200w,
+/static/c39f07b46716e60be1483eb9726d3c08/a6407/pc104-stack.jpg 400w,
+/static/c39f07b46716e60be1483eb9726d3c08/20b69/pc104-stack.jpg 614w&quot;
+        sizes=&quot;(max-width: 614px) 100vw, 614px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;figcaption&gt;
+&lt;p&gt;&lt;strong&gt;Fig. 12&lt;/strong&gt;: Example of a PC/104 stack consisting of a a single-board computer and I/O modules. The stacking headers can be seen near the right edge of the mechanical structure. Photograph &lt;a href=&quot;http://www.diamondsystems.com/products/pc104.php&quot;&gt;by Diamond Systems&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;h3 id=&quot;iteration-3-more-modularity-becomes-necessary&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#iteration-3-more-modularity-becomes-necessary&quot; aria-label=&quot;iteration 3 more modularity becomes necessary permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Iteration 3: More modularity becomes necessary.&lt;/h3&gt;
+&lt;p&gt;Because other labs have started using Squid and my lab is looking to scale up our own deployment of Squid for various lab members&apos;s projects, we needed to improve the design of our Octopi/Squid driver stack to make it easier and faster to assemble at a reasonable cost. In particular, we decided to use surface-mount parts (especially for the stacking connectors) instead of through-hole parts wherever possible, so that we could assemble most of our PCBs through affordable surface-mount assembly services. Because it&apos;d be nontrivial to modify the second design iteration for this change, and because the list of requirements and desired functionalities for Squid had also grown drastically, I decided to do a clean-sheet redesign for the third iteration of our driver stack.&lt;/p&gt;
+&lt;p&gt;The most interesting design change in this iteration is a shift from directly using GPIO pins on our microcontroller to using SPI devices for I/O, in order to support the much greater number of devices we intend to connect to the microcontroller. The shift to SPI devices was necessary because controllers like the Arduino Due - which already have around 60 GPIO pins - simply don&apos;t have enough pins to talk to all the sensors and actuators which will need to be simultaneously integrated into certain configurations of Squid microscopes. As an additional benefit, moving all I/O to communication over SPI removes the complication of dealing with budgeting and assignment of GPIO pins from the microcontroller for various components, and it allows almost all GPIO pins to be freed up for future prototyping uses.&lt;/p&gt;
+&lt;p&gt;This shift is accompanied by my introduction of a way to indirectly address each SPI device from among a set of many devices, so that I don&apos;t need to allocate one more GPIO pin on the microcontroller for each SPI device I add to the driver stack. Using this kind of hierarchical modularity to organize the I/O interfaces of the SPI devices on the planes seems very promising to me. First I&apos;ll explain how it works, then I&apos;ll describe the opportunities it may enable for the Squid microscope, and finally I&apos;ll discuss some open questions and potential limitations of this design.&lt;/p&gt;
+&lt;blockquote&gt;
+All problems in computer science can be solved by another level of indirection, except for the problem of too many levels of indirection.
+&lt;p&gt;&lt;em&gt;(attributed to David Wheeler)&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&quot;adding-two-levels-of-indirection-enables-hierarchical-modularity-for-io&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#adding-two-levels-of-indirection-enables-hierarchical-modularity-for-io&quot; aria-label=&quot;adding two levels of indirection enables hierarchical modularity for io permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Adding two levels of indirection enables hierarchical modularity for I/O.&lt;/h4&gt;
+&lt;p&gt;My system for addressing SPI devices allows each of up to 256 SPI devices in the driver stack to be selected one-at-a-time using just one SPI bus and three GPIO pins from the microcontroller, by multiplexing the chip select pins for SPI devices over those three GPIO pins. Before I describe how I address SPI devices spread over multiple planes in a stack, I&apos;ll first describe how I address SPI devices in a single plane.&lt;/p&gt;
+&lt;p&gt;The basic idea is that each plane in the driver stack will have a module which acts as a chip-select demultiplexer and consists of an SPI-controlled GPIO expander chip (e.g. the &lt;a href=&quot;https://www.maximintegrated.com/en/products/interface/controllers-expanders/MAX7317.html&quot;&gt;MAX7317&lt;/a&gt;) connected to an analog multiplexer chip (e.g. the &lt;a href=&quot;https://www.nexperia.com/products/analog-logic-ics/analog/analog-switches/series/74HC4067-74HCT4067.html&quot;&gt;74HC4067&lt;/a&gt;). These two chips together act like a &lt;a href=&quot;https://www.maximintegrated.com/en/products/analog/analog-switches-multiplexers/MAX349.html&quot;&gt;MAX349&lt;/a&gt; chip, but they allow demultiplexing one line over 16 lines instead of over just 8 lines. This allows an SPI command to connect zero or one of &lt;em&gt;N=16&lt;/em&gt; pins to a GPIO pin from the microcontroller, which is named &lt;dfn&gt;DCS&lt;/dfn&gt; (short for &quot;Device Chip Select&quot;) and is shared across all planes in the driver stack. The chip select pin of each of up to 16 SPI devices on the plane can be connected to one of those 16 pins from the chip-select demultiplexer, so that the microcontroller can select a particular SPI device by first sending the corresponding SPI command to the chip-select demultiplexer and then setting the microcontroller&apos;s DCS pin to active. Because this chip-select demultiplexer is used to select the DCS pin of a particular SPI device on the plane in order to switch between different SPI devices, I call it a &quot;Device Switcher&quot;:&lt;/p&gt;
+&lt;figure&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6f83f9b65428808bc32209cba74f7ae8/1bf84/ods-spi-multiplexing.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 72%; position: relative; bottom: 0; left: 0; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;ods spi multiplexing&quot;
+        title=&quot;ods spi multiplexing&quot;
+        src=&quot;/static/6f83f9b65428808bc32209cba74f7ae8/78d47/ods-spi-multiplexing.png&quot;
+        srcset=&quot;/static/6f83f9b65428808bc32209cba74f7ae8/56d15/ods-spi-multiplexing.png 200w,
+/static/6f83f9b65428808bc32209cba74f7ae8/d9f49/ods-spi-multiplexing.png 400w,
+/static/6f83f9b65428808bc32209cba74f7ae8/78d47/ods-spi-multiplexing.png 800w,
+/static/6f83f9b65428808bc32209cba74f7ae8/64756/ods-spi-multiplexing.png 1200w,
+/static/6f83f9b65428808bc32209cba74f7ae8/42cbc/ods-spi-multiplexing.png 1600w,
+/static/6f83f9b65428808bc32209cba74f7ae8/1bf84/ods-spi-multiplexing.png 3600w&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;figcaption&gt;
+&lt;p&gt;&lt;strong&gt;Fig. 13&lt;/strong&gt;: Block diagram showing the hierarchical modularity for individually addressing SPI devices distributed over multiple planes. Blue lines denote the CIPO and COPI data lines of the SPI bus shared across all SPI devices in the system. Purple lines denote the connected signal path for the DSCS line; the Module Switcher has been set by an SPI command to connect the DSCS pin of the Device Switcher in Plane 0 to the DSCS pin of the microcontroller. Red lines denote the connected signal paths for the DCS line; the Device Switcher in Plane 0 has been set by an SPI command to connect the CS pin of Device 2 in Plane 0 to the DCS pin of the microcontroller, while the Device Switchers in the other planes were set by previous SPI commands to disconnect the devices from the DCS pin of the microcontroller. At any given moment, only one of the MSCS, DSCS, and DCS pins is allowed to be active. In this diagram, only three of up to 16 planes are shown, and only three of up to 16 SPI devices per plane are shown. The implementation of this design can be reviewed &lt;a href=&quot;https://github.com/prakashlab/octopi-driver-board/pull/4&quot;&gt;on Github&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt; &lt;/figure&gt;
+&lt;p&gt;Note that the Device Switcher has its own chip select pin which must be different from the DCS pin, so I call that chip select pin &lt;dfn&gt;DSCS&lt;/dfn&gt;, short for Device Switcher Chip Select. So now we can address up to 16 SPI devices on a plane just using an SPI bus shared across all planes, a DCS pin shared across all planes, and a DSCS pin uniquely assigned to each plane. But how do we address the Device Switchers in order to send a command to only one Device Switcher at a time, when we have multiple planes stacked together?&lt;/p&gt;
+&lt;p&gt;As Fig. 13 shows, we can assign a minimal number of GPIO pins from the microcontroller for addressing different Device Switchers by the same chip-select demultiplexer to multiplex 16 pins (DSCS0, DSCS1, ..., DSCS15), each of which will be uniquely assigned to the Device Switcher for a particular plane, over a single DSCS pin from the microcontroller. Then plane 0&apos;s Device Switcher will listen to DSCS0 as its DSCS pin, plane 1&apos;s Device Switcher will listen to DSCS1 as its DSCS pin, and so on. Because this chip-select demultiplexer is used for switching between different planes, which are the high-level modules of the driver stack, I call it a &quot;Module Switcher&quot;, and I call the chip select pin of its GPIO expander &lt;dfn&gt;MSCS&lt;/dfn&gt;, short for Module Switcher Chip Select. The Module Switcher is placed on the processing plane which has the microcontroller, and it acts as the root of a two-layer address tree for selecting SPI devices.&lt;/p&gt;
+&lt;p&gt;This addressing scheme allows us to expose a simple, uniform I/O interface for each plane, independent of the number or types of SPI devices on the plane, and independent of which planes are in the stack. Each plane just:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;shares the CIPO and COPI lines of an SPI bus&lt;/li&gt;
+&lt;li&gt;shares the DCS line&lt;/li&gt;
+&lt;li&gt;reserves one of the 16 available demultiplexed DSCS lines out of DSCS0, DSCS1, ..., DSCS15&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Because each plane only reserves one pin for its personal use, we&apos;ve almost entirely prevented planes from making any unintentional interconnections, and we&apos;ve grouped the SPI devices within each plane into an electrically self-contained subsystem which is functionally independent of the SPI devices in other planes, with a clean and small communication interface to the outside world. In other words, the Octopi/Squid driver stack is now hierarchically modular not only in its physical structure (as it was in the second design iteration of the stack), but also in its I/O communication interface.&lt;/p&gt;
+&lt;h4 id=&quot;hierarchical-modularity-allows-arbitrary-combinations-of-planes-in-the-driver-stack&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#hierarchical-modularity-allows-arbitrary-combinations-of-planes-in-the-driver-stack&quot; aria-label=&quot;hierarchical modularity allows arbitrary combinations of planes in the driver stack permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Hierarchical modularity allows arbitrary combinations of planes in the driver stack.&lt;/h4&gt;
+&lt;p&gt;We can use jumper wires, header pin jumpers, solder jumpers, or jumper resistors to (re)configure which demultiplexed DSCS line a given plane listens to. So if we always have 16 or fewer planes in a stack, then we can always remove any possible collisions resulting from two planes listening to the same demultiplexed DSCS line. Then it will always be possible to place any combination of 16 planes into a stack. So this removes the need to worry about pin budgets on the microcontroller or about multiple planes using the same pins on the microcontroller. So anyone can design an application-specific plane (e.g. a plane to pump fluids or control temperature gradients for a particular experiment) and &lt;strong&gt;guarantee&lt;/strong&gt; that it can be integrated into the driver stack without any I/O issues, as long as it only uses SPI devices for interfacing with the microcontroller.&lt;/p&gt;
+&lt;p&gt;Another consequence is that we can put multiple copies of the same plane into a stack, as long as we make them listen to different demultiplexed DSCS lines. This was not possible in the previous design iteration. For example, in the previous design iteration, the motion plane only had space to independently control four stepper motors; if someone wanted to build something with eight stepper motors (which did become a need in prototyping for the Pufferfish project), then they had to accept that they would always be driving two stepper motors simultaneously, if they stacked two copies of the motion plane together. In this new design, if someone needs to drive eight stepper motors independently, then they just need to add another motion plane to the stack and change a jumper.&lt;/p&gt;
+&lt;p&gt;To summarize, the additional modularity in this third design iteration of the Octopi/Squid driver enables really powerful flexibility and customizability in the driver electronics, perhaps enough to keep up with the flexibility, customizability, and functionality demonstrated in the optomechanical subsystems of the Squid microscope. This comes at the cost of additional complexity in the electronics and software of the system - it seems well-suited to research use where reconfigurability, prototyping, and expandability are important priorities, but I would not use it in a life-critical medical device.&lt;/p&gt;
+&lt;h4 id=&quot;modularity-in-electronics-is-limited-by-the-laws-of-physics&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#modularity-in-electronics-is-limited-by-the-laws-of-physics&quot; aria-label=&quot;modularity in electronics is limited by the laws of physics permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Modularity in electronics is limited by the laws of physics.&lt;/h4&gt;
+&lt;p&gt;While this design seems promising for the Squid project&apos;s requirements, I&apos;ll need to test it out to determine how well it actually works. In particular, there&apos;s one big concern I have about the way I&apos;m sharing the CIPO and COPI lines of a single SPI bus stretched across many planes, as well as with SPI devices outside the driver stack which are connected to the driver stack by long wires: reflections of signals on long conducting lines. Because I haven&apos;t learned about high-speed digital signal integrity, I don&apos;t have a good intuition for how concerned I should be with ~25 MHz SPI signals (with rise times on the order of a nanosecond or even less) routed through many connectors and stretching over a total length of around 12 - 24 cm or even up to 50 cm. A back-of-the-envelope analysis suggests that my design may be in a regime where signal reflections start becoming relevant. If so, source termination or end termination resistors may be able to solve this problem, potentially at the cost of significantly higher power consumption. Right now I&apos;m crossing my fingers and hoping that I&apos;ve kept the lengths of signal paths low enough that I can scrape by without having to figure out termination for signal reflections, and I&apos;ll just have to test the stack in various configurations to see what happens.&lt;/p&gt;
+&lt;p&gt;It&apos;s clear: even if we have a great modular design, there is a physical limit to how much can we scale up the number of modules or SPI devices supported by the Octopi/Squid driver stack, because at some point we will run into signal integrity problems. But all that matters is whether we can meet the requirements for the Squid driver electronics before we run into those problems, and that&apos;s something we&apos;ll have to figure out as we go.&lt;/p&gt;
+&lt;h2 id=&quot;learn-by-doing&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#learn-by-doing&quot; aria-label=&quot;learn by doing permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Learn by doing.&lt;/h2&gt;
+&lt;p&gt;I hope the concepts and case study discussed in this post have helped you think about modularity from more perspectives and about how modularity can help you to design systems. But really understanding this at a deeper level requires trying to design systems well, paying attention to what works and what doesn&apos;t, and learning from the mistakes you will make. Here&apos;s what I&apos;ve been practicing, due to lessons learned from my past mistakes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Each time you start designing a system or hit some limit in what you&apos;ve designed, first pause and do some brainstorming to (re-)clarify what requirements your system will need to meet, what future requirements might arise, and what areas you don&apos;t understand well enough to identify clear requirements.&lt;/li&gt;
+&lt;li&gt;Design for iteration. Unless you&apos;re planning to stop developing or using your system, you&apos;ll need to redesign modules or the modularity as your system, its requirements, and your understanding evolve, and as you get feedback from other people. So make sure your timelines and your modularity leave room for this.&lt;/li&gt;
+&lt;li&gt;Aggressively remove requirements from what you&apos;ll support in your next iteration, and save them for a later iteration. But also make a plan for how your later iterations will be technically feasible from your design.&lt;/li&gt;
+&lt;li&gt;Identify things you&apos;ll probably need to change in the foreseeable future, before your next planned redesign of the whole system. Look for ways modularity can give you an easier path from what you&apos;ll have in your upcoming design to what you&apos;ll need to have later.&lt;/li&gt;
+&lt;li&gt;Identify requirements which aren&apos;t clear enough that you can design features for them yet. Look for ways modularity and abstraction can let you delay your design work on them until the requirements become clearer.&lt;/li&gt;
+&lt;li&gt;Identify problem areas or failures you&apos;ve found in your previous design, and map out how different designs might have different implications for your system.&lt;/li&gt;
+&lt;li&gt;Using what you&apos;ve learned from your earlier prototypes or system designs, plan out how you will break down your system into different modules and how you will keep their interfaces and interactions as simple as possible for other people to understand and maintain.&lt;/li&gt;
+&lt;li&gt;Document your current assumptions and how they inform your design, so that as your understanding evolves you can refer back to them to more easily understand how your design needs to evolve.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;acknowledgements&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#acknowledgements&quot; aria-label=&quot;acknowledgements permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Acknowledgements&lt;/h2&gt;
+&lt;p&gt;Thanks to Saltzer &amp;#x26; Kaashoek&apos;s textbook, &lt;a href=&quot;https://dl.acm.org/doi/book/10.5555/1594884&quot;&gt;Principles of Computer System Design: An Introduction&lt;/a&gt;, for the concepts discussed in this post, as well as for other principles and insights which have deeply influenced how I think about designing robust systems. Thanks also to &lt;a href=&quot;https://twitter.com/hongquan_li&quot;&gt;Hongquan Li&lt;/a&gt; for leading the Octopi and Squid projects, managing the requirements for the driver electronics, providing formative feedback on the design of the driver electronics, and providing photos for me to use.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Open-source licensing for frugal science]]></title><description><![CDATA[a practical FAQ-style introduction]]></description><link>https://ethanj.li/posts/posts/2020/12/open-source-licensing-for-frugal-science</link><guid isPermaLink="false">https://ethanj.li/posts/posts/2020/12/open-source-licensing-for-frugal-science</guid><pubDate>Wed, 16 Dec 2020 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;table-of-contents&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#table-of-contents&quot; aria-label=&quot;table of contents permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Table of Contents&lt;/h2&gt;
+&lt;div class=&quot;tableOfContents&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#what-is-this-article&quot;&gt;What is this article?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#what-are-the-key-points&quot;&gt;What are the key points?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#what-do-licenses-do&quot;&gt;What do licenses do?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#why-should-we-care&quot;&gt;Why should we care?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#what-do-open-source-licenses-do&quot;&gt;What do open-source licenses do?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#what-options-are-there&quot;&gt;What options are there?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#why-is-it-so-hard-to-read-these-licenses&quot;&gt;Why is it so hard to read these licenses?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#how-are-licenses-enforced&quot;&gt;How are licenses enforced?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#can-we-just-use-creative-commons-for-everything&quot;&gt;Can we just use Creative Commons for everything?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#how-do-we-choose-a-license&quot;&gt;How do we choose a license?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#what-about-medical-devices&quot;&gt;What about medical devices?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#how-long-can-we-wait-before-choosing-a-license&quot;&gt;How long can we wait before choosing a license?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#can-we-change-our-minds-about-licenses-later&quot;&gt;Can we change our minds about licenses later?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#can-we-just-not-use-a-license&quot;&gt;Can we just not use a license?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#what-are-noncommercial-licenses&quot;&gt;What are noncommercial licenses?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#are-noncommercial-licenses-open-source&quot;&gt;Are noncommercial licenses open-source?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#can-we-write-our-own-license&quot;&gt;Can we write our own license?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#what-about-question-not-listed-here&quot;&gt;What about (question not listed here)?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#acknowledgements&quot;&gt;Acknowledgements&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;what-is-this-article&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#what-is-this-article&quot; aria-label=&quot;what is this article permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;What is this article?&lt;/h2&gt;
+&lt;p&gt;This is an introduction to the &lt;em&gt;why&lt;/em&gt;s and &lt;em&gt;what&lt;/em&gt;s of open-source licensing for hardware projects. This guide is written for you if:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;you&apos;re working on a project involving hardware, especially frugal science hardware, and you want to share it,&lt;/li&gt;
+&lt;li&gt;you don&apos;t know much about open-source, and&lt;/li&gt;
+&lt;li&gt;you want a simplified &quot;just the basics&quot; understanding of what questions to ask when making decisions about how to share your work.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Everything here is based on information from various sources linked throughout the article, but especially Github&apos;s &lt;a href=&quot;https://opensource.guide/legal/&quot;&gt;The Legal Side of Open Source&lt;/a&gt; and Kyle E. Mitchell&apos;s &lt;a href=&quot;https://oss.kemitchell.com/&quot;&gt;Open Source: Theory of Operation&lt;/a&gt;, which are practical guides written for software programmers. Note that I am not a lawyer, this is not legal advice, the documents which informed this background are not legal advice, and I have not run any of this past any lawyers. If you need to make serious legal decisions, you should talk to a real lawyer and/or do a lot more reading and learning.&lt;/p&gt;
+&lt;p&gt;If you&apos;d prefer to learn by watching a video rather than reading an article, you can watch the recording of a lecture/discussion I did on this topic, for the Fall 2020 offering of the &lt;a href=&quot;https://www.frugalscience.org/&quot;&gt;Frugal Science&lt;/a&gt; international online course, &lt;a href=&quot;https://www.youtube.com/watch?v=skMvQ9aHbg4&quot;&gt;on YouTube&lt;/a&gt;. This article covers the main points from that recording but also adds  important things I didn&apos;t have time to talk about, so after you watch the video I recommend coming back to this post and going directly to any sections which look relevant to you.&lt;/p&gt;
+&lt;h2 id=&quot;what-are-the-key-points&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#what-are-the-key-points&quot; aria-label=&quot;what are the key points permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;What are the key points?&lt;/h2&gt;
+&lt;p&gt;Open-source licensing is a kind of tool you can use to help support your project&apos;s strategy for your project&apos;s goals. It makes sharing your work easier by giving other people various permissions under the law to use your work if they agree not to sue you for various things which they normally could sue you for. Different licenses give different sets of permissions and place different sets of conditions for activating those permissions. There are two important ways to compare licenses:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;What kinds of work they cover: some licenses (such &lt;a href=&quot;https://creativecommons.org/&quot;&gt;Creative Commons&lt;/a&gt;) give permission to people to copy and adapt media and data and documents but do not give any permission related to using, adapting, and sharing software or hardware. Some licenses (such as &lt;a href=&quot;https://spdx.org/licenses/MIT.html&quot;&gt;MIT&lt;/a&gt; and &lt;a href=&quot;https://www.gnu.org/licenses/gpl-3.0.en.html&quot;&gt;GPL&lt;/a&gt;) give permissions related to software but not to hardware. And some licenses (such as &lt;a href=&quot;https://ohwr.org/project/cernohl/wikis/Documents/CERN-OHL-version-2&quot;&gt;CERN OHL&lt;/a&gt;) give permissions related to hardware but not to software.&lt;/li&gt;
+&lt;li&gt;What kinds of conditions they place: some licenses (which we call &quot;reciprocal&quot;, but you might also see the terms &quot;copyleft&quot; or &quot;share-alike&quot;) require that any adaptations of the released work also need to be shared under the same license or a similar license. Other licenses (which we call &quot;permissive&quot;) do not have this condition.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Companies with money for lawyers can try to enforce licenses by suing other companies who have violated the licenses. Community projects usually don&apos;t have the resources to do that. Instead, they may choose a license to express and implement their goals, and they may try to build social and cultural norms in the community to encourage people to respect the license.&lt;/p&gt;
+&lt;p&gt;You should choose a license to share your work, so that other people know they&apos;re legally protected to use it in certain ways, and so that you&apos;re legally protected from certain kinds of lawsuits. If a standard open-source license written by a lawyer does most of what you want, you should use it.&lt;/p&gt;
+&lt;h2 id=&quot;what-do-licenses-do&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#what-do-licenses-do&quot; aria-label=&quot;what do licenses do permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;What do licenses do?&lt;/h2&gt;
+&lt;p&gt;Licenses are documents which act as legal tools. They give other people legal permissions to do certain things with our work. Open-source gives us legal tools for releasing and sharing our work, in the context of intellectual property law (copyrights and patents) and contract law (warranties, liability, formation).&lt;/p&gt;
+&lt;p&gt;In the US, the legal defaults specify that others are &lt;strong&gt;not&lt;/strong&gt; protected from getting sued by us for many things (e.g. copying our work or using our work, at least for media and software) and that we are &lt;strong&gt;not&lt;/strong&gt; protected from getting sued by others for many things (e.g. foreseeable damages resulting from our work). Individuals or businesses typically use lawyers to negotiate private licenses and contracts with other individuals or businesses to override those defaults on a case-by-case basis. They may also release the work to the public under a public license which overrides the legal defaults for everyone; the public license may be used as a substitute or supplement for case-by-case private licensing.&lt;/p&gt;
+&lt;h2 id=&quot;why-should-we-care&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#why-should-we-care&quot; aria-label=&quot;why should we care permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Why should we care?&lt;/h2&gt;
+&lt;p&gt;Most projects will have most or all of the following goals:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Not getting sued&lt;/li&gt;
+&lt;li&gt;Making an impact&lt;/li&gt;
+&lt;li&gt;Being able to continue doing the work&lt;/li&gt;
+&lt;li&gt;Receiving credit for the work&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Additionally, many community projects will have the following goals:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Building a community to contribute to the work and carry the project forward&lt;/li&gt;
+&lt;li&gt;Encouraging others to build on the work&lt;/li&gt;
+&lt;li&gt;Encouraging others to start their own community projects&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Projects involving people who aren&apos;t just volunteers will have the following goals, usually because of the overall goal of &quot;being able to continue doing the work&quot;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Making ends meet: paying the bills, paying for food, paying for medical care, etc.&lt;/li&gt;
+&lt;li&gt;Satisfying people who are giving money to the project, such as customers, clients, or investors&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The terms of a project&apos;s license will impact how other people interact with a project, what they do with it, and thus what direction the project goes in. Good licenses will give you various legal protections against being sued, which is important if you&apos;re giving away your work for free. Some licenses make it very easy for others to do anything they want by completely giving away the work for free, while other licenses are more selective about what people can do with the work. So licenses can have an important effect on how widely a project spreads and what options the project has for sustaining itself.&lt;/p&gt;
+&lt;h2 id=&quot;what-do-open-source-licenses-do&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#what-do-open-source-licenses-do&quot; aria-label=&quot;what do open source licenses do permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;What do open-source licenses do?&lt;/h2&gt;
+&lt;p&gt;Open-source licenses are public licenses which provide a replacement set of legal defaults which, in certain ways, make it easier for others to modify, share, and use our work. We want to choose public licenses which provide a set of good defaults to help us accomplish our goals of sharing our work in a way that benefits many people.&lt;/p&gt;
+&lt;p&gt;For someone else to enjoy the permissions granted by the open-source license, they will have to follow a few license requirements (e.g. attributing our work to us) as specified by the terms of the license. If someone can&apos;t meet the terms of our license, which typically would happen if our license has terms requiring them to share things they can&apos;t/won&apos;t share, they would have to negotiate a separate private license, in which case they wouldn&apos;t have to comply with the public license.&lt;/p&gt;
+&lt;p&gt;Open hardware licenses work differently than open-source software licenses. This is because software falls under copyright law, where by default nobody is allowed to copy the software. Copyright law can also cover art, media, documentation, and data, but there are some nuances to that. Hardware design files may fall under copyright law in certain limited ways, but hardware built using the design files generally falls under patent law and not copyright law. This means that if you don&apos;t have a patent on your work, the law is going to be less useful to you in enforcing your license.&lt;/p&gt;
+&lt;h2 id=&quot;what-options-are-there&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#what-options-are-there&quot; aria-label=&quot;what options are there permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;What options are there?&lt;/h2&gt;
+&lt;p&gt;The biggest differences among open-source licenses are in what kinds of work they cover. Licenses which cover the sharing and use of software don&apos;t cover the sharing and use of hardware; and the opposite is also true.&lt;/p&gt;
+&lt;p&gt;The next biggest differences among open-source licenses are in what default requirements they impose for using/sharing/adapting the licensed work.&lt;/p&gt;
+&lt;p&gt;Some licenses require that work adapted from the licensed work must be shared under the same license or a similar license. These are typically known as &quot;reciprocal&quot; or &quot;copyleft&quot; terms. Reciprocal licenses have some differences about what situations trigger that requirement for sharing. Examples of well-established standard licenses in this category:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For software: &lt;a href=&quot;https://spdx.org/licenses/GPL-3.0-or-later.html&quot;&gt;GPL&lt;/a&gt;, &lt;a href=&quot;https://spdx.org/licenses/LGPL-3.0-or-later.html&quot;&gt;LGPL&lt;/a&gt;, and &lt;a href=&quot;https://spdx.org/licenses/MPL-2.0.html&quot;&gt;MPL&lt;/a&gt; are common licenses.&lt;/li&gt;
+&lt;li&gt;For hardware: &lt;a href=&quot;https://spdx.org/licenses/CERN-OHL-S-2.0.html&quot;&gt;CERN-OHL-S&lt;/a&gt;, &lt;a href=&quot;https://spdx.org/licenses/CERN-OHL-W-2.0.html&quot;&gt;CERN-OHL-W&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;For media/art/data/etc.: &lt;a href=&quot;https://creativecommons.org/licenses/by-sa/4.0/&quot;&gt;CC-BY-SA&lt;/a&gt;, &lt;a href=&quot;https://creativecommons.org/licenses/by-nc-sa/4.0/&quot;&gt;CC-BY-NC-SA&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Other licenses have fewer requirements and are called &quot;permissive&quot;. Usually they are written in a spirit of &quot;we&apos;re giving this away so you can do whatever you want with the fewest barriers, just give us credit and don’t sue us&quot;. For example:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For software: &lt;a href=&quot;https://spdx.org/licenses/Apache-2.0.html&quot;&gt;Apache&lt;/a&gt;, &lt;a href=&quot;https://spdx.org/licenses/BSD-2-Clause-Patent.html&quot;&gt;BSD&lt;/a&gt;, and &lt;a href=&quot;https://spdx.org/licenses/MIT.html&quot;&gt;MIT&lt;/a&gt; are common licenses.&lt;/li&gt;
+&lt;li&gt;For hardware: &lt;a href=&quot;https://spdx.org/licenses/CERN-OHL-P-2.0.html&quot;&gt;CERN-OHL-P&lt;/a&gt;, &lt;a href=&quot;https://spdx.org/licenses/SHL-2.1.html&quot;&gt;SHL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;For media/art/data/etc.: &lt;a href=&quot;https://creativecommons.org/licenses/by/4.0/%20%22CC-BY%22&quot;&gt;CC-BY&lt;/a&gt;, &lt;a href=&quot;https://creativecommons.org/licenses/by-nc/4.0/&quot;&gt;CC-BY-NC&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;why-is-it-so-hard-to-read-these-licenses&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#why-is-it-so-hard-to-read-these-licenses&quot; aria-label=&quot;why is it so hard to read these licenses permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Why is it so hard to read these licenses?&lt;/h2&gt;
+&lt;p&gt;Some licenses can be very long. Most licenses are written for lawyers and use very technical legal words. Unfortunately, this usually means that it&apos;s harder to understand for normal people. This is still an unsolved problem.&lt;/p&gt;
+&lt;p&gt;Some licenses have a FAQ section or a human-readable summary to help you understand what they&apos;re doing (e.g. the Creative Commons licenses). There are also some very new, somewhat experimental software licenses written in plain English for everyday people (e.g. the &lt;a href=&quot;https://blueoakcouncil.org/license/1.0.0&quot;&gt;Blue Oak Model License&lt;/a&gt;), but they&apos;re not widely used yet. I&apos;m not aware of similar licenses for hardware. I think we need more everyday-language licenses if we want to have good licensing options for frugal science projects, and we also need licenses which would be easy to translate across a variety of languages and countries.&lt;/p&gt;
+&lt;h2 id=&quot;how-are-licenses-enforced&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#how-are-licenses-enforced&quot; aria-label=&quot;how are licenses enforced permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;How are licenses enforced?&lt;/h2&gt;
+&lt;p&gt;Usually enforcement of licenses is done to make license violators start respecting the licenses rather than to collect legal damages for the license violation. In practice, legal enforcement of open-source licenses can be difficult or out-of-reach for community projects. Outside the courts, enforcement can be done by naming license violators to remind them of the risks for their community goodwill and reputation. But for small projects, it may be hard to discover license violations in the first place. So for our projects, the open-source license is useful less as a legal hammer to use against others and more as a strong encouragement of the values and practices we want people to follow if they engage with our work.&lt;/p&gt;
+&lt;h2 id=&quot;can-we-just-use-creative-commons-for-everything&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#can-we-just-use-creative-commons-for-everything&quot; aria-label=&quot;can we just use creative commons for everything permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Can we just use Creative Commons for everything?&lt;/h2&gt;
+&lt;p&gt;From a legal perspective, this won&apos;t do what you think it&apos;ll do. But it might be good enough for you, from a practical standpoint where you probably can&apos;t afford a lawyer to enforce your license anyways.&lt;/p&gt;
+&lt;p&gt;Legally speaking, Creative Commons applies to distribution and copying of your design files because those files are covered by copyright law. But it doesn&apos;t apply to distribution of  hardware people make using your design files. If all you want to do is share your hardware design files and let other people do whatever they want (including not crediting you on hardware they make using your designs) but you still want to give yourself protection against lawsuits and you still want to be credited in any adaptations of your design files, then CC-BY would be a good option. But if you want share-alike conditions in the license, the Creative Commons licenses wouldn&apos;t have legal power over hardware built using your design files. If you don&apos;t care about the legal side of open hardware licenses, then maybe a Creative Commons license does capture the spirit of what you want for your hardware project, e.g. &quot;I can&apos;t actually make you give me credit on any hardware you make using my design file, but I&apos;m still asking you to give me credit&quot;.&lt;/p&gt;
+&lt;p&gt;However, if your project includes software, you should review the reasons Creative Commons &lt;a href=&quot;https://creativecommons.org/faq/#can-i-apply-a-creative-commons-license-to-software&quot;&gt;recommends against&lt;/a&gt; using a CC license on software.&lt;/p&gt;
+&lt;h2 id=&quot;how-do-we-choose-a-license&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#how-do-we-choose-a-license&quot; aria-label=&quot;how do we choose a license permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;How do we choose a license?&lt;/h2&gt;
+&lt;p&gt;The first thing you&apos;ll need to do is look at any third-party works you&apos;ll use (e.g. software libraries, or hardware designs) in your work, and look at what licenses they have. The license you choose will need to be compatible with their licenses - so, for example, you cannot use a GPL-licensed software library and release your software under a permissive license like Apache, although you can use an Apache-licensed software library and release your software under a reciprocal license like GPL.&lt;/p&gt;
+&lt;p&gt;Next, you&apos;ll need to prioritize your project&apos;s goals and values for the problem your project is trying to solve. Different licenses will make sense for different goals and values and situations. The project&apos;s highest-priority goals and values should guide what license you choose. It may be helpful to imagine some scenarios and see how you feel about them (e.g. &quot;if a company wants to use our work, what&apos;s okay for them to do without asking us?&quot;), as well as to write out the purpose of your licensing strategy, independent of whichever license(s) you choose.&lt;/p&gt;
+&lt;p&gt;Then you&apos;ll need to look at the available choices to see which ones fit with your priorities. There probably won&apos;t be a perfect fit, but hopefully one or two meet most of your top priorities and some of your lower priorities. You might find useful &lt;a href=&quot;https://www.notion.so/pufferfish/Comparison-of-Licenses-34384fe79a1e4ee3a72f630b73c5edec&quot;&gt;this comparison I did of various hardware and software licenses&lt;/a&gt;, where I tabulated all the messy details about what makes each license different; I created this to identify a set of choices of license combinations for the &lt;a href=&quot;https://www.pez-globo.org/&quot;&gt;Pufferfish ventilator project&lt;/a&gt; to choose between as a replacement for a temporary custom license our project was using.&lt;/p&gt;
+&lt;h3 id=&quot;software&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#software&quot; aria-label=&quot;software permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Software&lt;/h3&gt;
+&lt;p&gt;An easy and accessible resource is Github&apos;s &lt;a href=&quot;https://choosealicense.com/&quot;&gt;Choose a License&lt;/a&gt; guide, which recommends licenses by popularity and reputation. If those factors aren&apos;t your highest priority for choosing a license, then you&apos;ll need to do a bit of reading about options, and you should read and understand any license you&apos;re considering. Permissive licenses are the simplest and most common, so you may want to start there to develop a feel for what different licenses do differently. If you want to understand your options for reciprocal licenses, Kyle E. Mitchell&apos;s &lt;a href=&quot;https://writing.kemitchell.com/2018/10/24/How-to-Speak-Copyleft.html&quot;&gt;How to Speak Copyleft&lt;/a&gt; is a must-read because it provides a framework for comparing different reciprocal licenses, which tend to be longer and more complicated than permissive licenses.&lt;/p&gt;
+&lt;h3 id=&quot;hardware&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#hardware&quot; aria-label=&quot;hardware permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Hardware&lt;/h3&gt;
+&lt;p&gt;This where you&apos;ll need to dive a bit deeper: unfortunately, I haven&apos;t found comprehensive resources which I like yet, and open hardware licensing is still a young area. There are fewer license options, which can be good because it means you don&apos;t have to evaluate so many options, or it can be bad if no license does what you want.&lt;/p&gt;
+&lt;h2 id=&quot;what-about-medical-devices&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#what-about-medical-devices&quot; aria-label=&quot;what about medical devices permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;What about medical devices?&lt;/h2&gt;
+&lt;p&gt;This is a more complicated topic which deserves its own post. What I&apos;ll say here is that if you&apos;re sharing a design for a medical device, I strongly recommend that you choose a license which includes a warranty disclaimer so that, if something goes wrong, other people or companies don&apos;t sue you for their decision to make medical devices using your design. The license should make them take all responsibility themselves as a condition for using your design. You should also be aware that there are other things to be thoughtful about outside of licenses and warranty disclaimers.&lt;/p&gt;
+&lt;h2 id=&quot;how-long-can-we-wait-before-choosing-a-license&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#how-long-can-we-wait-before-choosing-a-license&quot; aria-label=&quot;how long can we wait before choosing a license permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;How long can we wait before choosing a license?&lt;/h2&gt;
+&lt;p&gt;Choosing a license can feel like a commitment, and you already have so many other important things to do for your project. If any of the following apply, then you should choose a license as soon as possible:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Your project uses somebody else&apos;s work which was released under a reciprocal license. Then you will need to look at whether you have to release your work under the same license, and whether you want to do that or whether you want to replace that work with something else.&lt;/li&gt;
+&lt;li&gt;You are ready to share your work with other people so that they can use it, share it, adapt it, etc.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Even if these don&apos;t apply to you, starting a conversation with your team about licensing is a great way to start a broader conversation about your team&apos;s values and goals, and what strategies you want to use for building a community around your project. So I recommend at least starting this conversation as early as you can, even if you don&apos;t choose a license quickly.&lt;/p&gt;
+&lt;h2 id=&quot;can-we-change-our-minds-about-licenses-later&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#can-we-change-our-minds-about-licenses-later&quot; aria-label=&quot;can we change our minds about licenses later permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Can we change our minds about licenses later?&lt;/h2&gt;
+&lt;p&gt;Changing licenses for a project can get complicated quickly, but it really depends on your project, how much progress it has made, what license you were using, what license you want to use, and how your project has gotten contributions from people. Refer to Github&apos;s &lt;a href=&quot;https://opensource.guide/legal/#what-if-i-want-to-change-the-license-of-my-project&quot;&gt;The Legal Side of Open Source&lt;/a&gt; for a discussion, or feel free to send me your question (contact information at the bottom of this page).&lt;/p&gt;
+&lt;h2 id=&quot;can-we-just-not-use-a-license&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#can-we-just-not-use-a-license&quot; aria-label=&quot;can we just not use a license permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Can we just not use a license?&lt;/h2&gt;
+&lt;p&gt;If your frugal science project starts small and obscure and stays small and obscure, in practice nobody will really care about your lack of a license, because they won&apos;t care about your project. Also, in countries with a different attitude to intellectual property law than the US and Europe, or communities where intellectual property isn&apos;t a relevant everyday concept, choosing a license might not be practically important if there&apos;s already a good culture of sharing work (for example, consider the &lt;a href=&quot;https://en.wikipedia.org/wiki/Jaipur_leg&quot;&gt;Jaipur Foot&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;But be aware that if you share your work without a warranty disclaimer (which is something all good licenses have), then people may be legally allowed to sue you for many many things, more than necessary. And know that people who take intellectual property seriously (e.g. companies, open-source projects, and people who are very involved in online open-source communities) will avoid unlicensed work, or if they are in open-source communities they may ask you about your license.&lt;/p&gt;
+&lt;p&gt;Dealing with licenses may feel like a lot of trouble. If it helps, you can make some basic decisions now and do the bare minimum effort now (e.g. adding a license notice, making sure your license is compatible with the licenses of any work you&apos;re using from other people, and being careful about contributions to your project from companies) to prevent headaches later. Then you can delay making further decisions until your project has something interesting which you want to share with the world.&lt;/p&gt;
+&lt;p&gt;Since you probably won&apos;t be able to use the legal system to enforce your license, you could choose a license based on how simple and easy it is for other people to understand, and/or how standard it is, and instead focus on &lt;a href=&quot;https://lu.is/blog/2016/09/26/public-licenses-and-data-so-what-to-do-instead/&quot;&gt;developing social norms in a community around your work&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;what-are-noncommercial-licenses&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#what-are-noncommercial-licenses&quot; aria-label=&quot;what are noncommercial licenses permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;What are noncommercial licenses?&lt;/h2&gt;
+&lt;p&gt;If you&apos;ve seen Creative Commons licenses, you may have seen its &quot;noncommercial&quot; versions &lt;a href=&quot;https://creativecommons.org/licenses/by-nc/4.0/&quot;&gt;CC-BY-NC&lt;/a&gt; and &lt;a href=&quot;https://creativecommons.org/licenses/by-nc-sa/4.0/&quot;&gt;CC-BY-NC-SA&lt;/a&gt;, which state that &quot;You may not use the material for commercial purposes&quot;, where a &quot;commercial purpose&quot; is defined as one &quot;primarily intended for or directed towards commercial advantage or monetary compensation&quot;. The word &quot;primarily&quot; was &lt;a href=&quot;https://wiki.creativecommons.org/wiki/NonCommercial_interpretation&quot;&gt;intentionally included&lt;/a&gt; to make the licenses flexible and ambiguous.&lt;/p&gt;
+&lt;p&gt;For example, if a person with a 3-D printer prints a COVID-19-related face shield for a hospital and accepts money just to cover production costs but not to make a profit, is that primarily intended for monetary compensation, or is it primarily intended for COVID-19 response? There&apos;s some legal ambiguity here, and I personally would argue that this scenario is allowed by the license; but as &lt;a href=&quot;https://amchagas.github.io/&quot;&gt;Andre Maia Chagas&lt;/a&gt; described to me in an email discussion, the &lt;a href=&quot;https://glia.org/&quot;&gt;Glia project&lt;/a&gt; had problems trying to distribute noncommercial-licensed &lt;a href=&quot;https://www.prusaprinters.org/prints/25857-prusa-face-shield&quot;&gt;Prusa face shields&lt;/a&gt; to hospitals in Canada for this exact issue. That project created a new design as a workaround, which took precious time. So it&apos;s important to think about what your priorities are for licensing, and also think about how ambiguous license text (whether intentional or unintentional) may help or hinder your goals. If you use a license which is more ambiguous than you want, I recommend that you add comments giving people clarification about your intentions and how you want to enforce licenses. For example, the Prusa webpage now says:&lt;/p&gt;
+&lt;p&gt;&gt; We share these files under noncommercial licence. It would be great if you donated these shields to those in need for free. If you need to cover your production costs, we are ok with you selling the shields for production cost. However, we do not want to see these shields on eBay for $50.&lt;/p&gt;
+&lt;p&gt;Actually, no matter which license you choose, I recommend writing at least a few sentences about why you chose the license and how you understand it. That&apos;ll reduce ambiguity and confusion for other people, and it&apos;ll help them understand the spirit and values of your project. However, if your project is successful, there will be many licensing situatons and questions you can&apos;t anticipate, so you may want to invite people who have questions about the license to contact you. This means that if you want to use a Creative Commons noncommercial license, you should prepare to manage the confusion you may cause if your project succeeds.&lt;/p&gt;
+&lt;p&gt;If you&apos;re interested in noncommercial licenses mainly because you&apos;re concerned about corporations taking and using your project&apos;s work without giving back to the community, you could consider using a reciprocal license instead of a noncommercial license. Big examples in the software world include the Mozilla Foundation&apos;s use of the &lt;a href=&quot;https://www.mozilla.org/en-US/MPL/&quot;&gt;Mozilla Public License&lt;/a&gt;, Qt&apos;s use of &lt;a href=&quot;https://www.qt.io/licensing/&quot;&gt;dual-licensing under GPL and commercial licenses&lt;/a&gt;, or MongoDB&apos;s use of the &lt;a href=&quot;https://www.mongodb.com/licensing/server-side-public-license&quot;&gt;Server Side Public License&lt;/a&gt;. Companies would still be able to profit off your work, as long as they share back all changes they make to your work - or, for some reciprocal licenses, as long as they share back all software source files or all hardware designs they make involving your work. For some kinds of projects, this might be a barrier against companies using your project&apos;s work at all. Depending on your project, it may or may not be a great fit for what you want to do.&lt;/p&gt;
+&lt;p&gt;As you can see by my thoughts on this question and the next question, choosing a noncommercial license will expose you to a lot of complicated things to respond to, and it&apos;s up to you if you want to follow that path.&lt;/p&gt;
+&lt;h2 id=&quot;are-noncommercial-licenses-open-source&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#are-noncommercial-licenses-open-source&quot; aria-label=&quot;are noncommercial licenses open source permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Are noncommercial licenses open-source?&lt;/h2&gt;
+&lt;p&gt;Many (or most?) people in the open-source software world have decided that open-source is fundamentally incompatible with noncommercial licenses, and that open source is incompatible with licenses which forbid unethical uses of software; this is loudly policed by the &lt;a href=&quot;https://opensource.org/osd&quot;&gt;Open Source Initiative&lt;/a&gt; (OSI). Their definition of &quot;open source&quot; is also the basis for the Open Source Hardware Association&apos;s &lt;a href=&quot;https://www.oshwa.org/definition/&quot;&gt;definition of open-source hardware&lt;/a&gt;. There are &lt;a href=&quot;https://mifactori.de/non-commercial-is-not-open-source/&quot;&gt;people in online communities for open hardware who argue&lt;/a&gt; that the OSI &quot;owns the trademark &apos;Open Source&apos;&quot; and thus can sue you if you describe a noncommercially-licensed project as &quot;open-source&quot;. But they are just plain wrong, as even &lt;a href=&quot;https://opensource.org/pressreleases/certified-open-source.php&quot;&gt;the OSI itself says&lt;/a&gt; that it cannot trademark the term.&lt;/p&gt;
+&lt;p&gt;Noncommercial software licenses don&apos;t call themselves open-source, but rather &quot;noncommercial&quot; or &quot;source-available&quot; (e.g. &lt;a href=&quot;https://polyformproject.org/what-is-polyform/&quot;&gt;PolyForm&lt;/a&gt;). If you use a noncommercial license for your work and call it open-source and it gets publicity, random strangers on the internet &lt;em&gt;will&lt;/em&gt; feel the urge to strongly criticize your project for not obeying the OSI&apos;s definition of &quot;open source&quot;. But you might also get valuable constructive criticism about whether the potential benefits of noncommercial licenses outweigh the potential risks for your project; don&apos;t let this feedback get lost between the noise about &quot;open source&quot; definitions.&lt;/p&gt;
+&lt;p&gt;If you&apos;re doing a frugal science project and your values around commercial uses or unethical uses are different from what the OSI demands for open-source licenses, you have several options. Here are three:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;You can choose a license which goes against the OSI/OSHWA definition of &quot;open-source&quot;, call your project &quot;open-source&quot;, and ignore the OSI/OSHWA.&lt;/li&gt;
+&lt;li&gt;You can choose that license and avoid using the phrase &quot;open source&quot;, perhaps using the phrase &quot;frugal science&quot; to help develop it as a community with a different set of values and ethics than &quot;open source&quot;.&lt;/li&gt;
+&lt;li&gt;You can choose a license which follows OSI/OSHWA&apos;s definitions, and find other ways to express and enforce your project&apos;s values.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;All three options can be valid. It&apos;s up to you. Ultimately, the phrases &quot;frugal science&quot; or &quot;open source&quot; can only get practical meaning through how the communities of people who do &quot;frugal science&quot; or &quot;open source&quot; projects define the terms for themselves, not though top-down rules declared by me or you or an industry association trying to build or preserve &quot;open-source&quot; as a commercial brand.&lt;/p&gt;
+&lt;h2 id=&quot;can-we-write-our-own-license&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#can-we-write-our-own-license&quot; aria-label=&quot;can we write our own license permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Can we write our own license?&lt;/h2&gt;
+&lt;p&gt;Licenses are legal documents, which means they need to be clear to other people and they need to do the things you want them to do. If a standard license will meet your needs, you should probably use it instead of trying to write your own custom license.&lt;/p&gt;
+&lt;p&gt;If no licenses meet your needs, you may want to write a new license in a way that it can become a standardized license, since there are probably also other projects facing the same gap. You should have a good line-by-line or even word-by-word understanding of existing licenses. And you should have some understanding of why and how lawyers wrote existing licenses the way they did. If you have experience with open-source software and want to write a hardware license, you should also make sure you understand how legal considerations for sharing hardware are different from those for sharing software. As some starting points on all these things, refer to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Luis Felipe R. Murillo, Pietari Kauttu, Laia Pujol Priego, Andrew Katz, and Jonathan Wareham&apos;s &lt;a href=&quot;https://ec.europa.eu/info/sites/info/files/research_and_innovation/ki0119833enn.pdf&quot;&gt;review of existing open hardware licenses and unresolved issues&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Andrew Katz&apos;s &lt;a href=&quot;https://www.jolts.world/index.php/jolts/article/view/69/131&quot;&gt;Towards a Functional Licence for Open Hardware&lt;/a&gt;, which explains his motivations for writing the Solderpad Hardware License and discusses challenges for writing reciprocal open hardware licenses.&lt;/li&gt;
+&lt;li&gt;John R. Ackermann&apos;s &lt;a href=&quot;https://web.tapr.org/Ackermann_Open_Source_Hardware_Article_2009.pdf&quot;&gt;Toward Open Source Hardware&lt;/a&gt;, which explains his motivations for writing the TAPR Open Hardware License and discusses challenges for writing open hardware licenses in general.&lt;/li&gt;
+&lt;li&gt;Myriam Ayass, Andrew Katz, and Javier Serrano&apos;s &lt;a href=&quot;https://ohwr.org/project/cernohl/wikis/uploads/0be6f561d2b4a686c5765c74be32daf9/CERN_OHL_rationale.pdf&quot;&gt;introduction and explanation for writing the CERN-OHL v2 licenses&lt;/a&gt;, and Jiri Svorc &amp;#x26; Andrew Katz&apos;s &lt;a href=&quot;https://jolts.world/index.php/jolts/article/view/139&quot;&gt;discussion of key features and differences of the CERN-OHL v2 licenses&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Kyle E. Mitchell&apos;s breakdowns of the &lt;a href=&quot;https://writing.kemitchell.com/2016/09/21/MIT-License-Line-by-Line.html&quot;&gt;MIT license&lt;/a&gt;, &lt;a href=&quot;https://writing.kemitchell.com/2020/04/01/CERN-OHL-S-2.0.html&quot;&gt;CERN-OHL-S&lt;/a&gt;, &lt;a href=&quot;https://writing.kemitchell.com/2020/03/31/Medtronic-Ventilator-License.html&quot;&gt;Medtronic&apos;s license for its PB560 ventilator&lt;/a&gt;, the &lt;a href=&quot;https://writing.kemitchell.com/2020/04/04/Sharetribe-1.0.html&quot;&gt;Sharetribe Community Public License&lt;/a&gt;, and the &lt;a href=&quot;https://writing.kemitchell.com/2016/03/30/First-Read-of-the-Fair-Source-License.html&quot;&gt;Fair Source License&lt;/a&gt;; and his reflections on &lt;a href=&quot;https://writing.kemitchell.com/2019/01/10/Discipline-Stated-Purpose.html&quot;&gt;writing statements of purpose in legal drafting&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;The Blue Oak Council&apos;s &lt;a href=&quot;https://blueoakcouncil.org/2019/03/06/model.html&quot;&gt;announcement of the Blue Oak Model License&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I&apos;d also suggest that your license should be written in plain English so that it&apos;s clear and easy for other people to understand without having to rely on a lawyer. Otherwise, you might end up just adding noise into the licensing landscape which makes it harder for people to understand how they can share and adapt frugal science projects. Because there aren&apos;t enough tools to help you write a good license on your own, you should get review from a lawyer if you write a license or other legal document.&lt;/p&gt;
+&lt;h2 id=&quot;what-about-question-not-listed-here&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#what-about-question-not-listed-here&quot; aria-label=&quot;what about question not listed here permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;What about (question not listed here)?&lt;/h2&gt;
+&lt;p&gt;Please ask me this question in the comments box below, or by reaching out to me on Mastodon (details below)! If I can write a general answer, I&apos;ll add it to this post. But remember that I&apos;m not a lawyer.&lt;/p&gt;
+&lt;p&gt;If I made a mistake, I&apos;d really appreciate your constructive criticism so that I can improve this post. If I simplified a concept or issue too much, please leave a comment explaining it, so that other people can learn!&lt;/p&gt;
+&lt;p&gt;Note that posting a comment below requires you to register or log in on a Github account, because this blog&apos;s comments are stored there. If you don&apos;t already have a Github account, I recommend getting one because it&apos;s the largest platform for sharing and working together on open-source projects (especially software and electronics, but also some other kinds of hardware).&lt;/p&gt;
+&lt;h2 id=&quot;acknowledgements&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#acknowledgements&quot; aria-label=&quot;acknowledgements permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Acknowledgements&lt;/h2&gt;
+&lt;p&gt;Thanks to the &lt;a href=&quot;https://www.frugalscience.org/&quot;&gt;Fall 2020 Frugal Science&lt;/a&gt; class for a great discussion which helped me think about what to include in this post! Thanks also to &lt;a href=&quot;https://amchagas.github.io/&quot;&gt;Andre Maia Chagas&lt;/a&gt; for valuable information about the problems which the Glia project encountered with noncommercial licensing.&lt;/p&gt;</content:encoded></item></channel></rss>
